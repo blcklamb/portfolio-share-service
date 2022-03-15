@@ -1,6 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
+import { getUserToken } from "../middlewares/jwt";
 import { projectService } from "../services/projectService";
 
 const projectRouter = Router();
@@ -10,7 +11,8 @@ projectRouter.post("/project/create", async (req, res, next) => {
         if (is.emptyObject(req.body)) {
             throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
         }
-        const { user_id, title, description, from_date, to_date } = req.body;
+        const { user_id } = getUserToken(req.headers.authorization);
+        const { title, description, from_date, to_date } = req.body;
         const newProject = await projectService.addProject({
             user_id,
             title,

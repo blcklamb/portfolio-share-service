@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 class projectService {
     static async addProject({ user_id, title, description, from_date, to_date }) {
         // 제목 중복 확인
-        const project = await Project.exists({ title });
-        if (project) {
-            const errorMessage = "이 제목은 현재 사용중입니다. 다른 제목을 입력해 주세요.";
-            return { errorMessage };
-        }
+        // const project = await Project.exists({ title });
+        // if (project) {
+        //     const errorMessage = "이 제목은 현재 사용중입니다. 다른 제목을 입력해 주세요.";
+        //     return { errorMessage };
+        // }
         // id 는 유니크 값 부여
         const id = uuidv4();
         const newProject = { id, user_id, title, description, from_date, to_date };

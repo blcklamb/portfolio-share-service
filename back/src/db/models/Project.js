@@ -21,8 +21,10 @@ class Project {
         return projects;
     }
 
-    static async update({ id, newProject }) {
-        const updatedProject = await ProjectModel.findOneAndUpdate(id, newProject);
+    static async update({ id }, newProject) {
+        console.log(id, newProject, "1");
+        const updatedProject = await ProjectModel.findOneAndUpdate({ id }, newProject);
+        console.log(updatedProject, "2");
         return updatedProject;
     }
 }

@@ -8,9 +8,6 @@ const projectRouter = Router();
 
 projectRouter.post("/project/create", async (req, res, next) => {
     try {
-        if (is.emptyObject(req.body)) {
-            throw new Error("headers의 Content-Type을 application/json으로 설정해주세요");
-        }
         const { user_id } = getUserToken(req.headers.authorization);
         const { title, description, from_date, to_date } = req.body;
         const newProject = await projectService.addProject({
@@ -29,24 +26,18 @@ projectRouter.post("/project/create", async (req, res, next) => {
     }
 });
 
-// userAuthRouter.post("/user/login", async function (req, res, next) {
-//     try {
-//         // req (request) 에서 데이터 가져오기
-//         const email = req.body.email;
-//         const password = req.body.password;
-
-//         // 위 데이터를 이용하여 유저 db에서 유저 찾기
-//         const user = await userAuthService.getUser({ email, password });
-
-//         if (user.errorMessage) {
-//             throw new Error(user.errorMessage);
-//         }
-
-//         res.status(200).send(user);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+projectRouter.get("/projects/:id", async function (req, res, next) {
+    try {
+        const { id } = req.params;
+        const project = await projectService.getProject({ id });
+        if (project.errorMessage) {
+            throw new Error(project.errorMessage);
+        }
+        res.status(200).json(project);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // userAuthRouter.get("/userlist", login_required, async function (req, res, next) {
 //     try {
@@ -76,30 +67,27 @@ projectRouter.post("/project/create", async (req, res, next) => {
 //     }
 // });
 
-// userAuthRouter.put("/users/:id", login_required, async function (req, res, next) {
-//     try {
-//         // URI로부터 사용자 id를 추출함.
-//         const user_id = req.params.id;
-//         // body data 로부터 업데이트할 사용자 정보를 추출함.
-//         const name = req.body.name ?? null;
-//         const email = req.body.email ?? null;
-//         const password = req.body.password ?? null;
-//         const description = req.body.description ?? null;
+projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { title, description, from_date, to_date } = req.body;
+        const { currentUserId } = req;
+        const toUpdate = { title, description, from_date, to_date };
 
-//         const toUpdate = { name, email, password, description };
+        const project = await projectService.getProject({ id });
+        if (String(currentUserId) !== String(project.user_id)) {
+            throw new Error("접근할 권한이 없습니다.");
+        }
+        const updatedProject = await projectService.updateProject({ id }, toUpdate);
+        if (updatedProject.errorMessage) {
+            throw new Error(updatedProject.errorMessage);
+        }
 
-//         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-//         const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
-//         if (updatedUser.errorMessage) {
-//             throw new Error(updatedUser.errorMessage);
-//         }
-
-//         res.status(200).json(updatedUser);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+        return res.status(200).json(updatedProject);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // userAuthRouter.get("/users/:id", login_required, async function (req, res, next) {
 //     try {

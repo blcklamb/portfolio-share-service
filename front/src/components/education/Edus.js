@@ -13,7 +13,15 @@ function Edus({ portfolioOwnerId, isEditable }) {
     useEffect(() => {
         // "educationlist/유저id"로 GET 요청하고, response의 data로 awards를 세팅함.
         Api.get("educationlist", portfolioOwnerId).then((res) => setEdus(res.data));
+        //임시 데이터        
+        setEdus([{
+            "user_id": '',
+            "school":"좋은학교",
+            "major":"좋은전공",
+            "position":"재학 중"
+        }])
     }, [portfolioOwnerId]);
+
 
     return (
         <Card>

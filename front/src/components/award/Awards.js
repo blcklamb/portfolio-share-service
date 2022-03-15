@@ -13,6 +13,12 @@ function Awards({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "awardlist/유저id"로 GET 요청하고, response의 data로 awards를 세팅함.
     Api.get("awardlist", portfolioOwnerId).then((res) => setAwards(res.data));
+    //임시 데이터
+    setAwards([{
+      "user_id":'',
+      "title":"지상 최대 바보 대회",
+      "description":"나는 최고의 바보입니다."
+  }])
   }, [portfolioOwnerId]);
 
   return (

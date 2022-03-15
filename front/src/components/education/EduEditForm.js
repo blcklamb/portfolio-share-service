@@ -4,12 +4,14 @@ import * as Api from "../../api";
 
 import EduRadioForm from "./EduRadioForm";
 
+
 function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
-    //useState로 title 상태를 생성함.
-    //title, description 변수 이름 변경?
-    const [title, setTitle] = useState(currentEdu.title);
-    //useState로 description 상태를 생성함.
-    const [description, setDescription] = useState(currentEdu.description);
+    //useState로 school 상태를 생성함.
+    const [school, setSchool] = useState(currentEdu.school);
+    //useState로 major 상태를 생성함.
+    const [major, setMajor] = useState(currentEdu.major);
+    //useState로 position 상태를 생성함.
+    const [position, setPosition] = useState(currentEdu.position);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,12 +19,12 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
 
         // currentEdu의 user_id를 user_id 변수에 할당함.
         const user_id = currentEdu.user_id;
-
         // "educations/수상 id" 엔드포인트로 PUT 요청함.
         await Api.put(`educations/${currentEdu.id}`, {
             user_id,
-            title,
-            description,
+            school,
+            major,
+            position,
         });
 
         // "educationlist/유저 id" 엔드포인트로 GET 요청함.
@@ -35,25 +37,28 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formBasicTitle">
+            <Form.Group controlId="formBasicSchool">
                 <Form.Control
                     type="text"
                     placeholder="학교 이름"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={school}
+                    onChange={(e) => setSchool(e.target.value)}
                 />
             </Form.Group>
 
-            <Form.Group controlId="formBasicDescription" className="mt-3">
+            <Form.Group controlId="formBasicMajor" className="mt-3">
                 <Form.Control
                     type="text"
                     placeholder="전공"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={major}
+                    onChange={(e) => setMajor(e.target.value)}
                 />
             </Form.Group>
             <Form.Group controlId="formBasicRadio" >
-                <EduRadioForm/>
+                <EduRadioForm
+                    position={position}
+                    setPosition={setPosition}
+                    />
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center mb-4">

@@ -5,10 +5,13 @@ import * as Api from "../../api";
 import EduRadioForm from "./EduRadioForm";
 
 function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
-  //useState로 title 상태를 생성함.
-  const [title, setTitle] = useState("");
-  //useState로 description 상태를 생성함.
-  const [description, setDescription] = useState("");
+  //useState로 school 상태를 생성함.
+  const [school, setSchool] = useState("");
+  //useState로 major 상태를 생성함.
+  const [major, setMajor] = useState("");
+  //useState로 position 상태를 생성함.
+  const [position, setPosition] = useState();
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,12 +19,12 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
 
     // portfolioOwnerId를 user_id 변수에 할당함.
     const user_id = portfolioOwnerId;
-
     // "education/create" 엔드포인트로 post요청함.
     await Api.post("education/create", {
       user_id: portfolioOwnerId,
-      title,
-      description,
+      school,
+      major,
+      position,
     });
 
     // "educatonlist/유저id" 엔드포인트로 get요청함.
@@ -34,25 +37,28 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicTitle">
+      <Form.Group controlId="formBasicSchool">
         <Form.Control
           type="text"
           placeholder="학교 이름"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={school}
+          onChange={(e) => setSchool(e.target.value)}
         />
       </Form.Group>
 
-      <Form.Group controlId="formBasicDescription" className="mt-3">
+      <Form.Group controlId="formBasicMajor" className="mt-3">
         <Form.Control
           type="text"
           placeholder="전공"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={major}
+          onChange={(e) => setMajor(e.target.value)}
         />
       </Form.Group>
       <Form.Group controlId="formBasicRadio">
-          <EduRadioForm/>
+        <EduRadioForm 
+          position={position}
+          setPosition={setPosition}
+        />
       </Form.Group>
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>

@@ -1,56 +1,48 @@
-import React, { useState } from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
+import React  from "react";
+import { Form } from "react-bootstrap";
 
-function EduRadioForm() {
-    //useState로 position 상태를 생성함.
-    const [position, setPosition] = useState("재학중")
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        alert(`${position}을 선택하셨습니다!`)
-    };
-
+function EduRadioForm({position, setPosition}) {
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form >
             <div key={`inline-radio`} className="mb-3 mt-3">
                 <Form.Check
                     inline
-                    label="재학중"
+                    label="재학 중"
                     id="radio1"
                     type="radio"
                     name="position"
-                    value="재학중"
-                    checked={position === "재학중"}
+                    value="재학 중"
+                    checked={position === "재학 중"}
                     onChange={(e) => setPosition(e.target.value)}
                 />
                 <Form.Check
                     inline
-                    label="학사졸업"
+                    label="학사 졸업"
                     id="radio2"
                     type="radio"
                     name="position"
-                    value="학사졸업"
-                    checked={position === "학사졸업"}
+                    value="학사 졸업"
+                    checked={position === "학사 졸업"}
                     onChange={(e) => setPosition(e.target.value)}
                 />
                 <Form.Check
                     inline
-                    label="석사졸업"
+                    label="석사 졸업"
                     id="radio3"
                     type="radio"
                     name="position"
-                    value="석사졸업"
-                    checked={position === "석사졸업"}
+                    value="석사 졸업"
+                    checked={position === "석사 졸업"}
                     onChange={(e) => setPosition(e.target.value)}
                 />
                 <Form.Check
                     inline
-                    label="박사졸업"
+                    label="박사 졸업"
                     id="radio4"
                     type="radio"
                     name="position"
-                    value="박사졸업"
-                    checked={position === "박사졸업"}
+                    value="박사 졸업"
+                    checked={position === "박사 졸업"}
                     onChange={(e) => setPosition(e.target.value)}
                 />
             </div>

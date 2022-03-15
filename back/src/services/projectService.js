@@ -1,6 +1,5 @@
 import { Project } from "../db";
 import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
 
 class projectService {
     static async addProject({ user_id, title, description, from_date, to_date }) {

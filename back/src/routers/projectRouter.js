@@ -1,17 +1,15 @@
-import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { getUserToken } from "../middlewares/jwt";
 import { projectService } from "../services/projectService";
 
 const projectRouter = Router();
 
-projectRouter.post("/project/create", async (req, res, next) => {
+projectRouter.post("/project/create", login_required, async (req, res, next) => {
     try {
-        const { user_id } = getUserToken(req.headers.authorization);
+        const { currentUserId } = req;
         const { title, description, from_date, to_date } = req.body;
         const newProject = await projectService.addProject({
-            user_id,
+            user_id: currentUserId,
             title,
             description,
             from_date,
@@ -70,8 +68,9 @@ projectRouter.get("/projects/:id", async function (req, res, next) {
 projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { title, description, from_date, to_date } = req.body;
         const { currentUserId } = req;
+        const { title, description, from_date, to_date } = req.body;
+
         const toUpdate = { title, description, from_date, to_date };
 
         const project = await projectService.getProject({ id });

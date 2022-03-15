@@ -6,8 +6,8 @@ class Project {
         return createdNewProject;
     }
 
-    static async exists({ title }) {
-        const titleExists = await ProjectModel.exists({ title });
+    static async exists({ object }) {
+        const titleExists = await ProjectModel.exists({ object });
         return titleExists;
     }
 

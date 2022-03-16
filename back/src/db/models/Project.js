@@ -2,13 +2,13 @@ import { ProjectModel } from "../schemas/Project";
 
 class Project {
     static async create({ newProject }) {
-        const createdNewProject = await ProjectModel.create(newProject);
-        return createdNewProject;
+        const createdProject = await ProjectModel.create(newProject);
+        return createdProject;
     }
 
     static async exists({ object }) {
-        const titleExists = await ProjectModel.exists({ object });
-        return titleExists;
+        const exists = await ProjectModel.exists({ object });
+        return exists;
     }
 
     static async findById({ id }) {

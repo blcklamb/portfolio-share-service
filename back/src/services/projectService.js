@@ -3,11 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 
 class projectService {
     static async addProject({ user_id, title, description, from_date, to_date }) {
+        // 같은 제목의 Project가 있으면 errorMessage 생성
         // const project = await Project.exists({ title });
         // if (project) {
         //     const errorMessage = "이 제목은 현재 사용중입니다. 다른 제목을 입력해 주세요.";
         //     return { errorMessage };
         // }
+
         const id = uuidv4();
         const newProject = { id, user_id, title, description, from_date, to_date };
 

@@ -9,7 +9,7 @@ class Education {
   }
 
   static async findByUserId({ user_id }) {
-    const foundEducation = await EducationModel.find({ user: user_id });
+    const foundEducation = await EducationModel.find({ user_id : user_id });
     return foundEducation;
   }
 

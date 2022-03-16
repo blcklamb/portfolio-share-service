@@ -29,7 +29,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
     });
 
     // "educatonlist/유저id" 엔드포인트로 get요청함.
-    const res = await Api.get("educatonlist", user_id);
+    const res = await Api.get("educationlist", user_id);
     // edus를 response의 data로 세팅함.
     setEdus(res.data);
     // edu를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.

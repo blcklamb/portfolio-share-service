@@ -18,7 +18,7 @@ class educationService {
     return createdNewEducation;
   }
 
-  static async findEducationById({ id }) {
+  static async getEducationById({ id }) {
     const foundEducation = await Education.findById({ id });
     
     if(!foundEducation.length) {
@@ -31,7 +31,7 @@ class educationService {
     return foundEducation;
   }
 
-  static async findEducationsByUserId({ user_id }) {
+  static async getEducationsByUserId({ user_id }) {
     const foundEducations = await Education.findByUserId({ user_id });
 
     if(!foundEducations.length) {
@@ -42,6 +42,24 @@ class educationService {
     foundEducations.errorMessage = null;
 
     return foundEducations;
+  }
+
+  static async setEducationById({ id, school, major, position }) {
+    const foundEducation = await this.getEducationById({ id });
+    if(foundEducation.errorMessage) {
+      return foundEducation;
+    }
+
+    const updatedEducation = await Education.updateEducationById({ id, school, major, position });
+
+    if(!updatedEducation) {
+      const errorMessage = '학력 수정에 실패했습니다.';
+      return { errorMessage };
+    }
+
+    updatedEducation.errorMessage = null;
+
+    return updatedEducation;
   }
 }
 

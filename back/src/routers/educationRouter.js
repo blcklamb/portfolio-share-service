@@ -27,7 +27,7 @@ educationRouter.get("/educations/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const foundEducation = await educationService.findEducationById({ id });
+    const foundEducation = await educationService.getEducationById({ id });
 
     if (foundEducation.errorMessage) {
       throw new Error(foundEducation.errorMessage);
@@ -43,13 +43,30 @@ educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
   try {
     const { user_id } = req.params;
 
-    const foundEducations = await educationService.findEducationsByUserId({ user_id });
+    const foundEducations = await educationService.getEducationsByUserId({ user_id });
 
     if(foundEducations.errorMessage) { 
       throw new Error(foundEducations.errorMessage);
     }
 
     res.status(200).json(foundEducations);
+  } catch(error) {
+    next(error);
+  }
+});
+
+educationRouter.put("/educations/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { school, major, position } = req.body;
+
+    const updatedEducation = await educationService.setEducationById({ id, school, major, position });
+
+    if(updatedEducation.errorMessage) {
+      throw new Error(updatedEducation.errorMessage);
+    }
+
+    res.status(200).json(updatedEducation);
   } catch(error) {
     next(error);
   }

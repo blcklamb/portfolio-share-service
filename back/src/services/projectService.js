@@ -28,10 +28,10 @@ class projectService {
         return project;
     }
 
-    // static async getUsers() {
-    //     const users = await User.findAll();
-    //     return users;
-    // }
+    static async getProjectAll({ user_id }) {
+        const projects = await Project.findAll({ user_id });
+        return projects;
+    }
 
     static async updateProject({ id }, toUpdate) {
         const project = await Project.findById({ id });

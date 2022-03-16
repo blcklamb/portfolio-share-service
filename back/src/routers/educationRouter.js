@@ -23,7 +23,7 @@ educationRouter.post("/education/create", async (req, res, next) => {
   }
 });
 
-educationRouter.get("/education/:id", async (req, res, next) => {
+educationRouter.get("/educations/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 

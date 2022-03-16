@@ -47,6 +47,19 @@ class projectService {
 
         return updateProject;
     }
+
+    static async deleteProject({ id }) {
+        const project = await Project.findById({ id });
+
+        if (!project) {
+            const errorMessage = "프로젝트를 찾을 수 없습니다. 다시 한 번 확인해 주세요.";
+            return { errorMessage };
+        }
+
+        const updateProject = await Project.delete({ id });
+
+        return updateProject;
+    }
 }
 
 export { projectService };

@@ -20,7 +20,7 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
             throw new Error(newProject.errorMessage);
         }
 
-        return res.status(200).json(newProject);
+        return res.status(201).json(newProject);
     } catch (error) {
         next(error);
     }
@@ -76,6 +76,29 @@ projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
         }
 
         return res.status(200).json(updatedProject);
+    } catch (error) {
+        next(error);
+    }
+});
+
+projectRouter.delete("/projects/:id", login_required, async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { currentUserId } = req;
+
+        // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
+        const project = await projectService.getProject({ id });
+        if (String(currentUserId) !== String(project.user_id)) {
+            throw new Error("접근할 권한이 없습니다.");
+        }
+
+        const deletedProject = await projectService.deleteProject({ id });
+
+        if (deletedProject.errorMessage) {
+            throw new Error(deletedProject.errorMessage);
+        }
+
+        return res.status(200).json({ status: "✅ Delete Completed" });
     } catch (error) {
         next(error);
     }

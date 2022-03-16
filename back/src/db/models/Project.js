@@ -25,6 +25,11 @@ class Project {
         const updatedProject = await ProjectModel.findOneAndUpdate({ id }, newProject);
         return updatedProject;
     }
+
+    static async delete({ id }) {
+        const updatedProject = await ProjectModel.findOneAndDelete({ id });
+        return updatedProject;
+    }
 }
 
 export { Project };

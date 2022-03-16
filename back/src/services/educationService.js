@@ -3,19 +3,32 @@ import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴�
 class educationService {
   static async addEducation({ user_id, school, major, position }) {
     // 중복 확인
-    const education = await Education.findById({ user_id });
+    const education = await Education.findByUserId({ user_id });
     if (education?.school === school && education?.major === major) {
       const errorMessage = "이미 입력한 학력입니다.";
       return { errorMessage };
     }
 
+    // db에 저장
     const newEducation = { user_id, school, major, position };
 
-    // db에 저장
     const createdNewEducation = await Education.create({ newEducation });
     createdNewEducation.errorMessage = null;
 
     return createdNewEducation;
+  }
+
+  static async findEducationById({ id }) {
+    const foundEducation = await Education.findById({ id });
+    
+    if(!foundEducation.length) {
+      const errorMessage = '존재하지 않는 학력입니다.';
+      return { errorMessage };
+    }
+
+    foundEducation.errorMessage = null;
+
+    return foundEducation;
   }
 }
 

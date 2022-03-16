@@ -17,10 +17,26 @@ educationRouter.post("/education/create", async (req, res, next) => {
       throw new Error(newEducation.errorMessage);
     }
 
-    res.status(201).json(newEducation);
+    res.status(200).json(newEducation);
   } catch (error) {
     next(error);
   }
 });
+
+educationRouter.get("/education/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const foundEducation = await educationService.findEducationById({ id });
+
+    if (foundEducation.errorMessage) {
+      throw new Error(foundEducation.errorMessage);
+    }
+
+    res.status(200).json(foundEducation);
+  } catch(error) {
+    next(error);
+  }
+})
 
 export { educationRouter };

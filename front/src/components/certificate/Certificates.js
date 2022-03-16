@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as Api from "../../api";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
@@ -7,6 +8,11 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     
     const [certificates, setCertificates] = useState([])
     const [isAdding, setIsAdding] = useState(false)
+
+    // 조회 ("certificatelist/유저id"로 GET 요청하고, response의 data로 certificates를 세팅함.)
+    useEffect(() => {
+        Api.get("certificatelist", portfolioOwnerId).then((res) => setCertificates(res.data))
+    }, [portfolioOwnerId])
 
     return (
         <Card>

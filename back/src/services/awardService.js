@@ -11,6 +11,16 @@ class awardAuthService {
 
         return createdNewAward;
     }
+
+    static async getAward({ awardId }) {
+        const findAward = await Award.findById({ awardId })
+        if (!findAward) {
+            const errorMessage =
+                "해당 수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+            return { errorMessage };
+        }
+        return findAward;
+    }
 }
 
 export { awardAuthService };

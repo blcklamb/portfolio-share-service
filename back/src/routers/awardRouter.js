@@ -4,16 +4,7 @@ import { login_required } from "../middlewares/login_required";
 import { awardAuthService } from "../services/awardService";
 
 const awardAuthRouter = Router();
-awardAuthRouter.use(login_required);
-
-awardAuthRouter.get('/award', async function (req, res, next) {
-  try { 
-    console.log("연결 성공")
-    res.send("연결 성공")
-  } catch (error) {
-    next(error);
-  }
-})
+// awardAuthRouter.use(login_required);
 
 awardAuthRouter.post("/award/create", async function (req, res, next) {
   try {
@@ -44,5 +35,19 @@ awardAuthRouter.post("/award/create", async function (req, res, next) {
     next(error);
   }
 });
+
+awardAuthRouter.get('/awards/:id', async function (req, res, next) {
+  try { 
+    const awardId = req.params.id;
+    const award = await awardAuthService.getAward({ awardId });
+
+    if (award.errorMessage) {
+      throw new Error(award.errorMessage);
+    }
+    res.status(200).send(award);
+  } catch (error) {
+    next(error);
+  }
+})
 
 export { awardAuthRouter };

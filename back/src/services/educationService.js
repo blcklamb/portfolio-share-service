@@ -4,7 +4,7 @@ class educationService {
   static async addEducation({ user_id, school, major, position }) {
     // 중복 확인
     const education = await Education.findById({ user_id });
-    if (education.school === school && education.major === major) {
+    if (education?.school === school && education?.major === major) {
       const errorMessage = "이미 입력한 학력입니다.";
       return { errorMessage };
     }

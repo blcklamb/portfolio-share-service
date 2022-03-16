@@ -1,9 +1,14 @@
 import { Schema, model } from "mongoose";
+import uuid from 'uuid';
 
 const EducationSchema = new Schema(
   {
-    user: {
+    id: {
       type: String,
+      required: true,
+    },
+    user: {
+      type: Schema.Types.String,
       ref: 'User',
       required: true,
     },

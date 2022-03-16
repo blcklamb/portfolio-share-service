@@ -37,6 +37,22 @@ educationRouter.get("/education/:id", async (req, res, next) => {
   } catch(error) {
     next(error);
   }
+});
+
+educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
+  try {
+    const { user_id } = req.params;
+
+    const foundEducations = await educationService.findEducationsByUserId({ user_id });
+
+    if(foundEducations.errorMessage) { 
+      throw new Error(foundEducations.errorMessage);
+    }
+
+    res.status(200).json(foundEducations);
+  } catch(error) {
+    next(error);
+  }
 })
 
 export { educationRouter };

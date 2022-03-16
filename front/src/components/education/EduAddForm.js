@@ -1,3 +1,4 @@
+// Edus>EduAddForm>EduRadioForm
 import React, { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import * as Api from "../../api";
@@ -5,11 +6,11 @@ import * as Api from "../../api";
 import EduRadioForm from "./EduRadioForm";
 
 function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
-  //useState로 school 상태를 생성함.
+  // useState로 school 상태를 생성함.
   const [school, setSchool] = useState("");
-  //useState로 major 상태를 생성함.
+  // useState로 major 상태를 생성함.
   const [major, setMajor] = useState("");
-  //useState로 position 상태를 생성함.
+  // useState로 position 상태를 생성함.
   const [position, setPosition] = useState();
   
 

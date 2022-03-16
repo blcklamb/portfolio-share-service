@@ -1,3 +1,4 @@
+// Edu>EduCard
 import { Card, Button, Row, Col } from "react-bootstrap";
 
 function EduCard({ edu, isEditable, setIsEditing }) {
@@ -10,6 +11,7 @@ function EduCard({ edu, isEditable, setIsEditing }) {
                     <span className="text-muted">{edu.major}</span>
                     <span className="text-muted"> ({edu.position})</span>
                 </Col>
+                {/* 로그인 성공 시 isEditable은 true가 됩니다 */}
                 {isEditable && (
                     <Col xs lg="1">
                         <Button

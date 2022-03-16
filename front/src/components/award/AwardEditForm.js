@@ -1,11 +1,12 @@
+// Award>AwardEditForm
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
 function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
-  //useState로 title 상태를 생성함.
+  // useState로 title 상태를 생성함.
   const [title, setTitle] = useState(currentAward.title);
-  //useState로 description 상태를 생성함.
+  // useState로 description 상태를 생성함.
   const [description, setDescription] = useState(currentAward.description);
 
   const handleSubmit = async (e) => {

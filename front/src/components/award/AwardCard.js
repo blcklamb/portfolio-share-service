@@ -1,3 +1,4 @@
+// Award>AwardCard
 import { Card, Button, Row, Col } from "react-bootstrap";
 
 function AwardCard({ award, isEditable, setIsEditing }) {
@@ -9,6 +10,7 @@ function AwardCard({ award, isEditable, setIsEditing }) {
           <br />
           <span className="text-muted">{award.description}</span>
         </Col>
+        {/* 로그인 성공 시 isEditable은 true가 됩니다 */}
         {isEditable && (
           <Col xs lg="1">
             <Button

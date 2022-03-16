@@ -4,8 +4,10 @@ import { Container, Col, Row } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
-import Edu from "./education/Edus"
-import Award from "./award/Awards"
+
+// components
+import Edus from "./education/Edus"
+import Awards from "./award/Awards"
 import User from "./user/User";
 
 function Portfolio() {
@@ -64,13 +66,13 @@ function Portfolio() {
         </Col>
         <Col>
           <Row className="mb-3">
-            <Edu
+            <Edus
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
           </Row>
           <Row className="mb-3">
-            <Award
+            <Awards
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />

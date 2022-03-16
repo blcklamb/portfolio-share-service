@@ -1,10 +1,9 @@
 import { EducationModel } from "../schemas/education";
-import { v4 as uuidv4 } from 'uuid';
 
 class Education {
-  static async create({ newEducation }) {
-    const newUuid = uuidv4();
-    const createdNewEducation = await EducationModel.create({...newEducation, id: newUuid, user: newEducation.user_id, });
+  static async create(newEducation) {
+    
+    const createdNewEducation = await EducationModel.create(newEducation);
     return createdNewEducation;
   }
 
@@ -21,7 +20,7 @@ class Education {
   static async updateEducationById({ id, school, major, position }) {
     const option = { returnOriginal: false };
 
-    const updatedEducation = await EducationModel.findOneAndUpdate(id, { school, major, position}, option);
+    const updatedEducation = await EducationModel.findOneAndUpdate({ id }, { school, major, position}, option);
 
     return updatedEducation;
   }

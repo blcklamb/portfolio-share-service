@@ -45,7 +45,7 @@ educationRouter.post(
   }
 );
 
-educationRouter.get("/educations/:id", async (req, res, next) => {
+educationRouter.get("/educations/:id?", async (req, res, next) => {
   try {
     const { id } = req.params;
     
@@ -70,7 +70,7 @@ educationRouter.get("/educations/:id", async (req, res, next) => {
   }
 });
 
-educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
+educationRouter.get("/educationlist/:user_id?", async (req, res, next) => {
   try {
     const { user_id } = req.params;
     
@@ -98,7 +98,7 @@ educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
 });
 
 educationRouter.put(
-  "/educations/:id",
+  "/educations/:id?",
   login_required,
   async (req, res, next) => {
     try {
@@ -130,5 +130,36 @@ educationRouter.put(
     }
   }
 );
+
+
+educationRouter.delete(
+  "/educations/:id?", 
+  login_required,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      // 빈 데이터가 있는 경우
+      if(!id) {
+        const errorMessage = '모든 데이터를 정확히 입력해주세요.';
+        throw new Error(errorMessage);
+      }
+
+      // 학력 삭제
+      const deletedEducation = await educationService.deleteEducation({ id });
+
+      // 삭제에 실패한 경우
+      if(deletedEducation.errorMessage) {
+        throw new Error(deletedEducation.errorMessage);
+      }
+
+      const successMessage = `총 ${deletedEducation.deletedCount}개의 메세지를 삭제하였습니다.`;
+
+      res.status(200).json(successMessage);
+    } catch (error) { 
+      next(error);
+    }
+  } 
+);
+
 
 export { educationRouter };

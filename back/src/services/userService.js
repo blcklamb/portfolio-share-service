@@ -92,12 +92,6 @@ class userAuthService {
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
-    }
-
     if (toUpdate.password) {
       const fieldToUpdate = "password";
       const newValue = toUpdate.password;

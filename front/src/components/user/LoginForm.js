@@ -9,12 +9,12 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
-  //useState로 email 상태를 생성함.
+  // useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
+  // useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
 
-  //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
+  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
     return email
       .toLowerCase()
@@ -23,11 +23,10 @@ function LoginForm() {
       );
   };
 
-  //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
+  // 위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
   const isEmailValid = validateEmail(email);
   // 비밀번호가 4글자 이상인지 여부를 확인함.
   const isPasswordValid = password.length >= 4;
-  //
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
 

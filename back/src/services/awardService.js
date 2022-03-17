@@ -21,6 +21,16 @@ class awardAuthService {
         }
         return findAward;
     }
+
+    static async getAwards({ user_id }) {
+        const awards = await Award.findByUserId({ user_id });
+        if (!awards) {
+            const errorMessage =
+                "해당 유저의 수상 이력이 없습니다. 다시 한 번 확인해 주세요.";
+            return { errorMessage };
+        }
+        return awards;
+    }
 }
 
 export { awardAuthService };

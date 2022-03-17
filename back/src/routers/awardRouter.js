@@ -50,4 +50,18 @@ awardAuthRouter.get('/awards/:id', async function (req, res, next) {
   }
 })
 
+awardAuthRouter.get('/awardlist/:user_id', async function (req, res, next) {
+  try {
+    const user_id = req.params.user_id;
+    const awards = await awardAuthService.getAwards({ user_id });
+
+    if (awards.errorMessage) {
+      throw new Error(awards.errorMessage);
+    }
+    res.status(200).send(awards)
+  } catch (error) {
+    next(error);
+  }
+})
+
 export { awardAuthRouter };

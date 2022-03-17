@@ -6,7 +6,7 @@ class User {
         return createdNewUser;
     }
 
-    static async findByEmail({ email }) {
+    static async findOne({ email }) {
         const user = await UserModel.findOne({ email });
         return user;
     }
@@ -28,6 +28,11 @@ class User {
 
         const updatedUser = await UserModel.findOneAndUpdate(filter, update, option);
         return updatedUser;
+    }
+
+    static async resetPassword({ email, password }) {
+        const updatedPassword = await UserModel.findOneAndUpdate({ email, password });
+        return updatedPassword;
     }
 }
 

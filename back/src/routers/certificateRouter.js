@@ -97,7 +97,7 @@ certificateRouter.delete("/certificates/:id", login_required, async (req, res, n
             throw new Error(deletedCertificate.errorMessage);
         }
 
-        return res.status(200).json({ status: "Delete Completed" });
+        return res.status(200).json({ result: "success" });
     } catch (error) {
         next(error);
     }

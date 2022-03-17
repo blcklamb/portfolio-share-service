@@ -1,8 +1,12 @@
 import is from "@sindresorhus/is";
+import bcrypt from "bcrypt";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { uploadImage } from "../middlewares/uploadImage";
 import { userAuthService } from "../services/userService";
+
+import generatePassword from "../middlewares/generatePassword";
+import sendMail from "../middlewares/sendMail";
 
 const userAuthRouter = Router();
 
@@ -81,13 +85,19 @@ userAuthRouter.get("/user/current", login_required, async function (req, res, ne
 
 userAuthRouter.put("/users/:id", login_required, uploadImage.single("image"), async function (req, res, next) {
     try {
+        const user_id = req.currentUserId;
         // URI로부터 사용자 id를 추출함.
-        const user_id = req.params.id;
+        const { id } = req.params;
         // body data 로부터 업데이트할 사용자 정보를 추출함.
         const name = req.body.name ?? null;
         const password = req.body.password ?? null;
         const description = req.body.description ?? null;
         const { file } = req;
+
+        console.log(typeof user_id, typeof id, user_id, id);
+        if (user_id !== id) {
+            throw new Error("수정 할 권한이 없습니다.");
+        }
 
         const currentUserInfo = await userAuthService.getUserInfo({ user_id });
         const toUpdate = {
@@ -122,6 +132,58 @@ userAuthRouter.get("/users/:id", login_required, async function (req, res, next)
         return res.status(200).send(currentUserInfo);
     } catch (error) {
         next(error);
+    }
+});
+
+userAuthRouter.post("/reset-password", async (req, res, next) => {
+    try {
+        const { name, email } = req.body;
+        const user = await userAuthService.getUserByEmail({ email });
+        if (user.errorMessage) {
+            throw new Error(user.errorMessage);
+        }
+        if (name !== user.name) {
+            // 이 부분 저보다 개선된 에러메시지를 써주실 수 있으면 바꿔주세요 ㅠ
+            throw new Error("사용자의 이름과 이메일 정보가 대응되지 않습니다.");
+        }
+
+        const newPassword = generatePassword();
+
+        await userAuthService.setPassword(
+            { user },
+            {
+                password: await bcrypt.hash(newPassword, 10),
+            },
+        );
+
+        await sendMail(
+            email, //
+            "임시 비밀번호가 발급되었습니다",
+            `회원님의 임시 비밀번호는 [${newPassword}] 입니다.\n로그인 후 비밀번호를 변경해주세요.`,
+        );
+        return res.json({ result: "success" });
+    } catch (err) {
+        next(err);
+    }
+});
+
+userAuthRouter.post("/change-password", login_required, async (req, res, next) => {
+    try {
+        const user_id = req.currentUserId;
+        const user = await userAuthService.getUserInfo({ user_id });
+        const { oldpassword, password, passwordConfirm } = req.body;
+        console.log(user);
+        if (!(await bcrypt.compare(oldpassword, user.password))) {
+            throw new Error("기존 비밀번호가 틀렸습니다.");
+        }
+        if (password !== passwordConfirm) {
+            throw new Error("비밀번호 확인이 일치하지 않습니다.");
+        }
+
+        await userAuthService.setPassword({ user_id, password: await bcrypt.hash(password, 10) });
+        return res.status(201).json({ result: "success" });
+    } catch (err) {
+        next(err);
     }
 });
 

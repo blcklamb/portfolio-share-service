@@ -64,6 +64,23 @@ class educationService {
 
     return updatedEducation;
   }
+
+  static async deleteEducation({ id }) {
+    const foundEducation = await this.getEducationById({ id });
+    if(foundEducation.errorMessage) {
+      return foundEducation;
+    }
+
+    const deletedEducation = await Education.deleteEducationById({ id });
+    if(deletedEducation.deletedCount === 0) {
+      const errorMessage = '학력 삭제에 실패했습니다';
+      return { errorMessage };
+    }
+
+    deletedEducation.errorMessage = null;
+
+    return deletedEducation;
+  }
 }
 
 export { educationService };

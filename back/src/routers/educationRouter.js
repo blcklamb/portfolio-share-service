@@ -45,7 +45,7 @@ educationRouter.post(
   }
 );
 
-educationRouter.get("/educations/:id", async (req, res, next) => {
+educationRouter.get("/educations/:id?", async (req, res, next) => {
   try {
     const { id } = req.params;
     
@@ -70,7 +70,7 @@ educationRouter.get("/educations/:id", async (req, res, next) => {
   }
 });
 
-educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
+educationRouter.get("/educationlist/:user_id?", async (req, res, next) => {
   try {
     const { user_id } = req.params;
     
@@ -98,7 +98,7 @@ educationRouter.get("/educationlist/:user_id", async (req, res, next) => {
 });
 
 educationRouter.put(
-  "/educations/:id",
+  "/educations/:id?",
   login_required,
   async (req, res, next) => {
     try {

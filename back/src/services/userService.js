@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 class userAuthService {
     static async addUser({ name, email, password, description, image }) {
         // 이메일 중복 확인
-        const user = await User.findByEmail({ email });
+        const user = await User.findOne({ email });
         if (user) {
             const errorMessage = "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
             return { errorMessage };
@@ -28,7 +28,7 @@ class userAuthService {
 
     static async getUser({ email, password }) {
         // 이메일 db에 존재 여부 확인
-        const user = await User.findByEmail({ email });
+        const user = await User.findOne({ email });
         if (!user) {
             const errorMessage = "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
@@ -118,10 +118,26 @@ class userAuthService {
         const user = await User.findById({ user_id });
         // db에서 찾지 못한 경우, 에러 메시지 반환
         if (!user) {
+            const errorMessage = `해당 유저는 가입 내역이 없습니다. 다시 한 번 확인해 주세요.`;
+            return { errorMessage };
+        }
+        return user;
+    }
+
+    static async getUserByEmail({ email }) {
+        // 이메일 중복 확인
+        const user = await User.findOne({ email });
+        if (!user) {
             const errorMessage = "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
         return user;
+    }
+
+    static async setPassword({ user_id, password }) {
+        console.log(user_id, password);
+        const newPassword = User.resetPassword({ user_id, password });
+        return newPassword;
     }
 }
 

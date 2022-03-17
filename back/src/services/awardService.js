@@ -31,6 +31,17 @@ class awardAuthService {
         }
         return awards;
     }
+
+    static async setAward({ awardId, title, description }) {
+        const updatedAward = await Award.update({ awardId, title, description });
+
+        if (!updatedAward) {
+            const errorMessage =
+                "수상 이력 수정에 실패하였습니다. 다시 한 번 확인해 주세요.";
+            return { errorMessage };
+        }
+        return updatedAward;
+    }
 }
 
 export { awardAuthService };

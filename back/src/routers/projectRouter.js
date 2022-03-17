@@ -98,7 +98,7 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
             throw new Error(deletedProject.errorMessage);
         }
 
-        return res.status(200).json({ status: "✅ Delete Completed" });
+        return res.status(200).json({ status: "Delete Completed" });
     } catch (error) {
         next(error);
     }

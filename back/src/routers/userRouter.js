@@ -47,7 +47,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
             throw new Error(user.errorMessage);
         }
 
-        res.status(200).send(user);
+        return res.status(200).send(user);
     } catch (error) {
         next(error);
     }
@@ -57,7 +57,7 @@ userAuthRouter.get("/userlist", login_required, async function (req, res, next) 
     try {
         // 전체 사용자 목록을 얻음
         const users = await userAuthService.getUsers();
-        res.status(200).send(users);
+        return res.status(200).send(users);
     } catch (error) {
         next(error);
     }
@@ -67,15 +67,13 @@ userAuthRouter.get("/user/current", login_required, async function (req, res, ne
     try {
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const user_id = req.currentUserId;
-        const currentUserInfo = await userAuthService.getUserInfo({
-            user_id,
-        });
+        const currentUserInfo = await userAuthService.getUserInfo({ user_id });
 
         if (currentUserInfo.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
         }
 
-        res.status(200).send(currentUserInfo);
+        return res.status(200).send(currentUserInfo);
     } catch (error) {
         next(error);
     }
@@ -89,7 +87,13 @@ userAuthRouter.put("/users/:id", login_required, uploadImage.single("image"), as
         const currentUserInfo = await userAuthService.getUserInfo({ user_id });
         const { name, email, password, description } = req.body;
         const { file } = req;
-        const toUpdate = { name, email, password, description, image: !file ? currentUserInfo.image : file.location };
+        const toUpdate = {
+            name, //
+            email,
+            password,
+            description,
+            image: !file ? currentUserInfo.image : file.location,
+        };
 
         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
         const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
@@ -113,7 +117,7 @@ userAuthRouter.get("/users/:id", login_required, async function (req, res, next)
             throw new Error(currentUserInfo.errorMessage);
         }
 
-        res.status(200).send(currentUserInfo);
+        return res.status(200).send(currentUserInfo);
     } catch (error) {
         next(error);
     }
@@ -121,7 +125,7 @@ userAuthRouter.get("/users/:id", login_required, async function (req, res, next)
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
-    res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
+    return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 
 export { userAuthRouter };

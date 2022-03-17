@@ -10,7 +10,7 @@ const Project = ({ project, setProjects, isEditable }) => {
         <>
             {isEditing ? (
                 <ProjectEditForm 
-                    currentproject={project}
+                    currentProject={project}
                     setProjects={setProjects}
                     setIsEditing={setIsEditing}                
                 />

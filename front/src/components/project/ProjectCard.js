@@ -11,8 +11,8 @@ const ProjectCard = ({ project, isEditable, setIsEditing }) => {
             <br />
             <span className="text-muted">{project.description}</span>
             <br />
-            <span className="text-muted me-3">{project.from_date}</span>
-            <span className="text-muted">{project.to_date}</span>
+            <span className="text-muted me-3">{project.from_date.slice(0, 10)}</span>
+            <span className="text-muted">{project.to_date.slice(0, 10)}</span>
           </Col>
           {isEditable && (
             <Col xs lg="1">

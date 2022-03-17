@@ -32,6 +32,7 @@ function Awards({ portfolioOwnerId, isEditable }) {
     <Card>
       <Card.Body>
         <Card.Title>수상이력</Card.Title>
+        <hr />
         {awards.map((award) => (
           <Award
             key={award.id}

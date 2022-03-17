@@ -1,6 +1,6 @@
 // Edus>EduAddForm>EduRadioForm
 import React, { useState } from "react";
-import { Button, Col, Row, Form } from "react-bootstrap";
+import { Button, Col, Row, Form, FloatingLabel } from "react-bootstrap";
 import * as Api from "../../api";
 
 import EduRadioForm from "./EduRadioForm";
@@ -38,29 +38,48 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicSchool">
-        <Form.Control
-          type="text"
-          placeholder="학교 이름"
-          value={school}
-          onChange={(e) => setSchool(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicMajor" className="mt-3">
-        <Form.Control
-          type="text"
-          placeholder="전공"
-          value={major}
-          onChange={(e) => setMajor(e.target.value)}
-        />
-      </Form.Group>
+      <Row className="mt-3">
+        <Col md>
+          <Form.Group controlId="formBasicSchool">
+            <FloatingLabel
+              controlId="floatingInput"
+              label="학교 이름"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="학교 이름"
+                value={school}
+                onChange={(e) => setSchool(e.target.value)}
+              />
+            </FloatingLabel>
+          </Form.Group>
+        </Col>
+        <Col md>
+          <Form.Group controlId="formBasicMajor" >
+            <FloatingLabel
+              controlId="floatingInput"
+              label="전공"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="전공"
+                value={major}
+                onChange={(e) => setMajor(e.target.value)}
+              />
+            </FloatingLabel>
+          </Form.Group>
+        </Col>
+      </Row>
       <Form.Group controlId="formBasicRadio">
-        <EduRadioForm 
+        <EduRadioForm
           position={position}
           setPosition={setPosition}
         />
       </Form.Group>
+
+
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
           <Button variant="primary" type="submit" className="me-3">

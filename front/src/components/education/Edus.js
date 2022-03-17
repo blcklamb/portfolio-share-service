@@ -35,6 +35,7 @@ function Edus({ portfolioOwnerId, isEditable }) {
         <Card>
             <Card.Body>
                 <Card.Title>학력</Card.Title>
+                <hr />
                 {edus.map((edu) => (
                     <Edu
                         key={edu.id}

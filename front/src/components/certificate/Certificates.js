@@ -36,7 +36,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 {isAdding && (
                     <CertificateAddForm
                         portfolioOwnerId={portfolioOwnerId}
-                        setAwards={setCertificates}
+                        setCertificates={setCertificates}
                         setIsAdding={setIsAdding}
                     />
                 )}

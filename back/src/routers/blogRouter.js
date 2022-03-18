@@ -78,13 +78,39 @@ blogRouter.put("/blogs/:id?", login_required, async (req, res, next) => {
       throw new Error(errorMessage);
     }
 
-    const updatedBlog = await blogService.setBlog({ id, user_id, service, url });
+    const updatedBlog = await blogService.setBlog({
+      id,
+      user_id,
+      service,
+      url,
+    });
 
-    if(updatedBlog.errorMessage) {
-        throw new Error(updatedBlog.errorMessage);
+    if (updatedBlog.errorMessage) {
+      throw new Error(updatedBlog.errorMessage);
     }
 
     res.status(200).json(updatedBlog);
+  } catch (error) {
+    next(error);
+  }
+});
+
+blogRouter.delete("/blogs/:id?", login_required, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      const errorMessage = "필요한 데이터를 정확히 입력해주세요.";
+      throw new Error(errorMessage);
+    }
+
+    const deletedBlog = await blogService.deleteBlog({ id });
+    
+    if(deletedBlog.errorMessage) {
+        throw new Error(deletedBlog.errorMessage);
+    }
+
+    res.status(200).json(deletedBlog);
   } catch (error) {
     next(error);
   }

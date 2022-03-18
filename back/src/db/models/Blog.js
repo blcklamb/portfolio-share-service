@@ -12,14 +12,23 @@ class Blog {
   }
 
   static async findById({ id }) {
-    const foundBlog = await BlogModel.findOne({ id });
+    const foundBlog = await BlogModel.findOne({ id: id });
     return foundBlog;
   }
 
-  static async update() {
+  static async update({ id, user_id, service, url }) {
     const option = { returnOriginal: false };
-    const updatedBlog = await BlogModel.findOneAndUpdate();
+    const updatedBlog = await BlogModel.findOneAndUpdate(
+      { id },
+      { user_id, service, url },
+      option
+    );
     return updatedBlog;
+  }
+
+  static async delete({ id }) {
+    const deletedBlog = await BlogModel.deleteOne({ id: id });
+    return deletedBlog;
   }
 }
 

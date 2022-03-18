@@ -17,17 +17,14 @@ class Education {
     return foundEducation;
   }
 
-  static async updateEducationById({ id, school, major, position }) {
+  static async update({ id, school, major, position }) {
     const option = { returnOriginal: false };
-
     const updatedEducation = await EducationModel.findOneAndUpdate({ id }, { school, major, position}, option);
-
     return updatedEducation;
   }
 
-  static async deleteEducationById({ id }) {
+  static async delete({ id }) {
     const deletedEducation = await EducationModel.deleteOne({ id: id });
-    
     return deletedEducation;
   }
 }

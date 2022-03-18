@@ -53,7 +53,7 @@ class educationService {
       return foundEducation;
     }
 
-    const updatedEducation = await Education.updateEducationById({ id, school, major, position });
+    const updatedEducation = await Education.update({ id, school, major, position });
 
     if(!updatedEducation) {
       const errorMessage = '학력 수정에 실패했습니다.';
@@ -71,7 +71,8 @@ class educationService {
       return foundEducation;
     }
 
-    const deletedEducation = await Education.deleteEducationById({ id });
+    const deletedEducation = await Education.delete({ id });
+    
     if(deletedEducation.deletedCount === 0) {
       const errorMessage = '학력 삭제에 실패했습니다';
       return { errorMessage };

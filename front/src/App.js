@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
+import UserChangePassword from "./components/user/UserChangePassword";
 import Portfolio from "./components/Portfolio";
 
 // 실행 전 임시 데이터 필요 여부를 확인한 뒤 제거 혹은 유지해주세요
@@ -66,6 +67,7 @@ function App() {
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/users/:userId" element={<Portfolio />} />
+              <Route path="/change-password" element={<UserChangePassword/>}/>
               <Route path="/network" element={<Network />} />
               <Route path="*" element={<Portfolio />} />
             </Routes>

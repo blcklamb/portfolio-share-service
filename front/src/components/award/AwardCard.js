@@ -30,7 +30,7 @@ function AwardCard({ award, setAwards, isEditable, setIsEditing }) {
         {/* 로그인 성공 시 isEditable은 true가 됩니다 */}
         {isEditable && (
           <>
-            <Col xs lg="1">
+            <Col md="auto">
               <Button
                 variant="outline-info"
                 size="sm"

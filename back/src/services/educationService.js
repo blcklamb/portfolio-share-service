@@ -37,11 +37,6 @@ class educationService {
   static async getEducationsByUserId({ user_id }) {
     const foundEducations = await Education.findByUserId({ user_id });
 
-    if(!foundEducations.length) {
-      const errorMessage = '사용자의 학력이 존재하지 않습니다';
-      return { errorMessage };
-    }
-
     foundEducations.errorMessage = null;
 
     return foundEducations;

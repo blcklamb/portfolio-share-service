@@ -35,9 +35,14 @@ function Header() {
         <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
       </Nav.Item>
       {isLogin && (
-        <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-        </Nav.Item>
+        <>
+          <Nav.Item>
+            <Nav.Link onClick={() => navigate("/change-password")}>비밀번호 변경</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={logout}>로그아웃</Nav.Link>
+          </Nav.Item>
+        </>
       )}
     </Nav>
   );

@@ -5,6 +5,7 @@ import { awardAuthRouter } from "./routers/awardRouter";
 import { educationRouter } from "./routers/educationRouter";
 import { certificateRouter } from "./routers/certificateRouter";
 import { projectRouter } from "./routers/projectRouter";
+import { blogRouter } from "./routers/blogRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(userAuthRouter);
 app.use(educationRouter);
 app.use(certificateRouter);
 app.use(projectRouter);
+app.use(blogRouter);
 
 app.use(awardAuthRouter);
 

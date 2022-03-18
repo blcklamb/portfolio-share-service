@@ -10,7 +10,7 @@ const Certificate = ({ certificate, setCertificates, isEditable }) => {
         <>
             {isEditing ? (
                 <CertificateEditForm 
-                    currentcertificate={certificate}
+                    currentCertificate={certificate}
                     setCertificates={setCertificates}
                     setIsEditing={setIsEditing}                
                 />

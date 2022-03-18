@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as Api from "../../api";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 
 const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) => {
 
@@ -12,7 +13,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
     */
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [when_date, setWhenDate] = useState("")
+    const [when_date, setWhenDate] = useState(new Date())
 
     const handsubmit = async (e) => {
         e.preventDefault();
@@ -45,7 +46,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                         onChange={(e) => {setTitle(e.target.value)}}
                     />
                 </Form.Group>
-                <Form.Group controlId="formBasicDescription">
+                <Form.Group controlId="formBasicDescription" className="mt-3">
                     <Form.Control
                         type="text"
                         placeholder="상세 내역"
@@ -53,11 +54,10 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                         onChange={(e) => {setDescription(e.target.value)}}                  
                     />
                 </Form.Group>
-                <Form.Group controlId="formBasicWhenDate">
-                    <Form.Control
-                        type="date"
-                        value={when_date}
-                        onChange={(e) => {setWhenDate(e.target.value)}}
+                <Form.Group controlId="formBasicWhenDate" className="mt-3">
+                    <DatePicker
+                        selected={when_date}
+                        onChange={(date) => {setWhenDate(date)}}
                     />
                 </Form.Group>
                 <Form.Group as={Row} className="mt-3 text-center">

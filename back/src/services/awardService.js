@@ -42,6 +42,18 @@ class awardAuthService {
         }
         return updatedAward;
     }
+
+    static async deleteAward({ awardId }) {
+        const deletedAward = await Award.delete({ awardId });
+
+        if (deletedAward.deletedCount == 0) {
+            const errorMessage =
+                "수상 이력 삭제에 실패하였습니다. 다시 한 번 확인해 주세요.";
+            return { errorMessage }
+        }
+        return deletedAward;
+    }
+
 }
 
 export { awardAuthService };

@@ -11,7 +11,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
             <br />
             <span className="text-muted">{certificate.description}</span>
             <br />
-            <span className="text-muted">{certificate.when_date}</span>
+            <span className="text-muted">{certificate.when_date.slice(0, 10)}</span>
           </Col>
           {isEditable && (
             <Col xs lg="1">

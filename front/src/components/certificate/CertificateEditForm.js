@@ -20,7 +20,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
     const user_id = currentCertificate.user_id;
 
     // "certificates/프로젝트 id" 엔드포인트로 PUT 요청함.
-    await Api.put(`awards/${currentCertificate.id}`, {
+    await Api.put(`certificates/${currentCertificate.id}`, {
       user_id,
       title,
       description,

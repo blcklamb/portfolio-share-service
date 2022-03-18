@@ -18,7 +18,7 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
     const user_id = currentProject.user_id;
 
     // "projects/프로젝트 id" 엔드포인트로 PUT 요청함.
-    await Api.put(`awards/${currentProject.id}`, {
+    await Api.put(`projects/${currentProject.id}`, {
       user_id,
       title,
       description,

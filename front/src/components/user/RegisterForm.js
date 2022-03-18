@@ -7,16 +7,16 @@ import * as Api from "../../api";
 function RegisterForm() {
   const navigate = useNavigate();
 
-  //useState로 email 상태를 생성함.
+  // useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
+  // useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
-  //useState로 confirmPassword 상태를 생성함.
+  // useState로 confirmPassword 상태를 생성함.
   const [confirmPassword, setConfirmPassword] = useState("");
-  //useState로 name 상태를 생성함.
+  // useState로 name 상태를 생성함.
   const [name, setName] = useState("");
 
-  //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
+  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
     return email
       .toLowerCase()
@@ -33,7 +33,6 @@ function RegisterForm() {
   const isPasswordSame = password === confirmPassword;
   // 이름이 2글자 이상인지 여부를 확인함.
   const isNameValid = name.length >= 2;
-
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   const isFormValid =
     isEmailValid && isPasswordValid && isPasswordSame && isNameValid;

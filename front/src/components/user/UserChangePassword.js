@@ -26,7 +26,7 @@ function LoginForm() {
 
     try {
       // "/change-password" 엔드포인트로 post요청함.
-      const res = await Api.post("change-password", {
+      await Api.post("change-password", {
         oldpassword: currentPassword,
         password,
         passwordConfirm: password

@@ -4,7 +4,7 @@ import { login_required } from "../middlewares/login_required";
 import { awardAuthService } from "../services/awardService";
 
 const awardAuthRouter = Router();
-// awardAuthRouter.use(login_required);
+awardAuthRouter.use(login_required);
 
 awardAuthRouter.post("/award/create", async function (req, res, next) {
   try {
@@ -76,6 +76,28 @@ awardAuthRouter.put("/awards/:id", async function (req, res, next) {
       throw new Error(updatedAward.errorMessage);
     }
     res.status(200).send(updatedAward)
+  } catch (error) {
+    next(error);
+  }
+})
+
+awardAuthRouter.delete("/awards/:id", async function (req, res, next) {
+  try {
+    const awardId = req.params.id;
+    const currentUser = req.currentUserId;
+    const award = await awardAuthService.getAward({ awardId });
+
+    if (String(currentUser) !== String(award.user_id)) {
+      throw new Error("접근 권한이 없습니다.")
+    }
+
+    const deletedAward = await awardAuthService.deleteAward({ awardId });
+
+    if (deletedAward.errorMessage) {
+      throw new Error(deletedAward.errorMessage);
+    }
+
+    res.status(200).send("성공적으로 수상 이력이 삭제되었습니다.")
   } catch (error) {
     next(error);
   }

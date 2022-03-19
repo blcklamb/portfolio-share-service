@@ -58,12 +58,14 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicFromDate" className="mt-3">
+                    <span>시작일</span>
                     <DatePicker
                         selected={from_date}
                         onChange={(date) => {setFromDate(date)}}
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicToDate" className="mt-3">
+                    <span>종료일</span>
                     <DatePicker
                         selected={to_date}
                         onChange={(date) => {setToDate(date)}}

@@ -18,6 +18,7 @@ const Projects = ({ portfolioOwnerId, isEditable }) => {
         <Card>
             <Card.Body>
                 <Card.Title>프로젝트</Card.Title>
+                <hr />
                 {projects.map((project) => (
                     <Project 
                         key={project.id}

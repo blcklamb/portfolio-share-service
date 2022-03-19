@@ -12,14 +12,10 @@ educationRouter.post(
       // 받은 데이터
       const { user_id, school, major, position } = req.body;
 
-      // 빈 데이터가 있는 경우
-      if (!user_id || !school || !major || !position) {
-        const errorMessage = '모든 데이터를 정확히 입력해주세요.';
-        throw new Error(errorMessage);
-      }
+      // 사용자 찾기
+      const foundUser = await userAuthService.getUserInfo({ user_id });
 
       // 사용자가 존재하지 않는 경우
-      const foundUser = await userAuthService.getUserInfo({ user_id });
       if(foundUser.errorMessage) {
         throw new Error(foundUser.errorMessage);
       }
@@ -47,13 +43,8 @@ educationRouter.post(
 
 educationRouter.get("/educations/:id?", async (req, res, next) => {
   try {
+    // 받은 데이터
     const { id } = req.params;
-    
-    // 빈 데이터가 있는 경우
-    if (!id) {
-      const errorMessage = '모든 데이터를 정확히 입력해주세요.';
-      throw new Error(errorMessage);
-    }
 
     // 학력 정보 가져오기
     const foundEducation = await educationService.getEducationById({ id });
@@ -72,13 +63,8 @@ educationRouter.get("/educations/:id?", async (req, res, next) => {
 
 educationRouter.get("/educationlist/:user_id?", async (req, res, next) => {
   try {
+    // 받은 데이터
     const { user_id } = req.params;
-    
-    // 빈 데이터가 있는 경우
-    if (!user_id) {
-      const errorMessage = '모든 데이터를 정확히 입력해주세요.';
-      throw new Error(errorMessage);
-    }
 
     // 학력 가져오기
     const foundEducations = await educationService.getEducationsByUserId({
@@ -102,14 +88,9 @@ educationRouter.put(
   login_required,
   async (req, res, next) => {
     try {
+      // 받은 데이터
       const { id } = req.params;
       const { school, major, position } = req.body;
-
-      // 빈 데이터가 있는 경우
-      if (!id || !school || !major || !position) {
-        const errorMessage = '모든 데이터를 정확히 입력해주세요.';
-        throw new Error(errorMessage);
-      }
 
       // 학력 수정
       const updatedEducation = await educationService.setEducationById({
@@ -124,6 +105,7 @@ educationRouter.put(
         throw new Error(updatedEducation.errorMessage);
       }
 
+      // 수정된 학력 정보 반환
       res.status(200).json(updatedEducation);
     } catch (error) {
       next(error);
@@ -137,21 +119,18 @@ educationRouter.delete(
   login_required,
   async (req, res, next) => {
     try {
+      // 받은 데이터
       const { id } = req.params;
-      // 빈 데이터가 있는 경우
-      if(!id) {
-        const errorMessage = '모든 데이터를 정확히 입력해주세요.';
-        throw new Error(errorMessage);
-      }
 
       // 학력 삭제
       const deletedEducation = await educationService.deleteEducation({ id });
 
-      // 삭제에 실패한 경우
+      // 학력 삭제에 실패한 경우
       if(deletedEducation.errorMessage) {
         throw new Error(deletedEducation.errorMessage);
       }
 
+      // 학력 삭제에 성공한 경우
       const successMessage = `총 ${deletedEducation.deletedCount}개의 메세지를 삭제하였습니다.`;
 
       res.status(200).json(successMessage);

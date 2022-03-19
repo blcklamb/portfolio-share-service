@@ -43,7 +43,7 @@ class userAuthService {
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
-        const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+        const secretKey = process.env.JWT_SECRET_KEY;
         const token = jwt.sign({ user_id: user.id }, secretKey);
 
         // 반환할 loginuser 객체를 위한 변수 설정
@@ -116,6 +116,12 @@ class userAuthService {
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
 
+        if (toUpdate.likes) {
+            const fieldToUpdate = "likes";
+            const newValue = toUpdate.likes;
+            user = await User.update({ user_id, fieldToUpdate, newValue });
+        }
+
         return user;
     }
 
@@ -140,7 +146,8 @@ class userAuthService {
     }
 
     static async setPassword({ user_id }, { password }) {
-        const newPassword = await User.resetPassword({ user_id }, { password });
+        // password 이외 데이터 변경의 경우 setUser로 처리
+        const newPassword = await User.findOneAndUpdate({ user_id }, { password });
         return newPassword;
     }
 }

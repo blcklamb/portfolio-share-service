@@ -9,7 +9,7 @@ const UserSchema = new Schema(
         email: {
             type: Schema.Types.String,
             required: true,
-            immutable: true
+            immutable: true,
         },
         name: {
             type: String,
@@ -28,6 +28,9 @@ const UserSchema = new Schema(
             type: String,
             required: false,
             default: "https://cdn0.iconfinder.com/data/icons/education-2-27/32/user_staff_person_man_profile_boss_circle-512.png",
+        },
+        likes: {
+            type: Array,
         },
     },
     {

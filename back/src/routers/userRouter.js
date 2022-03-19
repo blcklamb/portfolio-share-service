@@ -1,8 +1,8 @@
 import is from "@sindresorhus/is";
 import bcrypt from "bcrypt";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
 import { uploadImage } from "../middlewares/uploadImage";
+import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 
 import generatePassword from "../middlewares/generatePassword";
@@ -91,22 +91,22 @@ userAuthRouter.get("/user/current", login_required, async function (req, res, ne
         next(error);
     }
 });
+
 userAuthRouter.put("/user/current", login_required, uploadImage.single("image"), async function (req, res, next) {
     try {
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const user_id = req.currentUserId;
         const currentUserInfo = await userAuthService.getUserInfo({ user_id });
-        console.log(currentUserInfo);
-        // body data 로부터 업데이트할 사용자 정보를 추출함.
+        // req.body에서 업데이트할 사용자 정보를 받아옴. req.file은 uploadImage middleware에서 정의.
         const name = req.body.name ?? null;
         const password = req.body.password ?? null;
         const description = req.body.description ?? null;
         const { file } = req;
-
         const toUpdate = {
             name, //
             password,
             description,
+            // req.file이 없을 시 즉, 사진이 변경되지 않았을 시 기존의 사진을 사용. 사진 삭제 기능은 추가 개발 예정.
             image: !file ? currentUserInfo.image : file.location,
         };
 
@@ -123,10 +123,10 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
     }
 });
 
-userAuthRouter.get("/users/:id", login_required, async function (req, res, next) {
+userAuthRouter.get("/users/:id", async function (req, res, next) {
     try {
-        const user_id = req.params.id;
-        const currentUserInfo = await userAuthService.getUserInfo({ user_id });
+        const { id } = req.params;
+        const currentUserInfo = await userAuthService.getUserInfo({ user_id: id });
 
         if (currentUserInfo.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
@@ -141,7 +141,9 @@ userAuthRouter.get("/users/:id", login_required, async function (req, res, next)
 userAuthRouter.post("/reset-password", async (req, res, next) => {
     try {
         const { name, email } = req.body;
+        // name은 중복의 여지가 있기 때문에, email로 유저 정보를 받아온 뒤 name으로 재확인
         const user = await userAuthService.getUserByEmail({ email });
+
         if (user.errorMessage) {
             throw new Error(user.errorMessage);
         }
@@ -150,20 +152,21 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
             throw new Error("사용자의 이름과 이메일 정보가 대응되지 않습니다.");
         }
 
-        const newPassword = generatePassword();
+        const newPassword = generatePassword(); // 8자리 숫자 랜덤 비밀번호 생성
         await userAuthService.setPassword(
             { user_id: user.id }, //
             { password: await bcrypt.hash(newPassword, 10) },
         );
 
         await sendMail(
-            email, //
+            email, // sendMail(to, subject, text)
             "[Portfolio Share Service] 임시 비밀번호가 발급되었습니다",
             `회원님의 임시 비밀번호는 [${newPassword}] 입니다.\n로그인 후 비밀번호를 변경해주세요.`,
         );
+
         return res.json({ result: "success" });
-    } catch (err) {
-        next(err);
+    } catch (error) {
+        next(error);
     }
 });
 
@@ -172,10 +175,10 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
         // req.headers의 Authorization 토큰에서 받아온 currentUserId 값을 user_id로 정의
         // req.currentUserId는 login-required middleware에서 정의하고 있음
         const user_id = req.currentUserId;
-        // user_id를 통해 받아온 사용자 정보를 user에 정의
+        // user_id를 통해 받아온 사용자 정보를 user에 정의, getUserInfo는 UserModel.findOne({ user_id })
         const user = await userAuthService.getUserInfo({ user_id });
         const { oldpassword, password, passwordConfirm } = req.body;
-        console.log(user);
+
         if (!(await bcrypt.compare(oldpassword, user.password))) {
             throw new Error("기존 비밀번호가 틀렸습니다.");
         }
@@ -184,10 +187,38 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
         }
 
         await userAuthService.setPassword({ user_id }, { password: await bcrypt.hash(password, 10) });
+
         return res.status(201).json({ result: "success" });
     } catch (err) {
         next(err);
     }
+});
+
+import { UserModel } from "../db/schemas/User";
+userAuthRouter.post("/api/users/:id", login_required, async (req, res, next) => {
+    // 좋아요를 누르는 user
+    const user_id = req.currentUserId;
+    // 좋아요를 받는 project
+    const { id } = req.params;
+    // user_id로 불러온 유저 데이터의 id를 사용해 나름(?) 인증 고도화. 필요 없으면 삭제하겠음.
+    const user = await userAuthService.getUserInfo({ user_id });
+
+    if (!user) {
+        return res.sendStatus(404);
+    }
+
+    // UserModel의 likes 목록에 현재 로그인 되어있는 유저의 id가 있는 정보만 likedUser에 정의.
+    // likedUser의 length가  0이면 likes 배열에 현재 로그인 되어있는 유저의 id를 추가함. 반대도 동작.
+    const likedUser = await UserModel.find({ likes: { $in: [user.id] } });
+    if (likedUser.length === 0) {
+        await UserModel.findOneAndUpdate({ user_id: id }, { $push: { likes: user.id } }, { new: true });
+        console.log("Like");
+    } else {
+        await UserModel.findOneAndUpdate({ user_id: id }, { $pull: { likes: user.id } }, { new: true });
+        console.log("Unlike");
+    }
+
+    return res.sendStatus(200);
 });
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.

@@ -6,11 +6,6 @@ class Project {
         return createdProject;
     }
 
-    static async exists({ object }) {
-        const exists = await ProjectModel.exists({ object });
-        return exists;
-    }
-
     static async findById({ id }) {
         const project = await ProjectModel.findOne({ id });
         return project;
@@ -22,7 +17,7 @@ class Project {
     }
 
     static async update({ id }, { toUpdate }) {
-        const updatedProject = await ProjectModel.findOneAndUpdate({ id }, toUpdate, { returnOriginal: false });
+        const updatedProject = await ProjectModel.findOneAndUpdate({ id }, toUpdate, { new: true });
         return updatedProject;
     }
 

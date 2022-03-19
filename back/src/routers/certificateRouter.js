@@ -8,6 +8,16 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
     try {
         const { currentUserId } = req;
         const { title, description, when_date } = req.body;
+
+        // 로그인 된 유저의 모든 certificate를 불러온 후 map을 이용해 title만 남김.
+        const certificates = await certificateService.getCertificateAll({ user_id });
+        const userCertificates = certificates.filter((certificate) => (certificate.user_id = user_id));
+        const userCertificateTitles = userCertificates.map((userCertificate) => userCertificate.title);
+
+        if (userCertificateTitles.includes(title)) {
+            throw new Error("이미 사용중인 제목입니다.");
+        }
+
         const newCertificate = await certificateService.addCertificate({
             user_id: currentUserId,
             title,
@@ -28,6 +38,7 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
 certificateRouter.get("/certificates/:id", async function (req, res, next) {
     try {
         const { id } = req.params;
+
         const certificate = await certificateService.getCertificate({ id });
 
         if (certificate.errorMessage) {
@@ -43,6 +54,7 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
 certificateRouter.get("/certificatelist/:user_id", async function (req, res, next) {
     try {
         const { user_id } = req.params;
+
         const certificates = await certificateService.getCertificateAll({ user_id });
 
         if (certificates.errorMessage) {
@@ -57,20 +69,24 @@ certificateRouter.get("/certificatelist/:user_id", async function (req, res, nex
 
 certificateRouter.put("/certificates/:id", login_required, async (req, res, next) => {
     try {
+        const user_id = req.currentUserId;
         const { id } = req.params;
-        const { currentUserId } = req;
         const { title, description, when_date } = req.body;
         const toUpdate = { title, description, when_date };
 
-        // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
         const certificate = await certificateService.getCertificate({ id });
-        if (String(currentUserId) !== String(certificate.user_id)) {
+
+        // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
+        if (String(user_id) !== String(certificate.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
+
         const updatedCertificate = await certificateService.updateCertificate({ id }, { toUpdate });
+
         if (updatedCertificate.errorMessage) {
             throw new Error(updatedCertificate.errorMessage);
         }
+
         return res.status(200).json(updatedCertificate);
     } catch (error) {
         next(error);
@@ -82,8 +98,9 @@ certificateRouter.delete("/certificates/:id", login_required, async (req, res, n
         const { id } = req.params;
         const { currentUserId } = req;
 
-        // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
         const certificate = await certificateService.getCertificate({ id });
+
+        // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
         if (String(currentUserId) !== String(certificate.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }

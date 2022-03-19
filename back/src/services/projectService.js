@@ -35,15 +35,14 @@ class projectService {
         return projects;
     }
 
-    static async updateProject({ id }, toUpdate) {
+    static async updateProject({ id }, { toUpdate }) {
         const project = await this.getProject({ id });
 
         if (!project) {
             const errorMessage = "프로젝트를 찾을 수 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
-
-        const updateProject = await Project.update(project, toUpdate);
+        const updateProject = await Project.update({ id }, { toUpdate });
 
         return updateProject;
     }

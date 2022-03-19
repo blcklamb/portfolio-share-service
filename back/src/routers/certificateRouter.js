@@ -67,13 +67,10 @@ certificateRouter.put("/certificates/:id", login_required, async (req, res, next
         if (String(currentUserId) !== String(certificate.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
-
-        const updatedCertificate = await certificateService.updateCertificate({ id }, toUpdate);
-
+        const updatedCertificate = await certificateService.updateCertificate({ id }, { toUpdate });
         if (updatedCertificate.errorMessage) {
             throw new Error(updatedCertificate.errorMessage);
         }
-
         return res.status(200).json(updatedCertificate);
     } catch (error) {
         next(error);

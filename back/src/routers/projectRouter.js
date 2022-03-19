@@ -6,10 +6,10 @@ const projectRouter = Router();
 
 projectRouter.post("/project/create", login_required, async (req, res, next) => {
     try {
-        const { currentUserId } = req;
+        const user_id = req.currentUserId;
         const { title, description, from_date, to_date } = req.body;
         const newProject = await projectService.addProject({
-            user_id: currentUserId,
+            user_id,
             title,
             description,
             from_date,
@@ -58,24 +58,24 @@ projectRouter.get("/projectlist/:user_id", async function (req, res, next) {
 
 projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
     try {
+        const user_id = req.currentUserId;
         const { id } = req.params;
-        const { currentUserId } = req;
         const { title, description, from_date, to_date } = req.body;
         const toUpdate = { title, description, from_date, to_date };
 
         // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         const project = await projectService.getProject({ id });
-        if (String(currentUserId) !== String(project.user_id)) {
+        if (String(user_id) !== String(project.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
-        const updatedProject = await projectService.updateProject({ id }, toUpdate);
-
-        if (updatedProject.errorMessage) {
-            throw new Error(updatedProject.errorMessage);
+        const updateProject = await projectService.updateProject({ id }, { toUpdate });
+        console.log(updateProject);
+        if (updateProject.errorMessage) {
+            throw new Error(updateProject.errorMessage);
         }
 
-        return res.status(200).json(updatedProject);
+        return res.status(200).json(updateProject);
     } catch (error) {
         next(error);
     }
@@ -102,6 +102,21 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
     } catch (error) {
         next(error);
     }
+});
+
+projectRouter.post("/api/projects/:id", login_required, async (req, res, next) => {
+    // 좋아요를 누르는 user
+    const user_id = req.currentUserId;
+
+    // 좋아요를 받는 project
+    const { id } = req.params;
+    const project = await projectService.getProject({ id });
+    if (!project) {
+        return res.sendStatus(404);
+    }
+    projectService.updateProject({ id }, { $push: { likes: 1 } });
+
+    return res.sendStatus(200);
 });
 
 export { projectRouter };

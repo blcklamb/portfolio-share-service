@@ -70,7 +70,7 @@ userAuthRouter.get("/userlist", login_required, async function (req, res, next) 
             userAuthService.getUsers({ perPage, page }),
         ]);
 
-        return res.status(200).json({ users, page, perPage, usersCount});
+        return res.status(200).json({ users, page, perPage, usersCount });
     } catch (error) {
         next(error);
     }
@@ -151,13 +151,10 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
         }
 
         const newPassword = generatePassword();
-
-        await userAuthService.setPassword(
-            { user },
-            {
-                password: await bcrypt.hash(newPassword, 10),
-            },
-        );
+        await userAuthService.setPassword({
+            user_id: user.id,
+            password: await bcrypt.hash(newPassword, 10),
+        });
 
         await sendMail(
             email, //

@@ -8,6 +8,16 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
     try {
         const user_id = req.currentUserId;
         const { title, description, from_date, to_date } = req.body;
+
+        // 로그인 된 유저의 모든 project를 불러온 후 map을 이용해 title만 남김.
+        const projects = await projectService.getProjectAll({ user_id });
+        const userProjects = projects.filter((project) => (project.user_id = user_id));
+        const userProjectTitles = userProjects.map((userProject) => userProject.title);
+
+        if (userProjectTitles.includes(title)) {
+            throw new Error("이미 사용중인 제목입니다.");
+        }
+
         const newProject = await projectService.addProject({
             user_id,
             title,
@@ -44,6 +54,7 @@ projectRouter.get("/projects/:id", async function (req, res, next) {
 projectRouter.get("/projectlist/:user_id", async function (req, res, next) {
     try {
         const { user_id } = req.params;
+
         const projects = await projectService.getProjectAll({ user_id });
 
         if (projects.errorMessage) {
@@ -63,19 +74,20 @@ projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
         const { title, description, from_date, to_date } = req.body;
         const toUpdate = { title, description, from_date, to_date };
 
-        // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         const project = await projectService.getProject({ id });
-        if (String(user_id) !== String(project.user_id)) {
+
+        // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
+        if (user_id !== project.user_id) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
-        const updateProject = await projectService.updateProject({ id }, { toUpdate });
-        console.log(updateProject);
-        if (updateProject.errorMessage) {
-            throw new Error(updateProject.errorMessage);
+        const updatedProject = await projectService.setProject({ id }, { toUpdate });
+
+        if (updatedProject.errorMessage) {
+            throw new Error(updatedProject.errorMessage);
         }
 
-        return res.status(200).json(updateProject);
+        return res.status(200).json(updatedProject);
     } catch (error) {
         next(error);
     }
@@ -86,8 +98,9 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
         const { id } = req.params;
         const { currentUserId } = req;
 
-        // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         const project = await projectService.getProject({ id });
+
+        // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         if (String(currentUserId) !== String(project.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
@@ -102,21 +115,6 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
     } catch (error) {
         next(error);
     }
-});
-
-projectRouter.post("/api/projects/:id", login_required, async (req, res, next) => {
-    // 좋아요를 누르는 user
-    const user_id = req.currentUserId;
-
-    // 좋아요를 받는 project
-    const { id } = req.params;
-    const project = await projectService.getProject({ id });
-    if (!project) {
-        return res.sendStatus(404);
-    }
-    projectService.updateProject({ id }, { $push: { likes: 1 } });
-
-    return res.sendStatus(200);
 });
 
 export { projectRouter };

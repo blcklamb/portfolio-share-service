@@ -33,7 +33,7 @@ class User {
         return updatedUser;
     }
 
-    static async resetPassword({ user_id }, { password }) {
+    static async findOneAndUpdate({ user_id }, { password }) {
         const updatedPassword = await UserModel.findOneAndUpdate({ id: user_id }, { password });
         return updatedPassword;
     }

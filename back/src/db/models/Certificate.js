@@ -6,11 +6,6 @@ class Certificate {
         return createdCertificate;
     }
 
-    static async exists({ object }) {
-        const exists = await CertificateModel.exists({ object });
-        return exists;
-    }
-
     static async findById({ id }) {
         const certificate = await CertificateModel.findOne({ id });
         return certificate;
@@ -22,7 +17,7 @@ class Certificate {
     }
 
     static async update({ id }, { toUpdate }) {
-        const updatedCertificate = await CertificateModel.findOneAndUpdate({ id }, toUpdate, { returnOriginal: false });
+        const updatedCertificate = await CertificateModel.findOneAndUpdate({ id }, toUpdate, { new: true });
         return updatedCertificate;
     }
 

@@ -28,9 +28,6 @@ const ProjectSchema = new Schema(
             type: Date,
             required: false,
         },
-        likes: {
-            type: Array,
-        },
     },
     { timestamps: true },
 );

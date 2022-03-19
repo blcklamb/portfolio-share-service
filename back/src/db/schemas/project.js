@@ -14,10 +14,12 @@ const ProjectSchema = new Schema(
         title: {
             type: String,
             required: true,
+            trim: true,
         },
         description: {
             type: String,
             required: false,
+            trim: true,
             default: "설명이 아직 없습니다. 추가해 주세요.",
         },
         from_date: {

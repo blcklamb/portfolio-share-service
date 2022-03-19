@@ -11,10 +11,12 @@ const UserSchema = new Schema(
             required: true,
             immutable: true,
             unique: true,
+            trim: true,
         },
         name: {
             type: String,
             required: true,
+            trim: true,
         },
         password: {
             type: String,
@@ -23,6 +25,7 @@ const UserSchema = new Schema(
         description: {
             type: String,
             required: false,
+            trim: true,
             default: "설명을 입력해 주세요.",
         },
         image: {

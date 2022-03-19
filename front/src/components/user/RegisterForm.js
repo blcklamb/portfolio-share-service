@@ -52,7 +52,6 @@ function RegisterForm() {
         reader.readAsDataURL(e.target.files[i]);
         reader.onloadend = () => {
           const base64 = reader.result;
-          console.log(base64);
           if (base64) {
             let base64Sub = base64.toString();
             setImageBase64(current => [...current, base64Sub])

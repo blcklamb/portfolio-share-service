@@ -11,7 +11,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
             style={{ width: "10rem", height: "8rem" }}
             className="mb-3"
             src = {user?.image}
-            alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+            alt="회원가입 시 업로드 (AWS 버킷 사용)"
           />
         </Row>
         <Card.Title>{user?.name}</Card.Title>

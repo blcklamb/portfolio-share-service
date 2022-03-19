@@ -10,15 +10,51 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   // useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
 
+  // useState로 imageBase64, image 상태를 생성함.
+  const [imageBase64, setImageBase64] = useState([]);
+  const [image, setImage] = useState(null)
+
+  // useState로 이미지 편집 상태를 생성함.
+  const [isImageEdit, setIsImageEdit] = useState(false)
+
+  // 이미지 업로드를 위한 함수
+  const handleImageUpload = (e) => {
+    e.preventDefault();
+    setImage(e.target.files);
+    setImageBase64([])
+    setIsImageEdit(true)
+    for (let i = 0; i < e.target.files.length; i++) {
+      if (e.target.files[i]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]);
+        reader.onloadend = () => {
+          const base64 = reader.result;
+          if (base64) {
+            let base64Sub = base64.toString();
+            setImageBase64(current => [...current, base64Sub])
+          }
+        }
+      }
+    }
+
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // "users/유저id" 엔드포인트로 PUT 요청함.
-    const res = await Api.put(`user/current`, {
-      name,
-      email,
-      description,
-    });
+    const userFormData = new FormData();
+    if (!image) {
+      setImage(user?.image);
+      Object.values(image).forEach((file) => userFormData.append("image", image));
+    } else {
+      Object.values(image).forEach((file) => userFormData.append("image", file));
+    }
+
+    userFormData.append("name", name);
+    userFormData.append("description", description);
+
+    // "user/current" 엔드포인트로 PUT 요청함.
+    const res = await Api.imgPut(`user/current`, userFormData);
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
     // 해당 유저 정보로 user을 세팅함.
@@ -32,6 +68,41 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="EditImage" className="mt-3">
+            {!isImageEdit ? (
+              <Card.Img
+                style={{ width: "10rem", height: "8rem" }}
+                className="mb-3"
+                src={user?.image}
+                alt="회원가입 시 업로드 (AWS 버킷 사용)"
+              />
+            ) : (
+              <>
+              {
+                imageBase64.map((item) => {
+                  return (
+                    <img
+                      className="my-3"
+                      src={item}
+                      value={image}
+                      alt="First Slide"
+                      style={{ width: "10rem", height: "8rem" }}
+                    />
+                  )
+                })
+              }
+              </>
+            )}
+
+
+            <Form.Control className="mb-3"
+              type="file"
+              autoComplete="off"
+              multiple="multiple"
+              onChange={handleImageUpload}
+              accept='image/*'
+            />
+          </Form.Group>
           <Form.Group controlId="useEditName" className="mb-3">
             <Form.Control
               type="text"

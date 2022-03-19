@@ -1,0 +1,22 @@
+{
+    "name": "portfolio-share-service",
+    "version": "0.0.1",
+    "description": "이 프로젝트는 자기자신의 포트폴리오를 작성하고, 또한 다른 사람의 포트폴리오를 확인할 수 있는 웹 서비스입니다. \\ 웹 구현 예시: http://34.64.140.205/",
+    "scripts": {
+        "back": "npm start --prefix back",
+        "front": "npm start --prefix front",
+        "start": "concurrently \"npm run back\" \"npm run front\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://kdt-gitlab.elice.io/ai_track/class_04/web_project/team12/portfolio-share-service.git"
+    },
+    "author": "Elice AI 4th Team12",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.17.8",
+        "@babel/node": "^7.16.8",
+        "@babel/preset-env": "^7.16.11",
+        "concurrently": "^7.0.0"
+    }
+}

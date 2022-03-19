@@ -4,7 +4,13 @@ import { Container, Col, Row } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
+
+// components
+import Edus from "./education/Edus"
+import Awards from "./award/Awards"
 import User from "./user/User";
+import Certificates from "./certificate/Certificates";
+import Projects from "./project/Projects"
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -60,12 +66,31 @@ function Portfolio() {
             isEditable={portfolioOwner.id === userState.user?.id}
           />
         </Col>
-        <Col>
-
-          <div style={{ textAlign: "center" }}>
-            학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-          </div>
-
+        <Col className="mx-3">
+          <Row className="mb-3">
+            <Edus
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row className="mb-3">
+            <Awards
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row className="mb-3">
+            <Certificates
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row className="mb-3">
+            <Projects
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
         </Col>
       </Row>
     </Container>

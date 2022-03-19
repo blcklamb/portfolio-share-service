@@ -16,6 +16,10 @@ function RegisterForm() {
   // useState로 name 상태를 생성함.
   const [name, setName] = useState("");
 
+  // useState로 imageBase64, image 상태를 생성함.
+  const [imageBase64, setImageBase64] = useState([]);
+  const [image, setImage] = useState(null)
+
   // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
     return email
@@ -37,16 +41,40 @@ function RegisterForm() {
   const isFormValid =
     isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
 
+  // 이미지 업로드를 위한 함수
+  const handleImageUpload = (e) => {
+    e.preventDefault();
+    setImage(e.target.files);
+    setImageBase64([])
+    for (let i = 0; i < e.target.files.length; i++) {
+      if (e.target.files[i]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]);
+        reader.onloadend = () => {
+          const base64 = reader.result;
+          console.log(base64);
+          if (base64) {
+            let base64Sub = base64.toString();
+            setImageBase64(current => [...current, base64Sub])
+          }
+        }
+      }
+    }
+
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
+    const userFormData = new FormData();
+    Object.values(image).forEach((file) => userFormData.append("image", file));
+    userFormData.append("email", email);
+    userFormData.append("password", password)
+    userFormData.append("name", name);
+    
     try {
       // "user/register" 엔드포인트로 post요청함.
-      await Api.post("user/register", {
-        email,
-        password,
-        name,
-      });
+      await Api.imgPost("user/register", userFormData);
 
       // 로그인 페이지로 이동함.
       navigate("/login");
@@ -118,6 +146,28 @@ function RegisterForm() {
                   이름은 2글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
+            </Form.Group>
+
+            <Form.Group controlId="registerImage" className="mt-3">
+              <Form.Label>프로필 이미지 업로드</Form.Label>
+              <Form.Control
+                type="file"
+                autoComplete="off"
+                multiple="multiple"
+                onChange={handleImageUpload}
+                accept ='image/*'
+              />
+              {imageBase64.map((item) => {
+                return (
+                  <img
+                    className="d-block w-100"
+                    src={item}
+                    value={image}
+                    alt="First Slide"
+                    style={{ width: "100%", height: "550px" }}
+                  />
+                )
+              })}
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">

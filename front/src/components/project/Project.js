@@ -17,6 +17,7 @@ const Project = ({ project, setProjects, isEditable }) => {
             ) : (
                 <ProjectCard 
                     project={project}
+                    setProjects={setProjects}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
                 />

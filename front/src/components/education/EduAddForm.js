@@ -12,6 +12,12 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
   const [major, setMajor] = useState("");
   // useState로 position 상태를 생성함.
   const [position, setPosition] = useState();
+
+  // 추가하려는 정보가 입력됐는지 여부를 확인함.
+  const isSchoolValid = school.length >= 1;
+  const isMajorValid = major.length >= 1;
+  const isPositionValid = position != null
+  const isFormValid = isSchoolValid && isMajorValid && isPositionValid
   
 
   const handleSubmit = async (e) => {
@@ -53,6 +59,11 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
                 onChange={(e) => setSchool(e.target.value)}
               />
             </FloatingLabel>
+            {!isSchoolValid && (
+                <Form.Text className="text-success m-2">
+                  학교 이름 입력 필수
+                </Form.Text>
+              )}
           </Form.Group>
         </Col>
         <Col md>
@@ -69,6 +80,11 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
                 onChange={(e) => setMajor(e.target.value)}
               />
             </FloatingLabel>
+            {!isMajorValid && (
+                <Form.Text className="text-success m-2">
+                  전공 입력 필수
+                </Form.Text>
+              )}
           </Form.Group>
         </Col>
       </Row>
@@ -77,12 +93,17 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
           position={position}
           setPosition={setPosition}
         />
+        {!isPositionValid && (
+                <Form.Text className="text-success m-2">
+                  학위 선택 필수
+                </Form.Text>
+              )}
       </Form.Group>
 
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3">
+          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
             확인
           </Button>
           <Button variant="secondary" onClick={() => setIsAdding(false)}>

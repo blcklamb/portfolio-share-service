@@ -14,6 +14,12 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
     // useState로 position 상태를 생성함.
     const [position, setPosition] = useState(currentEdu.position);
 
+    // 추가하려는 정보가 입력됐는지 여부를 확인함.
+    const isSchoolValid = school.length >= 1;
+    const isMajorValid = major.length >= 1;
+    const isPositionValid = position != null
+    const isFormValid = isSchoolValid && isMajorValid && isPositionValid
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -47,6 +53,11 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
                     value={school}
                     onChange={(e) => setSchool(e.target.value)}
                 />
+                {!isSchoolValid && (
+                <Form.Text className="text-success m-2">
+                  학교 이름 입력 필수
+                </Form.Text>
+              )}
             </Form.Group>
 
             <Form.Group controlId="formBasicMajor" className="mt-3">
@@ -56,17 +67,27 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
                     value={major}
                     onChange={(e) => setMajor(e.target.value)}
                 />
+                {!isMajorValid && (
+                <Form.Text className="text-success m-2">
+                  전공 입력 필수
+                </Form.Text>
+              )}
             </Form.Group>
             <Form.Group controlId="formBasicRadio" >
                 <EduRadioForm
                     position={position}
                     setPosition={setPosition}
-                    />
+                />
+                {!isPositionValid && (
+                <Form.Text className="text-success m-2">
+                  학위 선택 필수
+                </Form.Text>
+              )}
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center mb-4">
                 <Col sm={{ span: 20 }}>
-                    <Button variant="primary" type="submit" className="me-3">
+                    <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
                         확인
                     </Button>
                     <Button variant="secondary" onClick={() => setIsEditing(false)}>

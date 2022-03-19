@@ -55,6 +55,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicWhenDate" className="mt-3">
+                    <span>취득일</span>
                     <DatePicker
                         selected={when_date}
                         onChange={(date) => {setWhenDate(date)}}

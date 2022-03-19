@@ -17,6 +17,7 @@ const Certificate = ({ certificate, setCertificates, isEditable }) => {
             ) : (
                 <CertificateCard 
                     certificate={certificate}
+                    setCertificates={setCertificates}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
                 />

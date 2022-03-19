@@ -59,8 +59,17 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 
 userAuthRouter.get("/userlist", login_required, async function (req, res, next) {
     try {
-        // 전체 사용자 목록을 얻음
-        const users = await userAuthService.getUsers();
+        /* Pagination */
+        const perPage = Number(req.query.perPage || 12);
+        const page = Number(req.query.page || 1);
+
+        const [usersCount, users] = await Promise.all([
+            // 전체 사용자 수를 얻음
+            userAuthService.getUsersCount(),
+            // 전체 사용자 목록을 얻음
+            userAuthService.getUsers({ perPage, page }),
+        ]);
+
         return res.status(200).send(users);
     } catch (error) {
         next(error);

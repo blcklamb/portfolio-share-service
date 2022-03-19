@@ -70,7 +70,7 @@ userAuthRouter.get("/userlist", login_required, async function (req, res, next) 
             userAuthService.getUsers({ perPage, page }),
         ]);
 
-        return res.status(200).send(users);
+        return res.status(200).json({ users, page, perPage, usersCount});
     } catch (error) {
         next(error);
     }

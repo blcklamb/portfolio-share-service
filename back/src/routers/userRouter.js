@@ -169,7 +169,10 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
 
 userAuthRouter.post("/change-password", login_required, async (req, res, next) => {
     try {
+        // req.headers의 Authorization 토큰에서 받아온 currentUserId 값을 user_id로 정의
+        // req.currentUserId는 login-required middleware에서 정의하고 있음
         const user_id = req.currentUserId;
+        // user_id를 통해 받아온 사용자 정보를 user에 정의
         const user = await userAuthService.getUserInfo({ user_id });
         const { oldpassword, password, passwordConfirm } = req.body;
         console.log(user);

@@ -158,7 +158,7 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
 
         await sendMail(
             email, //
-            "임시 비밀번호가 발급되었습니다",
+            "[Portfolio Share Service] 임시 비밀번호가 발급되었습니다",
             `회원님의 임시 비밀번호는 [${newPassword}] 입니다.\n로그인 후 비밀번호를 변경해주세요.`,
         );
         return res.json({ result: "success" });

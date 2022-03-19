@@ -141,10 +141,9 @@ class userAuthService {
 
     static async setPassword({ user_id, password }) {
         console.log(user_id, password);
-        const newPassword = User.resetPassword({ user_id, password });
+        const newPassword = await User.resetPassword({ user_id, password });
         return newPassword;
     }
-
 }
 
 export { userAuthService };

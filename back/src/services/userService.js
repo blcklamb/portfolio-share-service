@@ -65,9 +65,14 @@ class userAuthService {
         return loginUser;
     }
 
-    static async getUsers() {
-        const users = await User.findAll();
+    static async getUsers({ perPage, page }) {
+        const users = await User.findAll({ perPage, page });
         return users;
+    }
+
+    static async getUsersCount() {
+        const usersCount = await User.countDocuments({});
+        return usersCount;
     }
 
     static async setUser({ user_id, toUpdate }) {
@@ -139,6 +144,7 @@ class userAuthService {
         const newPassword = User.resetPassword({ user_id, password });
         return newPassword;
     }
+
 }
 
 export { userAuthService };

@@ -16,8 +16,11 @@ class User {
         return user;
     }
 
-    static async findAll() {
-        const users = await UserModel.find({});
+    static async findAll({ perPage, page }) {
+        const users = await UserModel.find({})
+            .sort({ created: -1 })
+            .skip(perPage * (page - 1))
+            .limit(perPage);
         return users;
     }
 
@@ -33,6 +36,11 @@ class User {
     static async resetPassword({ email, password }) {
         const updatedPassword = await UserModel.findOneAndUpdate({ email, password });
         return updatedPassword;
+    }
+
+    static async countDocuments() {
+        const usersCount = await UserModel.countDocuments({});
+        return usersCount;
     }
 }
 

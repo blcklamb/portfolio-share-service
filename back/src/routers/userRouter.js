@@ -151,10 +151,10 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
         }
 
         const newPassword = generatePassword();
-        await userAuthService.setPassword({
-            user_id: user.id,
-            password: await bcrypt.hash(newPassword, 10),
-        });
+        await userAuthService.setPassword(
+            { user_id: user.id }, //
+            { password: await bcrypt.hash(newPassword, 10) },
+        );
 
         await sendMail(
             email, //
@@ -183,7 +183,7 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
             throw new Error("비밀번호 확인이 일치하지 않습니다.");
         }
 
-        await userAuthService.setPassword({ user_id, password: await bcrypt.hash(password, 10) });
+        await userAuthService.setPassword({ user_id }, { password: await bcrypt.hash(password, 10) });
         return res.status(201).json({ result: "success" });
     } catch (err) {
         next(err);

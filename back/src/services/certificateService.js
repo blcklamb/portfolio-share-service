@@ -35,15 +35,15 @@ class certificateService {
         return certificates;
     }
 
-    static async updateCertificate({ id }, toUpdate) {
+    static async updateCertificate({ id }, { toUpdate }) {
         const certificate = await this.getCertificate({ id });
 
         if (!certificate) {
             const errorMessage = "프로젝트를 찾을 수 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
-
-        const updateCertificate = await Certificate.update(certificate, toUpdate);
+        console.log({ id }, { toUpdate });
+        const updateCertificate = await Certificate.update({ id }, { toUpdate });
 
         return updateCertificate;
     }

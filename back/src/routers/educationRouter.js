@@ -12,14 +12,6 @@ educationRouter.post(
       // 받은 데이터
       const { user_id, school, major, position } = req.body;
 
-      // 사용자 찾기
-      const foundUser = await userAuthService.getUserInfo({ user_id });
-
-      // 사용자가 존재하지 않는 경우
-      if(foundUser.errorMessage) {
-        throw new Error(foundUser.errorMessage);
-      }
-
       // 새 학력 저장
       const newEducation = await educationService.addEducation({
         user_id,
@@ -47,7 +39,7 @@ educationRouter.get("/educations/:id?", async (req, res, next) => {
     const { id } = req.params;
 
     // 학력 정보 가져오기
-    const foundEducation = await educationService.getEducationById({ id });
+    const foundEducation = await educationService.getEducation({ id });
 
     // 학력 조회 실패한 경우
     if (foundEducation.errorMessage) {
@@ -67,7 +59,7 @@ educationRouter.get("/educationlist/:user_id?", async (req, res, next) => {
     const { user_id } = req.params;
 
     // 학력 가져오기
-    const foundEducations = await educationService.getEducationsByUserId({
+    const foundEducations = await educationService.getEducations({
       user_id,
     });
 
@@ -93,7 +85,7 @@ educationRouter.put(
       const { school, major, position } = req.body;
 
       // 학력 수정
-      const updatedEducation = await educationService.setEducationById({
+      const updatedEducation = await educationService.setEducation({
         id,
         school,
         major,

@@ -7,7 +7,7 @@ class Education {
   }
 
   static async findByUserId({ user_id }) {
-    const foundEducation = await EducationModel.find({ user_id : user_id });
+    const foundEducation = await EducationModel.find({ user_id: user_id });
     return foundEducation;
   }
 
@@ -18,7 +18,11 @@ class Education {
 
   static async update({ id, school, major, position }) {
     const option = { returnOriginal: false };
-    const updatedEducation = await EducationModel.findOneAndUpdate({ id }, { school, major, position}, option);
+    const updatedEducation = await EducationModel.findOneAndUpdate(
+      { id },
+      { school, major, position },
+      option
+    );
     return updatedEducation;
   }
 

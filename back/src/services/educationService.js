@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 class educationService {
   static async addEducation({ user_id, school, major, position }) {
     // 학력 조회 및 중복 확인
-    const preEducation = await this.getEducationsByUserId({ user_id });
+    const preEducation = await this.getEducations({ user_id });
 
     for(let i = 0; i < preEducation.length; i++) {
-      if (preEducation[i]?.school === school && preEducation[i]?.major === major) {
+      if (preEducation[i]?.school === school && preEducation[i]?.major === major && preEducation[i]?.position === position) {
         const errorMessage = "이미 입력한 학력입니다.";
         return { errorMessage };
       }
@@ -25,7 +25,7 @@ class educationService {
     return createdNewEducation;
   }
 
-  static async getEducationById({ id }) {
+  static async getEducation({ id }) {
     // 학력 조회
     const foundEducation = await Education.findById({ id });
     
@@ -41,19 +41,16 @@ class educationService {
     return foundEducation;
   }
 
-  static async getEducationsByUserId({ user_id }) {
+  static async getEducations({ user_id }) {
     // 학력 조회
     const foundEducations = await Education.findByUserId({ user_id });
-
-    // 학력 조회에 성공한 경우 에러메세지 제거
-    foundEducations.errorMessage = null;
 
     return foundEducations;
   }
 
-  static async setEducationById({ id, school, major, position }) {
+  static async setEducation({ id, school, major, position }) {
     // 기존 학력 조회
-    const foundEducation = await this.getEducationById({ id });
+    const foundEducation = await this.getEducation({ id });
 
     // 존재하지 않는 학력인 경우
     if(foundEducation.errorMessage) {
@@ -82,7 +79,7 @@ class educationService {
 
   static async deleteEducation({ id }) {
     // 학력 찾기
-    const foundEducation = await this.getEducationById({ id });
+    const foundEducation = await this.getEducation({ id });
 
     // 학력을 못 찾은 경우
     if(foundEducation.errorMessage) {

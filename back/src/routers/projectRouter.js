@@ -24,7 +24,6 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
             from_date,
             to_date,
         });
-
         if (newProject.errorMessage) {
             throw new Error(newProject.errorMessage);
         }
@@ -40,7 +39,6 @@ projectRouter.get("/projects/:id", async function (req, res, next) {
         const { id } = req.params;
 
         const project = await projectService.getProject({ id });
-
         if (project.errorMessage) {
             throw new Error(project.errorMessage);
         }
@@ -56,7 +54,6 @@ projectRouter.get("/projectlist/:user_id", async function (req, res, next) {
         const { user_id } = req.params;
 
         const projects = await projectService.getProjectAll({ user_id });
-
         if (projects.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
         }
@@ -75,14 +72,12 @@ projectRouter.put("/projects/:id", login_required, async (req, res, next) => {
         const toUpdate = { title, description, from_date, to_date };
 
         const project = await projectService.getProject({ id });
-
         // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         if (user_id !== project.user_id) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
         const updatedProject = await projectService.setProject({ id }, { toUpdate });
-
         if (updatedProject.errorMessage) {
             throw new Error(updatedProject.errorMessage);
         }
@@ -99,14 +94,12 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
         const { currentUserId } = req;
 
         const project = await projectService.getProject({ id });
-
         // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
         if (String(currentUserId) !== String(project.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
         const deletedProject = await projectService.deleteProject({ id });
-
         if (deletedProject.errorMessage) {
             throw new Error(deletedProject.errorMessage);
         }

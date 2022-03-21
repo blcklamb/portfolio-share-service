@@ -17,11 +17,18 @@ class userAuthService {
 
         // id 는 유니크 값 부여
         const id = uuidv4();
-        const newUser = { id, name, email, password: hashedPassword, description, image };
+        const newUser = {
+            id,
+            name,
+            email,
+            password: hashedPassword,
+            description,
+            image,
+            socialLogin: false,
+        };
 
         // db에 저장
         const createdNewUser = await User.create({ newUser });
-        createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
         return createdNewUser;
     }
@@ -35,22 +42,17 @@ class userAuthService {
         }
 
         // 비밀번호 일치 여부 확인
-        const correctPasswordHash = user.password;
-        const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if (!isPasswordCorrect) {
             const errorMessage = "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
-        const secretKey = process.env.JWT_SECRET_KEY;
-        const token = jwt.sign({ user_id: user.id }, secretKey);
+        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY);
 
         // 반환할 loginuser 객체를 위한 변수 설정
-        const id = user.id;
-        const name = user.name;
-        const description = user.description;
-        const image = user.image;
+        const { id, name, description, image } = user;
 
         const loginUser = {
             token,
@@ -84,38 +86,32 @@ class userAuthService {
             const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
-
         // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
         if (toUpdate.name) {
             const fieldToUpdate = "name";
             const newValue = toUpdate.name;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
-
         if (toUpdate.email) {
             const fieldToUpdate = "email";
             const newValue = toUpdate.email;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
-
         if (toUpdate.password) {
             const fieldToUpdate = "password";
             const newValue = toUpdate.password;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
-
         if (toUpdate.description) {
             const fieldToUpdate = "description";
             const newValue = toUpdate.description;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
-
         if (toUpdate.image) {
             const fieldToUpdate = "image";
             const newValue = toUpdate.image;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
-
         if (toUpdate.likes) {
             const fieldToUpdate = "likes";
             const newValue = toUpdate.likes;
@@ -125,7 +121,7 @@ class userAuthService {
         return user;
     }
 
-    static async getUserInfo({ user_id }) {
+    static async getUserById({ user_id }) {
         // getUser는 로그인 시, getUserInfo는 유저 정보 조희시
         const user = await User.findById({ user_id });
         // db에서 찾지 못한 경우, 에러 메시지 반환
@@ -149,6 +145,24 @@ class userAuthService {
     static setPassword({ user_id }, { password }) {
         // password 이외 데이터 변경의 경우 setUser로 처리
         return User.findOneAndUpdate({ user_id }, { password });
+    }
+
+    static async addSocialUser({ name, email, description, image }) {
+        // id 는 유니크 값 부여
+        const id = uuidv4();
+        const newUser = {
+            id,
+            name,
+            email,
+            description,
+            image,
+            socialLogin: true,
+        };
+
+        // db에 저장
+        const createdNewUser = await User.create({ newUser });
+
+        return createdNewUser;
     }
 }
 

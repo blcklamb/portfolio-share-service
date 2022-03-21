@@ -20,7 +20,7 @@ const UserSchema = new Schema(
         },
         password: {
             type: String,
-            required: true,
+            required: false,
         },
         description: {
             type: String,
@@ -35,6 +35,10 @@ const UserSchema = new Schema(
         },
         likes: {
             type: Array,
+        },
+        socialLogin: {
+            type: Boolean,
+            required: true,
         },
     },
     { timestamps: true },

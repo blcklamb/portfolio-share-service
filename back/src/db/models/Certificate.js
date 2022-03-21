@@ -1,29 +1,24 @@
 import { CertificateModel } from "../schemas/Certificate";
 
 class Certificate {
-    static async create({ newCertificate }) {
-        const createdCertificate = await CertificateModel.create(newCertificate);
-        return createdCertificate;
+    static create({ newCertificate }) {
+        return CertificateModel.create(newCertificate);
     }
 
-    static async findById({ id }) {
-        const certificate = await CertificateModel.findOne({ id });
-        return certificate;
+    static findById({ id }) {
+        return CertificateModel.findOne({ id });
     }
 
-    static async findAll({ user_id }) {
-        const certificates = await CertificateModel.find({ user_id });
-        return certificates;
+    static findAll({ user_id }) {
+        return CertificateModel.find({ user_id });
     }
 
-    static async update({ id }, { toUpdate }) {
-        const updatedCertificate = await CertificateModel.findOneAndUpdate({ id }, toUpdate, { new: true });
-        return updatedCertificate;
+    static update({ id }, { toUpdate }) {
+        return CertificateModel.findOneAndUpdate({ id }, toUpdate, { new: true });
     }
 
-    static async delete({ id }) {
-        const updatedCertificate = await CertificateModel.findOneAndDelete({ id });
-        return updatedCertificate;
+    static delete({ id }) {
+        return CertificateModel.findOneAndDelete({ id });
     }
 }
 

@@ -126,6 +126,7 @@ class userAuthService {
     }
 
     static async getUserInfo({ user_id }) {
+        // getUser는 로그인 시, getUserInfo는 유저 정보 조희시
         const user = await User.findById({ user_id });
         // db에서 찾지 못한 경우, 에러 메시지 반환
         if (!user) {
@@ -145,10 +146,9 @@ class userAuthService {
         return user;
     }
 
-    static async setPassword({ user_id }, { password }) {
+    static setPassword({ user_id }, { password }) {
         // password 이외 데이터 변경의 경우 setUser로 처리
-        const newPassword = await User.findOneAndUpdate({ user_id }, { password });
-        return newPassword;
+        return User.findOneAndUpdate({ user_id }, { password });
     }
 }
 

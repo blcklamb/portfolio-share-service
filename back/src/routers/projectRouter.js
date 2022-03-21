@@ -9,13 +9,12 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
         const user_id = req.currentUserId;
         const { title, description, from_date, to_date } = req.body;
 
-        // 로그인 된 유저의 모든 project를 불러온 후 map을 이용해 title만 남김.
+        // 로그인 된 유저의 모든 project를 불러온 후 겹치는 제목이 있을경우 에러 발생.
         const projects = await projectService.getProjectAll({ user_id });
-        const userProjects = projects.filter((project) => (project.user_id = user_id));
-        const userProjectTitles = userProjects.map((userProject) => userProject.title);
-
-        if (userProjectTitles.includes(title)) {
-            throw new Error("이미 사용중인 제목입니다.");
+        for (let i = 0; i > projects.length; i++) {
+            if (projects[i].title === title) {
+                throw new Error("이미 사용중인 제목입니다.");
+            }
         }
 
         const newProject = await projectService.addProject({
@@ -39,6 +38,7 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
 projectRouter.get("/projects/:id", async function (req, res, next) {
     try {
         const { id } = req.params;
+
         const project = await projectService.getProject({ id });
 
         if (project.errorMessage) {

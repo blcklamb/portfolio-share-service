@@ -1,29 +1,24 @@
 import { ProjectModel } from "../schemas/Project";
 
 class Project {
-    static async create({ newProject }) {
-        const createdProject = await ProjectModel.create(newProject);
-        return createdProject;
+    static create({ newProject }) {
+        return ProjectModel.create(newProject);
     }
 
-    static async findById({ id }) {
-        const project = await ProjectModel.findOne({ id });
-        return project;
+    static findById({ id }) {
+        return ProjectModel.findOne({ id });
     }
 
-    static async findAll({ user_id }) {
-        const projects = await ProjectModel.find({ user_id });
-        return projects;
+    static findAll({ user_id }) {
+        return ProjectModel.find({ user_id });
     }
 
-    static async update({ id }, { toUpdate }) {
-        const updatedProject = await ProjectModel.findOneAndUpdate({ id }, toUpdate, { new: true });
-        return updatedProject;
+    static update({ id }, { toUpdate }) {
+        return ProjectModel.findOneAndUpdate({ id }, toUpdate, { new: true });
     }
 
-    static async delete({ id }) {
-        const updatedProject = await ProjectModel.findOneAndDelete({ id });
-        return updatedProject;
+    static delete({ id }) {
+        return ProjectModel.findOneAndDelete({ id });
     }
 }
 

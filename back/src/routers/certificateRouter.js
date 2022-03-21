@@ -6,20 +6,19 @@ const certificateRouter = Router();
 
 certificateRouter.post("/certificate/create", login_required, async (req, res, next) => {
     try {
-        const { currentUserId } = req;
+        const user_id = req.currentUserId;
         const { title, description, when_date } = req.body;
 
-        // 로그인 된 유저의 모든 certificate를 불러온 후 map을 이용해 title만 남김.
+        // 로그인 된 유저의 모든 certificate를 불러온 후 겹치는 제목이 있을경우 에러 발생.
         const certificates = await certificateService.getCertificateAll({ user_id });
-        const userCertificates = certificates.filter((certificate) => (certificate.user_id = user_id));
-        const userCertificateTitles = userCertificates.map((userCertificate) => userCertificate.title);
-
-        if (userCertificateTitles.includes(title)) {
-            throw new Error("이미 사용중인 제목입니다.");
+        for (let i = 0; i > certificates.length; i++) {
+            if (certificates[i].title === title) {
+                throw new Error("이미 사용중인 제목입니다.");
+            }
         }
 
         const newCertificate = await certificateService.addCertificate({
-            user_id: currentUserId,
+            user_id,
             title,
             description,
             when_date,

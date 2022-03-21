@@ -95,7 +95,7 @@ projectRouter.delete("/projects/:id", login_required, async (req, res, next) => 
 
         const project = await projectService.getProject({ id });
         // req.currentUserId의 값과 project.user_id의 값을 비교해 관리자 인증
-        if (String(currentUserId) !== String(project.user_id)) {
+        if (currentUserId !== project.user_id) {
             throw new Error("접근할 권한이 없습니다.");
         }
 

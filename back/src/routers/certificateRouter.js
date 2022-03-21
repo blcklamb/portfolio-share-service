@@ -72,11 +72,11 @@ certificateRouter.put("/certificates/:id", login_required, async (req, res, next
 
         const certificate = await certificateService.getCertificate({ id });
         // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
-        if (String(user_id) !== String(certificate.user_id)) {
+        if (user_id !== certificate.user_id) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
-        const updatedCertificate = await certificateService.updateCertificate({ id }, { toUpdate });
+        const updatedCertificate = await certificateService.setCertificate({ id }, { toUpdate });
         if (updatedCertificate.errorMessage) {
             throw new Error(updatedCertificate.errorMessage);
         }
@@ -94,7 +94,7 @@ certificateRouter.delete("/certificates/:id", login_required, async (req, res, n
 
         const certificate = await certificateService.getCertificate({ id });
         // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
-        if (String(currentUserId) !== String(certificate.user_id)) {
+        if (currentUserId !== certificate.user_id) {
             throw new Error("접근할 권한이 없습니다.");
         }
 

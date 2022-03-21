@@ -30,7 +30,6 @@ app.use(educationRouter);
 app.use(certificateRouter);
 app.use(projectRouter);
 app.use(blogRouter);
-
 app.use(awardAuthRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)

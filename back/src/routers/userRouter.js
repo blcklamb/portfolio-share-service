@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import fetch from "node-fetch";
 import { Router } from "express";
 import { uploadImage } from "../middlewares/uploadImage";
@@ -28,7 +29,6 @@ userAuthRouter.post("/user/register", uploadImage.single("image"), async functio
             description,
             image: !file ? undefined : file.location,
         });
-
         if (newUser.errorMessage) {
             throw new Error(newUser.errorMessage);
         }
@@ -47,7 +47,6 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
 
         // 위 데이터를 이용하여 유저 db에서 유저 찾기
         const user = await userAuthService.getUser({ email, password });
-
         if (user.errorMessage) {
             throw new Error(user.errorMessage);
         }
@@ -81,8 +80,8 @@ userAuthRouter.get("/user/current", login_required, async function (req, res, ne
     try {
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const user_id = req.currentUserId;
-        const currentUserInfo = await userAuthService.getUserInfo({ user_id });
 
+        const currentUserInfo = await userAuthService.getUserById({ user_id });
         if (currentUserInfo.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
         }
@@ -97,7 +96,7 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
     try {
         // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
         const user_id = req.currentUserId;
-        const currentUserInfo = await userAuthService.getUserInfo({ user_id });
+        const currentUserInfo = await userAuthService.getUserById({ user_id });
         // req.body에서 업데이트할 사용자 정보를 받아옴. req.file은 uploadImage middleware에서 정의.
         const name = req.body.name ?? null;
         const password = req.body.password ?? null;
@@ -113,7 +112,6 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
 
         // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
         const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
         if (updatedUser.errorMessage) {
             throw new Error(updatedUser.errorMessage);
         }
@@ -127,8 +125,8 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
 userAuthRouter.get("/users/:id", async function (req, res, next) {
     try {
         const { id } = req.params;
-        const currentUserInfo = await userAuthService.getUserInfo({ user_id: id });
 
+        const currentUserInfo = await userAuthService.getUserById({ user_id: id });
         if (currentUserInfo.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
         }
@@ -144,7 +142,6 @@ userAuthRouter.post("/reset-password", async (req, res, next) => {
         const { name, email } = req.body;
         // name은 중복의 여지가 있기 때문에, email로 유저 정보를 받아온 뒤 name으로 재확인
         const user = await userAuthService.getUserByEmail({ email });
-
         if (user.errorMessage) {
             throw new Error(user.errorMessage);
         }
@@ -176,8 +173,8 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
         // req.headers의 Authorization 토큰에서 받아온 currentUserId 값을 user_id로 정의
         // req.currentUserId는 login-required middleware에서 정의하고 있음
         const user_id = req.currentUserId;
-        // user_id를 통해 받아온 사용자 정보를 user에 정의, getUserInfo는 UserModel.findOne({ user_id })
-        const user = await userAuthService.getUserInfo({ user_id });
+        // user_id를 통해 받아온 사용자 정보를 user에 정의, getUserById UserModel.findOne({ user_id })
+        const user = await userAuthService.getUserById({ user_id });
         const { oldpassword, password, passwordConfirm } = req.body;
 
         if (!(await bcrypt.compare(oldpassword, user.password))) {
@@ -201,9 +198,9 @@ userAuthRouter.post("/api/users/:id", login_required, async (req, res, next) => 
     const user_id = req.currentUserId;
     // 좋아요를 받는 project
     const { id } = req.params;
-    // user_id로 불러온 유저 데이터의 id를 사용해 나름(?) 인증 고도화. 필요 없으면 삭제하겠음.
-    const user = await userAuthService.getUserInfo({ user_id });
 
+    // user_id로 불러온 유저 데이터의 id를 사용해 나름(?) 인증 고도화. 필요 없으면 삭제하겠음.
+    const user = await userAuthService.getUserById({ user_id });
     if (!user) {
         return res.sendStatus(404);
     }
@@ -233,6 +230,7 @@ userAuthRouter.get("/login/github", async (req, res) => {
 });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {
+    // GitHub access_token 요청
     const base = "https://github.com/login/oauth/access_token";
     const params = new URLSearchParams({
         client_id: process.env.GITHUB_ID,
@@ -247,21 +245,33 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
         },
     }).then((res) => res.json());
 
-    if (token.access_token) {
+    // 만약 access_token이 정상적으로 발급 되었다면, GitHub API 서버에서 data를 받아옴
+    // Cannot access 'token' before initialization 에러 떄문에 불필요해도 따로 정의함
+    const { access_token } = token;
+    if (access_token) {
         const api = "https://api.github.com";
         const data = await fetch(`${api}/user`, {
             headers: {
-                Authorization: `token ${token.access_token}`,
+                Authorization: `token ${access_token}`,
             },
         }).then((res) => res.json());
 
-        console.log({
-            email: data.email,
-            name: data.name,
-            description: data.bio,
-            image: data.avatar_url,
-            socialLogin: true,
-        });
+        let user = await userAuthService.getUserByEmail({ email: data.email });
+        // getUserByEmail은 해당 이메일의 가입 내역이 없을떄 만 errorMessage를 반환함
+        if (user.errorMessage) {
+            user = await userAuthService.addSocialUser({
+                name: data.name,
+                email: data.email,
+                description: data.bio,
+                image: data.avatar_url,
+            });
+        } else {
+            // throw new Error("이미 가입된 이메일입니다. 다시 로그인 해주세요.");
+        }
+        jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY);
+        return res.redirect("/");
+    } else {
+        return res.redirect("/login");
     }
 });
 

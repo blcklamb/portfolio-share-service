@@ -23,7 +23,6 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
             description,
             when_date,
         });
-
         if (newCertificate.errorMessage) {
             throw new Error(newCertificate.errorMessage);
         }
@@ -39,7 +38,6 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
         const { id } = req.params;
 
         const certificate = await certificateService.getCertificate({ id });
-
         if (certificate.errorMessage) {
             throw new Error(certificate.errorMessage);
         }
@@ -55,7 +53,6 @@ certificateRouter.get("/certificatelist/:user_id", async function (req, res, nex
         const { user_id } = req.params;
 
         const certificates = await certificateService.getCertificateAll({ user_id });
-
         if (certificates.errorMessage) {
             throw new Error(currentUserInfo.errorMessage);
         }
@@ -74,14 +71,12 @@ certificateRouter.put("/certificates/:id", login_required, async (req, res, next
         const toUpdate = { title, description, when_date };
 
         const certificate = await certificateService.getCertificate({ id });
-
         // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
         if (String(user_id) !== String(certificate.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
         const updatedCertificate = await certificateService.updateCertificate({ id }, { toUpdate });
-
         if (updatedCertificate.errorMessage) {
             throw new Error(updatedCertificate.errorMessage);
         }
@@ -98,14 +93,12 @@ certificateRouter.delete("/certificates/:id", login_required, async (req, res, n
         const { currentUserId } = req;
 
         const certificate = await certificateService.getCertificate({ id });
-
         // req.currentUserId의 값과 Certificate.user_id의 값을 비교해 관리자 인증
         if (String(currentUserId) !== String(certificate.user_id)) {
             throw new Error("접근할 권한이 없습니다.");
         }
 
         const deletedCertificate = await certificateService.deleteCertificate({ id });
-
         if (deletedCertificate.errorMessage) {
             throw new Error(deletedCertificate.errorMessage);
         }

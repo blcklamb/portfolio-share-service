@@ -1,27 +1,23 @@
 import { UserModel } from "../schemas/User";
 
 class User {
-    static async create({ newUser }) {
-        const createdNewUser = await UserModel.create(newUser);
-        return createdNewUser;
+    static create({ newUser }) {
+        return UserModel.create(newUser);
     }
 
-    static async findOne({ email }) {
-        const user = await UserModel.findOne({ email });
-        return user;
+    static findOne({ email }) {
+        return UserModel.findOne({ email });
     }
 
-    static async findById({ user_id }) {
-        const user = await UserModel.findOne({ id: user_id });
-        return user;
+    static findById({ user_id }) {
+        return UserModel.findOne({ id: user_id });
     }
 
-    static async findAll({ perPage, page }) {
-        const users = await UserModel.find({})
+    static findAll({ perPage, page }) {
+        return UserModel.find({})
             .sort({ created: -1 })
             .skip(perPage * (page - 1))
             .limit(perPage);
-        return users;
     }
 
     static async update({ user_id, fieldToUpdate, newValue }) {
@@ -33,14 +29,12 @@ class User {
         return updatedUser;
     }
 
-    static async findOneAndUpdate({ user_id }, { password }) {
-        const updatedPassword = await UserModel.findOneAndUpdate({ id: user_id }, { password });
-        return updatedPassword;
+    static findOneAndUpdate({ user_id }, { password }) {
+        return UserModel.findOneAndUpdate({ id: user_id }, { password });
     }
 
-    static async countDocuments() {
-        const usersCount = await UserModel.countDocuments({});
-        return usersCount;
+    static countDocuments() {
+        return UserModel.countDocuments({});
     }
 }
 

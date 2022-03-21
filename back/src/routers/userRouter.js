@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import bcrypt from "bcrypt";
+import fetch from "node-fetch";
 import { Router } from "express";
 import { uploadImage } from "../middlewares/uploadImage";
 import { login_required } from "../middlewares/login_required";
@@ -221,8 +222,51 @@ userAuthRouter.post("/api/users/:id", login_required, async (req, res, next) => 
     return res.sendStatus(200);
 });
 
+userAuthRouter.get("/login/github", async (req, res) => {
+    const base = "https://github.com/login/oauth/authorize";
+    const params = new URLSearchParams({
+        client_id: process.env.GITHUB_ID,
+        scope: "read:user",
+    }).toString();
+    const url = `${base}?${params}`;
+    return res.redirect(url);
+});
+
+userAuthRouter.get("/login/github/callback", async (req, res) => {
+    const base = "https://github.com/login/oauth/access_token";
+    const params = new URLSearchParams({
+        client_id: process.env.GITHUB_ID,
+        client_secret: process.env.GITHUB_SECRET,
+        code: req.query.code,
+    }).toString();
+    const url = `${base}?${params}`;
+    const token = await fetch(url, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+        },
+    }).then((res) => res.json());
+
+    if (token.access_token) {
+        const api = "https://api.github.com";
+        const data = await fetch(`${api}/user`, {
+            headers: {
+                Authorization: `token ${token.access_token}`,
+            },
+        }).then((res) => res.json());
+
+        console.log({
+            email: data.email,
+            name: data.name,
+            description: data.bio,
+            image: data.avatar_url,
+            socialLogin: true,
+        });
+    }
+});
+
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
+userAuthRouter.get("/afterlogin", login_required, (req, res) => {
     return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 

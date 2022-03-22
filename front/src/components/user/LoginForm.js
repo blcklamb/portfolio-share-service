@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -14,6 +15,8 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   // useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
 
   // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -52,9 +55,12 @@ function LoginForm() {
         payload: user,
       });
 
+      alert.success('로그인 성공하였습니다.')
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
+      
     } catch (err) {
+      alert.error('로그인 실패하였습니다.')
       console.log("로그인에 실패하였습니다.\n", err);
     }
   };

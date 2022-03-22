@@ -10,7 +10,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
   const [description, setDescription] = useState("");
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
-  const isTitleValid = title.length >= 1;
+  const isTitleValid = !!title;
   const isDescriptionValid = description.length >= 1;
   const isFormValid = isTitleValid && isDescriptionValid 
   
@@ -24,7 +24,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
 
     // "award/create" 엔드포인트로 post요청함.
     await Api.post("award/create", {
-      user_id: portfolioOwnerId,
+      user_id,
       title,
       description,
     });

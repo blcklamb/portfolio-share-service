@@ -66,7 +66,9 @@ function RegisterForm() {
     e.preventDefault();
     
     const userFormData = new FormData();
-    Object.values(image).forEach((file) => userFormData.append("image", file));
+    if (!image) {userFormData.append("image", "")}
+    else {Object.values(image).forEach((file) => userFormData.append("image", file));}
+    
     userFormData.append("email", email);
     userFormData.append("password", password)
     userFormData.append("name", name);

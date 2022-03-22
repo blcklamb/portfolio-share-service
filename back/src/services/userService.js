@@ -125,6 +125,22 @@ class userAuthService {
         return user;
     }
 
+    static async socialLogin({ email, name, image }) {
+        // 기존 회원가입 정보 확인
+        const preData = await this.getUserByEmail({ email });
+
+        // 새로운 사용자인 경우
+        if(preData.errorMessage) {
+            const newUser = { id: uuidv4(), name, email, image };
+            const createdUser = await User.create({ newUser });
+            return createdUser;
+        }
+
+        // 기존에 저장된 사용자인 경우
+        const updatedUser = await User.updateByEmail(email, { name, image });
+        return updatedUser;    
+    }
+
     static async getUserInfo({ user_id }) {
         // getUser는 로그인 시, getUserInfo는 유저 정보 조희시
         const user = await User.findById({ user_id });

@@ -29,6 +29,15 @@ class User {
         return updatedUser;
     }
 
+    static async updateByEmail(email, { name, image }) {
+        const filter = { email: email };
+        const update = { name: name, image: image };
+        const option = { returnOriginal: false };
+
+        const upsertedUser = await UserModel.findOneAndUpdate(filter, update, option);
+        return upsertedUser;
+    }
+
     static findOneAndUpdate({ user_id }, { password }) {
         return UserModel.findOneAndUpdate({ id: user_id }, { password });
     }
@@ -36,6 +45,7 @@ class User {
     static countDocuments() {
         return UserModel.countDocuments({});
     }
+
 }
 
 export { User };

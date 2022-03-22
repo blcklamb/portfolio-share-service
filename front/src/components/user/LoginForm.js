@@ -4,6 +4,7 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
+import { GoogleLogin } from "react-google-login";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -58,6 +59,33 @@ function LoginForm() {
     }
   };
 
+  const handleFailure = async(result) => {
+    
+  };
+
+  const handleLogin = async (googleData) => {
+    try {
+      const user = await Api.post("login/google", {
+        token: googleData.tokenId,
+      })
+      .then((res) => { return res.data; });
+      // JWT 토큰은 유저 정보의 token임.
+      const jwtToken = user;
+      // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
+      sessionStorage.setItem("userToken", jwtToken);
+      // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+
+      // 기본 페이지로 이동함.
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log("로그인에 실패하였습니다.\n", err);
+    }
+  };
+
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">
@@ -95,7 +123,11 @@ function LoginForm() {
             <Row>
               <Col>
                 <Form.Group as={Row} className="m-3 text-center">
-                  <Button variant="primary" type="submit" disabled={!isFormValid}>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    disabled={!isFormValid}
+                  >
                     로그인
                   </Button>
                 </Form.Group>
@@ -109,18 +141,28 @@ function LoginForm() {
               </Col>
             </Row>
 
-
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }}>
-                <Button variant="secondary" onClick={() => navigate("/reset-password")}>
+                <Button
+                  variant="secondary"
+                  onClick={() => navigate("/reset-password")}
+                >
                   비밀번호 변경하기
                 </Button>
               </Col>
             </Form.Group>
+
+            <GoogleLogin
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              buttonText="구글로 로그인하기"
+              onSuccess={handleLogin}
+              onFailure={handleFailure}
+              cookiePolicy={"single_host_origin"}
+            />
           </Form>
         </Col>
       </Row>
-    </Container >
+    </Container>
   );
 }
 

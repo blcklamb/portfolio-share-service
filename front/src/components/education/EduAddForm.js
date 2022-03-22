@@ -14,8 +14,8 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
   const [position, setPosition] = useState();
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
-  const isSchoolValid = school.length >= 1;
-  const isMajorValid = major.length >= 1;
+  const isSchoolValid = !!school;
+  const isMajorValid = !!major;
   const isPositionValid = position != null
   const isFormValid = isSchoolValid && isMajorValid && isPositionValid
   
@@ -28,7 +28,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
     const user_id = portfolioOwnerId;
     // "education/create" 엔드포인트로 post요청함.
     await Api.post("education/create", {
-      user_id: portfolioOwnerId,
+      user_id,
       school,
       major,
       position,

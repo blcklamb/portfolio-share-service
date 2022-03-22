@@ -10,8 +10,8 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
   const [url, setUrl] = useState(currentBlog.url);
 
   // 편집하려는 정보가 입력됐는지 여부를 확인함.
-  const isServiceValid = service.length >= 1;
-  const isUrlValid = url.length >= 1;
+  const isServiceValid = !!service;
+  const isUrlValid = !!url;
   const isFormValid = isServiceValid && isUrlValid
 
 
@@ -20,7 +20,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
     e.stopPropagation();
 
     // currentBlog의 user_id를 user_id 변수에 할당함.
-    const user_id = currentBlog.user_id;
+    const { user_id } = currentBlog;
 
     // "blogs/수상 id" 엔드포인트로 PUT 요청함.
     await Api.put(`blogs/${currentBlog.id}`, {

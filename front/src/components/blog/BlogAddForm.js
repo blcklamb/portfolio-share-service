@@ -10,8 +10,8 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, setIsAdding }) {
   const [url, setUrl] = useState("");
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
-  const isServiceValid = service.length >= 1;
-  const isUrlValid = url.length >= 1;
+  const isServiceValid = !!service;
+  const isUrlValid = !!url;
   const isFormValid = isServiceValid && isUrlValid 
   
 

@@ -58,15 +58,20 @@ function LoginForm() {
       alert.success('로그인 성공하였습니다.')
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
-      
+
     } catch (err) {
       alert.error('로그인 실패하였습니다.')
-      console.log("로그인에 실패하였습니다.\n", err);
+      //console.log("로그인에 실패하였습니다.\n", err.message);
+      console.log(err)
+      
+      if(err==='비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.') {
+        
+      }
     }
   };
 
-  const handleFailure = async(result) => {
-    
+  const handleFailure = async (result) => {
+
   };
 
   const handleLogin = async (googleData) => {
@@ -74,7 +79,7 @@ function LoginForm() {
       const user = await Api.post("login/google", {
         token: googleData.tokenId,
       })
-      .then((res) => { return res.data; });
+        .then((res) => { return res.data; });
       // JWT 토큰은 유저 정보의 token임.
       const jwtToken = user.token;
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
@@ -97,35 +102,61 @@ function LoginForm() {
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="loginEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="on"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+            <h4>소셜 로그인</h4>
+            <hr></hr>
+            <Row className="mb-5 text-center">
+              <Col>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="구글로 로그인하기"
+                onSuccess={handleLogin}
+                onFailure={handleFailure}
+                cookiePolicy={"single_host_origin"}
               />
-              {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+              </Col>
+              <Col>
+              <Button
+                    variant="secondary"
+                    type="submit"
+                    disabled={!isFormValid}
+                  >
+                    깃허브로 로그인하기
+                  </Button>
+                  </Col>
+            </Row>
+            <h4>이메일 로그인</h4>
+            <hr></hr>
+            <Row>
+              <Form.Group controlId="loginEmail">
+                <Form.Label>이메일 주소</Form.Label>
+                <Form.Control
+                  type="email"
+                  autoComplete="on"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {!isEmailValid && (
+                  <Form.Text className="text-success">
+                    이메일 형식이 올바르지 않습니다.
+                  </Form.Text>
+                )}
+              </Form.Group>
 
-            <Form.Group controlId="loginPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="on"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상입니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+              <Form.Group controlId="loginPassword" className="mt-3">
+                <Form.Label>비밀번호</Form.Label>
+                <Form.Control
+                  type="password"
+                  autoComplete="on"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {!isPasswordValid && (
+                  <Form.Text className="text-success">
+                    비밀번호는 4글자 이상입니다.
+                  </Form.Text>
+                )}
+              </Form.Group>
+            </Row>
             <Row>
               <Col>
                 <Form.Group as={Row} className="m-3 text-center">
@@ -158,13 +189,7 @@ function LoginForm() {
               </Col>
             </Form.Group>
 
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              buttonText="구글로 로그인하기"
-              onSuccess={handleLogin}
-              onFailure={handleFailure}
-              cookiePolicy={"single_host_origin"}
-            />
+
           </Form>
         </Col>
       </Row>

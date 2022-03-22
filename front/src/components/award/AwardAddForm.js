@@ -11,7 +11,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
   const isTitleValid = !!title;
-  const isDescriptionValid = description.length >= 1;
+  const isDescriptionValid = !!description;
   const isFormValid = isTitleValid && isDescriptionValid 
   
 

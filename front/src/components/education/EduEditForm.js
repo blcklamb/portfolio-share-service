@@ -15,8 +15,8 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
     const [position, setPosition] = useState(currentEdu.position);
 
     // 추가하려는 정보가 입력됐는지 여부를 확인함.
-    const isSchoolValid = school.length >= 1;
-    const isMajorValid = major.length >= 1;
+    const isSchoolValid = !!school;
+    const isMajorValid = !!major;
     const isPositionValid = position != null
     const isFormValid = isSchoolValid && isMajorValid && isPositionValid
 
@@ -25,9 +25,8 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
         e.stopPropagation();
 
         // currentEdu의 user_id를 user_id 변수에 할당함.
-        const user_id = currentEdu.user_id;
-        // const user_id = currentEdu.id;
-        console.log(user_id)
+        const { user_id } = currentEdu;
+
         // "educations/수상 id" 엔드포인트로 PUT 요청함.
         await Api.put(`educations/${currentEdu.id}`, {
             user_id,

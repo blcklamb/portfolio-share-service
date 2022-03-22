@@ -44,6 +44,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                         placeholder="자격증 제목"
                         value={title}
                         onChange={(e) => {setTitle(e.target.value)}}
+                        required
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -51,7 +52,8 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                         type="text"
                         placeholder="상세 내역"
                         value={description}
-                        onChange={(e) => {setDescription(e.target.value)}}                  
+                        onChange={(e) => {setDescription(e.target.value)}}    
+                        required       
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicWhenDate" className="mt-3">

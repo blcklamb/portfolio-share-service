@@ -280,4 +280,29 @@ userAuthRouter.get("/afterlogin", login_required, (req, res) => {
     return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 
+import { OAuth2Client } from 'google-auth-library';
+const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
+userAuthRouter.post("/login/google", async(req, res, next) => {
+    try {
+        const { token } = req.body;
+
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
+        });
+
+        const { name, email, picture } = ticket.getPayload();    
+
+        const user = await userAuthService.socialLogin({ 
+            email, name, image: picture
+        });
+
+        console.log(user);
+        res.status(201).json(user);
+    } catch(error) {
+        next(error);
+    }
+})
+
 export { userAuthRouter };

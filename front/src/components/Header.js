@@ -23,6 +23,8 @@ function Header() {
     navigate("/");
   };
 
+  const socialLogin = userState.user?.socialLogin;
+
   return (
     <Nav activeKey={location.pathname}>
       <Nav.Item className="me-auto mb-5">
@@ -36,9 +38,14 @@ function Header() {
       </Nav.Item>
       {isLogin && (
         <>
-          <Nav.Item>
-            <Nav.Link onClick={() => navigate("/change-password")}>비밀번호 변경</Nav.Link>
-          </Nav.Item>
+          { !socialLogin && (
+            <Nav.Item>
+              <Nav.Link onClick={() => navigate("/change-password")}>
+                비밀번호 변경
+              </Nav.Link>
+            </Nav.Item>
+          )}
+
           <Nav.Item>
             <Nav.Link onClick={logout}>로그아웃</Nav.Link>
           </Nav.Item>

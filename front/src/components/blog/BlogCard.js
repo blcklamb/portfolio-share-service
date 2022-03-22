@@ -25,7 +25,7 @@ function BlogCard({ blog, setBlogs, isEditable, setIsEditing }) {
           <Col>
             <span>{blog.service}</span>
             <br />
-            <span className="text-muted">{blog.url}</span>
+            <a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a>
           </Col>
           </Row>
           <Row className="mt-3 text-center">

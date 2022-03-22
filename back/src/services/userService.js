@@ -127,14 +127,38 @@ class userAuthService {
 
         // 새로운 사용자인 경우
         if(preData.errorMessage) {
+            console.log('새로운 유저');
             const newUser = { id: uuidv4(), name, email, image };
             const createdUser = await User.create({ newUser });
-            return createdUser;
+            const token = jwt.sign({ user_id: createdUser.id }, process.env.JWT_SECRET_KEY);
+            const loginUser = {
+                token,
+                id: createdUser.id,
+                email: createdUser.email,
+                name: createdUser.name,
+                description: createdUser.description,
+                image: createdUser.image,
+                errorMessage: null,
+            };
+            return loginUser;
         }
+
+        console.log('기존 유저');
 
         // 기존에 저장된 사용자인 경우
         const updatedUser = await User.updateByEmail(email, { name, image });
-        return updatedUser;    
+        const token = jwt.sign({ user_id: updatedUser.id }, process.env.JWT_SECRET_KEY);
+        const loginUser = {
+            token,
+            id: updatedUser.id,
+            email: updatedUser.email,
+            name: updatedUser.name,
+            description: updatedUser.description,
+            image: updatedUser.image,
+            errorMessage: null,
+        };
+        
+        return loginUser;
     }
 
     static async getUserById({ user_id }) {

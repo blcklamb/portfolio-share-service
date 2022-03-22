@@ -305,7 +305,7 @@ userAuthRouter.post("/login/google", async(req, res, next) => {
         });
 
         console.log(user);
-        res.status(201).json(user);
+        return res.status(200).send(user);
     } catch(error) {
         next(error);
     }

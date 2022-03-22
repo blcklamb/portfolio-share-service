@@ -265,11 +265,17 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
                 description: data.bio,
                 image: data.avatar_url,
             });
-        } else {
-            // throw new Error("이미 가입된 이메일입니다. 다시 로그인 해주세요.");
         }
-        jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY);
-        return res.redirect("/");
+
+        const { id, email, name, description, image } = user;
+        return res.status(200).json({
+            token: jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY),
+            id,
+            email,
+            name,
+            description,
+            image,
+        });
     } else {
         return res.redirect("/login");
     }

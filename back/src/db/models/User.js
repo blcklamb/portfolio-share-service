@@ -29,7 +29,7 @@ class User {
         return updatedUser;
     }
 
-    static async updateByEmail(email, { name, image }) {
+    static async findOneAndUpdateByEmail(email, { name, image }) {
         const filter = { email: email };
         const update = { name: name, image: image };
         const option = { returnOriginal: false };

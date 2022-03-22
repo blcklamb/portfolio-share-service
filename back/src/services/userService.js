@@ -147,7 +147,7 @@ class userAuthService {
         console.log('기존 유저');
 
         // 기존에 저장된 사용자인 경우
-        const updatedUser = await User.updateByEmail(email, { name, image, socialLogin: true });
+        const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, socialLogin: true });
         const token = jwt.sign({ user_id: updatedUser.id }, process.env.JWT_SECRET_KEY);
         const loginUser = {
             token,

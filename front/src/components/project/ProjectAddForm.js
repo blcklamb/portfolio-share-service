@@ -47,6 +47,7 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
                         placeholder="프로젝트 제목"
                         value={title}
                         onChange={(e) => {setTitle(e.target.value)}}
+                        required
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -54,7 +55,8 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
                         type="text"
                         placeholder="상세 내역"
                         value={description}
-                        onChange={(e) => {setDescription(e.target.value)}}                  
+                        onChange={(e) => {setDescription(e.target.value)}}   
+                        required               
                     />
                 </Form.Group>
                 <Form.Group controlId="formBasicFromDate" className="mt-3">

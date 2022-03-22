@@ -40,6 +40,7 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
         placeholder="프로젝트 제목"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
       />
     </Form.Group>
     <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -48,19 +49,22 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
         placeholder="상세 내역"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        required
       />
     </Form.Group>
     <Form.Group controlId="formBasicFromDate" className="mt-3">
-        <DatePicker
-            selected={from_date}
-            onChange={(date) => {setFromDate(date)}}
-        />
+      <span>시작일</span>
+      <DatePicker
+          selected={from_date}
+          onChange={(date) => {setFromDate(date)}}
+      />
     </Form.Group>
     <Form.Group controlId="formBasicToDate" className="mt-3">
-        <DatePicker
-            selected={to_date}
-            onChange={(date) => {setToDate(date)}}
-        />
+      <span>종료일</span>
+      <DatePicker
+          selected={to_date}
+          onChange={(date) => {setToDate(date)}}
+      />
     </Form.Group>
     <Form.Group as={Row} className="mt-3 text-center mb-4">
       <Col sm={{ span: 20 }}>

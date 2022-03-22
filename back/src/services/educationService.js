@@ -35,7 +35,7 @@ class educationService {
       return { errorMessage };
     }
 
-    // 학력 삭제에 성공한 경우 에러메세지 제거
+    // 학력 조회에 성공한 경우 에러메세지 제거
     foundEducation.errorMessage = null;
 
     return foundEducation;
@@ -65,13 +65,13 @@ class educationService {
     // 학력 수정
     const updatedEducation = await Education.update({ id, school, major, position });
 
-    // 학력 삭제에 실패한 경우 에러메세지
+    // 학력 수정에 실패한 경우 에러메세지
     if(!updatedEducation) {
       const errorMessage = '학력 수정에 실패했습니다.';
       return { errorMessage };
     }
 
-    // 학력 삭제에 성공한 경우 에러메세지 제거
+    // 학력 수정에 성공한 경우 에러메세지 제거
     updatedEducation.errorMessage = null;
 
     return updatedEducation;

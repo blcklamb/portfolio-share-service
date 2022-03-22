@@ -41,6 +41,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         placeholder="자격증 제목"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
       />
     </Form.Group>
     <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -49,9 +50,11 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         placeholder="상세 내역"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        required
       />
     </Form.Group>
     <Form.Group controlId="formBasicWhenDate" className="mt-3">
+        <span>취득일</span>
         <DatePicker
             selected={when_date}
             onChange={(date) => {setWhenDate(date)}}

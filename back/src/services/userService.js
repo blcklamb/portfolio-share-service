@@ -128,7 +128,7 @@ class userAuthService {
         // 새로운 사용자인 경우
         if(preData.errorMessage) {
             console.log('새로운 유저');
-            const newUser = { id: uuidv4(), name, email, image };
+            const newUser = { id: uuidv4(), name, email, image, socialLogin: true };
             const createdUser = await User.create({ newUser });
             const token = jwt.sign({ user_id: createdUser.id }, process.env.JWT_SECRET_KEY);
             const loginUser = {
@@ -138,6 +138,7 @@ class userAuthService {
                 name: createdUser.name,
                 description: createdUser.description,
                 image: createdUser.image,
+                socialLogin: createdUser.socialLogin,
                 errorMessage: null,
             };
             return loginUser;
@@ -146,7 +147,7 @@ class userAuthService {
         console.log('기존 유저');
 
         // 기존에 저장된 사용자인 경우
-        const updatedUser = await User.updateByEmail(email, { name, image });
+        const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, socialLogin: true });
         const token = jwt.sign({ user_id: updatedUser.id }, process.env.JWT_SECRET_KEY);
         const loginUser = {
             token,
@@ -155,6 +156,7 @@ class userAuthService {
             name: updatedUser.name,
             description: updatedUser.description,
             image: updatedUser.image,
+            socialLogin: updatedUser.socialLogin,
             errorMessage: null,
         };
         

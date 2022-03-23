@@ -72,7 +72,7 @@ userAuthRouter.get("/user/vaildation/:id", async (req, res) => {
             toUpdate: { validated: true },
         });
 
-        return res.redirect("/");
+        return res.redirect("http://localhost:3000/login");
     } catch (error) {
         next(error);
     }

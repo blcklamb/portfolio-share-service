@@ -71,9 +71,8 @@ class userAuthService {
         return loginUser;
     }
 
-    static async getUsers({ perPage, page }) {
-        const users = await User.findAll({ perPage, page });
-        return users;
+    static async getUsers({ perPage, page, id }) {
+        return await User.findAll({ perPage, page, id });
     }
 
     static async getUsersCount() {
@@ -136,7 +135,6 @@ class userAuthService {
 
         // 새로운 사용자인 경우
         if (preData.errorMessage) {
-            console.log("새로운 유저");
             const newUser = { id: uuidv4(), name, email, image, validated: true };
             const createdUser = await User.create({ newUser });
             const token = jwt.sign({ user_id: createdUser.id }, process.env.JWT_SECRET_KEY);
@@ -152,8 +150,6 @@ class userAuthService {
             };
             return loginUser;
         }
-
-        console.log("기존 유저");
 
         // 기존에 저장된 사용자인 경우
         const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, validated: true });

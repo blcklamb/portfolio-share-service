@@ -13,8 +13,8 @@ class User {
         return UserModel.findOne({ id: user_id });
     }
 
-    static findAll({ perPage, page }) {
-        return UserModel.find({})
+    static findAll({ perPage, page, id }) {
+        return UserModel.find({ id: { $ne: id } })
             .sort({ created: -1 })
             .skip(perPage * (page - 1))
             .limit(perPage);

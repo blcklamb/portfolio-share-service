@@ -11,7 +11,8 @@ projectRouter.post("/project/create", login_required, async (req, res, next) => 
 
         // 로그인 된 유저의 모든 project를 불러온 후 겹치는 제목이 있을경우 에러 발생.
         const projects = await projectService.getProjectAll({ user_id });
-        for (let i = 0; i > projects.length; i++) {
+
+        for (let i = 0; i < projects.length; i++) {
             if (projects[i].title === title) {
                 throw new Error("이미 사용중인 제목입니다.");
             }

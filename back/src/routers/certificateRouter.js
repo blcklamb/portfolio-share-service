@@ -11,7 +11,8 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
 
         // 로그인 된 유저의 모든 certificate를 불러온 후 겹치는 제목이 있을경우 에러 발생.
         const certificates = await certificateService.getCertificateAll({ user_id });
-        for (let i = 0; i > certificates.length; i++) {
+
+        for (let i = 0; i < certificates.length; i++) {
             if (certificates[i].title === title) {
                 throw new Error("이미 사용중인 제목입니다.");
             }

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import  "./index.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,8 +11,8 @@ import AlertTemplate from 'react-alert-template-basic'
 const options = {
   position: positions.TOP_CENTER,
   timeout: 5000,
-  offset: '30px',
-  transition: transitions.SCALE
+  offset: '20px',
+  transition: transitions.SCALE,
 }
 
 ReactDOM.render(

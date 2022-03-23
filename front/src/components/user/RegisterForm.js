@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 
 function RegisterForm() {
   const navigate = useNavigate();
+
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
 
   // useState로 email 상태를 생성함.
   const [email, setEmail] = useState("");
@@ -76,10 +80,11 @@ function RegisterForm() {
     try {
       // "user/register" 엔드포인트로 post요청함.
       await Api.imgPost("user/register", userFormData);
-
+      alert.success('회원가입에 성공하였습니다. \n 환영합니다!')
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
+      alert.error('회원가입에 실패하였습니다. \n 다시 한 번 시도해주십시오.')
       console.log("회원가입에 실패하였습니다.", err);
     }
   };

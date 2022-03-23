@@ -12,10 +12,6 @@ import Portfolio from "./components/Portfolio";
 import UserChangePassword from "./components/user/UserChangePassword";
 import UserPasswordReset from "./components/user/UserPasswordReset";
 
-// 실행 전 임시 데이터 필요 여부를 확인한 뒤 제거 혹은 유지해주세요
-// components>award>Awards
-// components>education>Edus
-
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 

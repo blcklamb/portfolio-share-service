@@ -36,7 +36,7 @@ const UserSchema = new Schema(
         likes: {
             type: Array,
         },
-        socialLogin: {
+        validated: {
             type: Boolean,
             required: true,
             default: false,

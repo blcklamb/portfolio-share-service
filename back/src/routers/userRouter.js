@@ -33,6 +33,12 @@ userAuthRouter.post("/user/register", uploadImage.single("image"), async functio
             throw new Error(newUser.errorMessage);
         }
 
+        await sendMail(
+            email, // sendMail(to, subject, text)
+            "[Portfolio Share Service] 회원가입 이메일 인증",
+            `링크를 클릭해주세요.\nhttp://localhost:5001/user/vaildation/${newUser.id}`,
+        );
+
         return res.status(201).json(newUser);
     } catch (error) {
         next(error);
@@ -52,6 +58,21 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
         }
 
         return res.status(200).send(user);
+    } catch (error) {
+        next(error);
+    }
+});
+
+userAuthRouter.get("/user/vaildation/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        await userAuthService.setUser({
+            user_id: id,
+            toUpdate: { validated: true },
+        });
+
+        return res.redirect("/");
     } catch (error) {
         next(error);
     }

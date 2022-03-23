@@ -24,7 +24,7 @@ class userAuthService {
             password: hashedPassword,
             description,
             image,
-            socialLogin: false,
+            validated: false,
         };
 
         // db에 저장
@@ -46,6 +46,10 @@ class userAuthService {
         if (!isPasswordCorrect) {
             const errorMessage = "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
+        }
+
+        if (!user.validated) {
+            return { errorMessage: "이메일 인증이 필요합니다. 이메일 보관함을 확인해주세요." };
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
@@ -117,18 +121,23 @@ class userAuthService {
             const newValue = toUpdate.likes;
             user = await User.update({ user_id, fieldToUpdate, newValue });
         }
+        if (toUpdate.validated) {
+            const fieldToUpdate = "validated";
+            const newValue = toUpdate.validated;
+            user = await User.update({ user_id, fieldToUpdate, newValue });
+        }
 
         return user;
     }
-    
+
     static async socialLogin({ email, name, image }) {
         // 기존 회원가입 정보 확인
         const preData = await this.getUserByEmail({ email });
 
         // 새로운 사용자인 경우
-        if(preData.errorMessage) {
-            console.log('새로운 유저');
-            const newUser = { id: uuidv4(), name, email, image, socialLogin: true };
+        if (preData.errorMessage) {
+            console.log("새로운 유저");
+            const newUser = { id: uuidv4(), name, email, image, validated: true };
             const createdUser = await User.create({ newUser });
             const token = jwt.sign({ user_id: createdUser.id }, process.env.JWT_SECRET_KEY);
             const loginUser = {
@@ -138,16 +147,16 @@ class userAuthService {
                 name: createdUser.name,
                 description: createdUser.description,
                 image: createdUser.image,
-                socialLogin: createdUser.socialLogin,
+                validated: createdUser.validated,
                 errorMessage: null,
             };
             return loginUser;
         }
 
-        console.log('기존 유저');
+        console.log("기존 유저");
 
         // 기존에 저장된 사용자인 경우
-        const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, socialLogin: true });
+        const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, validated: true });
         const token = jwt.sign({ user_id: updatedUser.id }, process.env.JWT_SECRET_KEY);
         const loginUser = {
             token,
@@ -156,10 +165,10 @@ class userAuthService {
             name: updatedUser.name,
             description: updatedUser.description,
             image: updatedUser.image,
-            socialLogin: updatedUser.socialLogin,
+            validated: updatedUser.validated,
             errorMessage: null,
         };
-        
+
         return loginUser;
     }
 
@@ -198,7 +207,7 @@ class userAuthService {
             email,
             description,
             image,
-            socialLogin: true,
+            validated: true,
         };
 
         // db에 저장

@@ -15,7 +15,7 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
     e.stopPropagation();
 
     // currentProject의 user_id를 user_id 변수에 할당함.
-    const user_id = currentProject.user_id;
+    const { user_id } = currentProject;
 
     // "projects/프로젝트 id" 엔드포인트로 PUT 요청함.
     await Api.put(`projects/${currentProject.id}`, {

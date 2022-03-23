@@ -3,7 +3,7 @@ import * as Api from "../../api";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
-const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) => {
+const CertificateAddForm = ({ portfolioOwnerId, setCertificates, onClose }) => {
 
     /* 
     상태 생성
@@ -32,7 +32,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
         // (생성 후) 조회 ("certificatelist/유저id" 엔드포인트로 get요청함.)
         const res = await Api.get("certificatelist", user_id)
         setCertificates(res.data)
-        setIsAdding(false)
+        onClose()
     }
 
     return (
@@ -66,7 +66,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                 <Form.Group as={Row} className="mt-3 text-center">
                     <Col sm={{ span: 20 }}>
                         <Button variant="primary" type="submit" className="me-3">확인</Button>
-                        <Button variant="secondary" onClick={() => setIsAdding(false)}>취소</Button>
+                        <Button variant="secondary" onClick={() => onClose()}>취소</Button>
                     </Col>
                 </Form.Group>
             </Form>

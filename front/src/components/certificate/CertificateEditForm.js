@@ -17,7 +17,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
     e.stopPropagation();
 
     // currentCertificate의 user_id를 user_id 변수에 할당함.
-    const user_id = currentCertificate.user_id;
+    const { user_id } = currentCertificate;
 
     // "certificates/프로젝트 id" 엔드포인트로 PUT 요청함.
     await Api.put(`certificates/${currentCertificate.id}`, {

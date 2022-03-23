@@ -38,7 +38,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                     <CertificateAddForm
                         portfolioOwnerId={portfolioOwnerId}
                         setCertificates={setCertificates}
-                        setIsAdding={setIsAdding}
+                        onClose={() => setIsAdding(false)}
                     />
                 )}
             </Card.Body>

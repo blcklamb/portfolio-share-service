@@ -7,7 +7,7 @@ const BlogSchema = new Schema(
             required: true,
         },
         user_id: {
-            type: Schema.Types.String, 
+            type: String, 
             required: true,
         },
         service: {

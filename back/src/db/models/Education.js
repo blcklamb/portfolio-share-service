@@ -1,34 +1,36 @@
 import { EducationModel } from "../schemas/education";
 
 class Education {
-  static async create(newEducation) {
-    const createdNewEducation = await EducationModel.create(newEducation);
-    return createdNewEducation;
+  static createOne(newEducation) {
+    return EducationModel.create(newEducation);
   }
 
-  static async findByUserId({ user_id }) {
-    const foundEducation = await EducationModel.find({ user_id: user_id });
-    return foundEducation;
+  static findManyByUserId({ user_id }) {
+    return EducationModel.find({ user_id: user_id });
   }
 
-  static async findById({ id }) {
-    const foundEducation = await EducationModel.findOne({ id: id });
-    return foundEducation;
+  static findManyByFilter( filter ) {
+    return EducationModel.find(filter);
   }
 
-  static async update({ id, school, major, position }) {
-    const option = { returnOriginal: false };
-    const updatedEducation = await EducationModel.findOneAndUpdate(
-      { id },
+  static findOneById({ id }) {
+    return EducationModel.findOne({ id: id });
+  }
+
+  static findOneByFilter( filter ) {
+    return EducationModel.findOne(filter);
+  }
+
+  static updateOne({ id, user_id, school, major, position }) {
+    return EducationModel.findOneAndUpdate(
+      { id, user_id },
       { school, major, position },
-      option
+      { returnOriginal: false }
     );
-    return updatedEducation;
   }
 
-  static async delete({ id }) {
-    const deletedEducation = await EducationModel.deleteOne({ id: id });
-    return deletedEducation;
+  static deleteOne({ id, user_id }) {
+    return EducationModel.deleteOne({ id: id, user_id: user_id });
   }
 }
 

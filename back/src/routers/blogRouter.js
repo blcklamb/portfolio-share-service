@@ -7,7 +7,8 @@ const blogRouter = Router();
 blogRouter.post("/blog/create", login_required, async (req, res, next) => {
   try {
     // 받은 데이터
-    const { user_id, service, url } = req.body;
+    const user_id = req.currentUserId;
+    const { service, url } = req.body;
 
     // 블로그 생성
     const newBlog = await blogService.addBlog({ user_id, service, url });
@@ -24,7 +25,7 @@ blogRouter.post("/blog/create", login_required, async (req, res, next) => {
   }
 });
 
-blogRouter.get("/bloglist/:user_id?", login_required, async (req, res, next) => {
+blogRouter.get("/bloglist/:user_id?", async (req, res, next) => {
     try {
       // 받은 데이터
       const { user_id } = req.params;
@@ -45,7 +46,7 @@ blogRouter.get("/bloglist/:user_id?", login_required, async (req, res, next) => 
   }
 );
 
-blogRouter.get("/blogs/:id?", login_required, async (req, res, next) => {
+blogRouter.get("/blogs/:id?", async (req, res, next) => {
   try {
     // 받은 데이터
     const { id } = req.params;
@@ -69,7 +70,8 @@ blogRouter.put("/blogs/:id?", login_required, async (req, res, next) => {
   try {
     // 받은 데이터
     const { id } = req.params;
-    const { user_id, service, url } = req.body;
+    const { service, url } = req.body;
+    const user_id = req.currentUserId;
 
     // 블로그 수정
     const updatedBlog = await blogService.setBlog({
@@ -95,17 +97,18 @@ blogRouter.delete("/blogs/:id?", login_required, async (req, res, next) => {
   try {
     // 받은 데이터
     const { id } = req.params;
+    const user_id = req.currentUserId;
 
     // 블로그 삭제
-    const deletedBlog = await blogService.deleteBlog({ id });
+    const resultMessage = await blogService.deleteBlog({ id, user_id });
 
     // 블로그 삭제 실패한 경우
-    if (deletedBlog.errorMessage) {
-      throw new Error(deletedBlog.errorMessage);
+    if (resultMessage.errorMessage) {
+      throw new Error(resultMessage.errorMessage);
     }
 
     // 블로그 삭제 성공한 경우
-    res.status(200).json(deletedBlog);
+    res.status(200).json(resultMessage);
   } catch (error) {
     next(error);
   }

@@ -1,4 +1,4 @@
-import { lightTheme, darkTheme } from '../theme/theme';
+import { lightTheme, darkTheme } from '../style/theme/theme';
 import { createContext, useState, useContext, useCallback } from 'react';
 import { ThemeProvider as StyledProvider } from 'styled-components';
 
@@ -30,7 +30,7 @@ function useTheme() {
             setThemeMode("light");
             window.localStorage.setItem('theme', 'light');
         };
-    }, [ThemeMode]);
+    }, [ThemeMode, setThemeMode]);
     
     return [ ThemeMode, toggleTheme];
 }

@@ -11,10 +11,11 @@ import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 import UserChangePassword from "./components/user/UserChangePassword";
 import UserPasswordReset from "./components/user/UserPasswordReset";
-import StyledApp from "./components/StyledApp";
+import StyledApp from "./style/StyledApp";
 
 import { ThemeProvider } from "./context/themeProvider";
-import { GlobalStyle } from "./theme/GlobalStyle";
+import { GlobalStyle } from "./style/theme/GlobalStyle";
+import { GlobalFonts } from "./style/fonts/fonts";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -63,6 +64,7 @@ function App() {
       <UserStateContext.Provider value={userState}>
         <ThemeProvider>
           <GlobalStyle />
+          <GlobalFonts />
           <Router>
             <Header />
             <StyledApp>

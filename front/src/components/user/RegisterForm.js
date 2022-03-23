@@ -80,12 +80,18 @@ function RegisterForm() {
     try {
       // "user/register" 엔드포인트로 post요청함.
       await Api.imgPost("user/register", userFormData);
-      alert.success('회원가입에 성공하였습니다. \n 환영합니다!')
+      alert.success('회원가입이 완료되었습니다.')
+      alert.success('이메일로 전송된 로그인 인증을 마무리해주세요.')
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
-      alert.error('회원가입에 실패하였습니다. \n 다시 한 번 시도해주십시오.')
-      console.log("회원가입에 실패하였습니다.", err);
+      if (err.response.data==='"이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."') {
+        alert.error('이 이메일은 현재 사용중입니다.')
+        alert.error('다른 이메일을 입력해 주세요.')
+      } else {
+        alert.error('회원가입에 실패하였습니다. \n 다시 한 번 시도해주세요.')
+      }
+      
     }
   };
 

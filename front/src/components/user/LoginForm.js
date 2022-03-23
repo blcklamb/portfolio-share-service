@@ -60,12 +60,15 @@ function LoginForm() {
       navigate("/", { replace: true });
 
     } catch (err) {
-      alert.error('로그인 실패하였습니다.')
-      alert.error('다시 한 번 시도해주십시오.')
-      console.log(err)
-      
-      if(err==='비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.') {
-        
+      if (err.response.data==='"해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."') {
+        alert.error('해당 이메일은 가입 내역이 없습니다.');
+        alert.error('다시 한 번 확인해 주세요.');
+      } else if (err.response.data==='"비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."') {
+        alert.error('비밀번호가 일치하지 않습니다.')
+        alert.error('다시 한 번 확인해 주세요.')
+      } else {
+        alert.error('로그인 실패하였습니다.')
+        alert.error('다시 한 번 시도해 주세요.')
       }
     }
   };

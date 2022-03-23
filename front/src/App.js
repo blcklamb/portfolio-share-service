@@ -11,6 +11,10 @@ import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 import UserChangePassword from "./components/user/UserChangePassword";
 import UserPasswordReset from "./components/user/UserPasswordReset";
+import StyledApp from "./components/StyledApp";
+
+import { ThemeProvider } from "./context/themeProvider";
+import { GlobalStyle } from "./theme/GlobalStyle";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -55,23 +59,28 @@ function App() {
   }
 
   return (
-      <DispatchContext.Provider value={dispatch}>
-        <UserStateContext.Provider value={userState}>
+    <DispatchContext.Provider value={dispatch}>
+      <UserStateContext.Provider value={userState}>
+        <ThemeProvider>
+          <GlobalStyle />
           <Router>
             <Header />
+            <StyledApp>
             <Routes>
               <Route path="/" exact element={<Portfolio />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/users/:userId" element={<Portfolio />} />
-              <Route path="/change-password" element={<UserChangePassword/>}/>
-              <Route path="/reset-password" element={<UserPasswordReset/>}/>
+              <Route path="/change-password" element={<UserChangePassword />} />
+              <Route path="/reset-password" element={<UserPasswordReset />} />
               <Route path="/network" element={<Network />} />
               <Route path="*" element={<Portfolio />} />
             </Routes>
+            </StyledApp>
           </Router>
-        </UserStateContext.Provider>
-      </DispatchContext.Provider>
+        </ThemeProvider>
+      </UserStateContext.Provider>
+    </DispatchContext.Provider>
   );
 }
 

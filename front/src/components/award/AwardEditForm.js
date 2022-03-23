@@ -10,17 +10,16 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
   const [description, setDescription] = useState(currentAward.description);
 
   // 편집하려는 정보가 입력됐는지 여부를 확인함.
-  const isTitleValid = title.length >= 1;
-  const isDescriptionValid = description.length >= 1;
+  const isTitleValid = !!title;
+  const isDescriptionValid = !!description;
   const isFormValid = isTitleValid && isDescriptionValid
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     // currentAward의 user_id를 user_id 변수에 할당함.
-    const user_id = currentAward.user_id;
+    const { user_id } = currentAward;
 
     // "awards/수상 id" 엔드포인트로 PUT 요청함.
     await Api.put(`awards/${currentAward.id}`, {

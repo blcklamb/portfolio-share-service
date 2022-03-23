@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 
 function LoginForm() {
   const navigate = useNavigate();
 
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
   // useState로 currentEmail 상태를 생성함.
   const [currentPassword, setCurrentPassword] = useState("");
   // useState로 password 상태를 생성함.
@@ -32,12 +35,12 @@ function LoginForm() {
         passwordConfirm: password
       });
 
-      alert('비밀번호가 변경되었습니다.')
+      alert.success('비밀번호가 변경되었습니다.')
 
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      alert('현재 비밀번호가 틀렸습니다.')
+      alert.error('현재 비밀번호와 일치하지 않습니다.')
       console.log("변경에 실패하였습니다.\n", err);
     }
   };
@@ -47,7 +50,7 @@ function LoginForm() {
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="currentPassword" className="mt-3">
+            <Form.Group controlId="currentPassword" className="mt-3">
               <Form.Label>현재 비밀번호</Form.Label>
               <Form.Control
                 type="password"

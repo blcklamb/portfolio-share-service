@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 
 function LoginForm() {
   const navigate = useNavigate();
 
-   // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
-   const validateEmail = (email) => {
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
+  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
+  const validateEmail = (email) => {
     return email
       .toLowerCase()
       .match(
@@ -20,7 +23,7 @@ function LoginForm() {
   const [name, setName] = useState("");
   // useState로 password 상태를 생성함.
   const [email, setEmail] = useState("");
-  
+
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
   const isEmailValid = validateEmail(email);
 
@@ -33,13 +36,12 @@ function LoginForm() {
         name,
         email
       });
-
-      alert('임시 비밀번호가 발급되었습니다.')
-
+      alert.success("임시 비밀번호가 발급되었습니다.")
+      alert.success("이메일로 전송된 비밀번호로 재로그인한 뒤 비밀번호를 변경해주세요.")
       // 기본 페이지로 이동함.
-      navigate("/", { replace: true });
+      
     } catch (err) {
-      alert('일치하는 사용자 정보가 없습니다.')
+      alert.error('일치하는 사용자 정보가 없습니다.')
       console.log("변경에 실패하였습니다.\n", err);
     }
   };

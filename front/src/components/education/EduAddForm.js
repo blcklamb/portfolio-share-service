@@ -5,7 +5,7 @@ import * as Api from "../../api";
 
 import EduRadioForm from "./EduRadioForm";
 
-function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
+function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
   // useState로 school 상태를 생성함.
   const [school, setSchool] = useState("");
   // useState로 major 상태를 생성함.
@@ -14,8 +14,8 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
   const [position, setPosition] = useState();
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
-  const isSchoolValid = school.length >= 1;
-  const isMajorValid = major.length >= 1;
+  const isSchoolValid = !!school;
+  const isMajorValid = !!major;
   const isPositionValid = position != null
   const isFormValid = isSchoolValid && isMajorValid && isPositionValid
   
@@ -28,7 +28,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
     const user_id = portfolioOwnerId;
     // "education/create" 엔드포인트로 post요청함.
     await Api.post("education/create", {
-      user_id: portfolioOwnerId,
+      user_id,
       school,
       major,
       position,
@@ -39,7 +39,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
     // edus를 response의 data로 세팅함.
     setEdus(res.data);
     // edu를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
-    setIsAdding(false);
+    onClose();
   };
 
   return (
@@ -106,7 +106,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, setIsAdding }) {
           <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsAdding(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             취소
           </Button>
         </Col>

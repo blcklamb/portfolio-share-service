@@ -49,7 +49,7 @@ function Awards({ portfolioOwnerId, isEditable }) {
           <AwardAddForm
             portfolioOwnerId={portfolioOwnerId}
             setAwards={setAwards}
-            setIsAdding={setIsAdding}
+            onClose={()=>setIsAdding(false)}
           />
         )}
       </Card.Body>

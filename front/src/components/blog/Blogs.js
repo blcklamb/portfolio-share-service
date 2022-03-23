@@ -49,7 +49,7 @@ function Blogs({ portfolioOwnerId, isEditable }) {
           <BlogAddForm
             portfolioOwnerId={portfolioOwnerId}
             setBlogs={setBlogs}
-            setIsAdding={setIsAdding}
+            onClose={()=>setIsAdding(false)}
           />
         )}
       </Card.Body>

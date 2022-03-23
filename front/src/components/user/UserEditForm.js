@@ -43,12 +43,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     e.preventDefault();
 
     const userFormData = new FormData();
-    if (!image) {
-      setImage(user?.image);
-      Object.values(image).forEach((file) => userFormData.append("image", image));
-    } else {
-      Object.values(image).forEach((file) => userFormData.append("image", file));
-    }
+    if (!image) {userFormData.append("image", "")} 
+    else { Object.values(image).forEach((file) => userFormData.append("image", file)); }
 
     userFormData.append("name", name);
     userFormData.append("description", description);

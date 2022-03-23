@@ -10,11 +10,11 @@ educationRouter.post(
   async (req, res, next) => {
     try {
       // 받은 데이터
-      const { user_id, school, major, position } = req.body;
+      const { school, major, position } = req.body;
 
       // 새 학력 저장
       const newEducation = await educationService.addEducation({
-        user_id,
+        user_id: req.currentUserId,
         school,
         major,
         position,
@@ -83,10 +83,12 @@ educationRouter.put(
       // 받은 데이터
       const { id } = req.params;
       const { school, major, position } = req.body;
+      const user_id = req.currentUserId;
 
       // 학력 수정
       const updatedEducation = await educationService.setEducation({
         id,
+        user_id,
         school,
         major,
         position,
@@ -105,32 +107,28 @@ educationRouter.put(
   }
 );
 
-
 educationRouter.delete(
-  "/educations/:id?", 
+  "/educations/:id?",
   login_required,
   async (req, res, next) => {
     try {
       // 받은 데이터
       const { id } = req.params;
+      const user_id = req.currentUserId;
 
       // 학력 삭제
-      const deletedEducation = await educationService.deleteEducation({ id });
+      const resultMessage = await educationService.deleteEducation({ id, user_id });
 
       // 학력 삭제에 실패한 경우
-      if(deletedEducation.errorMessage) {
-        throw new Error(deletedEducation.errorMessage);
+      if (resultMessage.errorMessage) {
+        throw new Error(resultMessage.errorMessage);
       }
 
-      // 학력 삭제에 성공한 경우
-      const successMessage = `총 ${deletedEducation.deletedCount}개의 메세지를 삭제하였습니다.`;
-
-      res.status(200).json(successMessage);
-    } catch (error) { 
+      res.status(200).json(resultMessage);
+    } catch (error) {
       next(error);
     }
-  } 
+  }
 );
-
 
 export { educationRouter };

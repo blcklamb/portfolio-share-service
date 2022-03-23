@@ -7,7 +7,7 @@ const UserSchema = new Schema(
             required: true,
         },
         email: {
-            type: Schema.Types.String,
+            type: String,
             required: true,
             immutable: true,
             unique: true,

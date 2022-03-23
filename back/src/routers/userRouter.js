@@ -193,26 +193,21 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
 });
 
 import { UserModel } from "../db/schemas/User";
-userAuthRouter.post("/api/users/:id", login_required, async (req, res, next) => {
+userAuthRouter.post("/user/likes/:id", login_required, async (req, res, next) => {
     // 좋아요를 누르는 user
     const user_id = req.currentUserId;
-    // 좋아요를 받는 project
+    // 좋아요를 받는 user
     const { id } = req.params;
+    console.log(user_id, id);
 
-    // user_id로 불러온 유저 데이터의 id를 사용해 나름(?) 인증 고도화. 필요 없으면 삭제하겠음.
-    const user = await userAuthService.getUserById({ user_id });
-    if (!user) {
-        return res.sendStatus(404);
-    }
-
-    // UserModel의 likes 목록에 현재 로그인 되어있는 유저의 id가 있는 정보만 likedUser에 정의.
-    // likedUser의 length가  0이면 likes 배열에 현재 로그인 되어있는 유저의 id를 추가함. 반대도 동작.
-    const likedUser = await UserModel.find({ likes: { $in: [user.id] } });
-    if (likedUser.length === 0) {
-        await UserModel.findOneAndUpdate({ user_id: id }, { $push: { likes: user.id } }, { new: true });
+    // params의 id로 찾은 유저의 likes Array를 상수 likes에 정의.
+    // 만약 likes가 user_id를 포함하고 있다면 삭제하고, 없다면 생성함.
+    const likes = await UserModel.findOne({ id }).then((res) => res.likes);
+    if (!likes.includes(user_id)) {
+        await UserModel.findOneAndUpdate({ id }, { $push: { likes: user_id } }, { new: true });
         console.log("Like");
     } else {
-        await UserModel.findOneAndUpdate({ user_id: id }, { $pull: { likes: user.id } }, { new: true });
+        await UserModel.findOneAndUpdate({ id }, { $pull: { likes: user_id } }, { new: true });
         console.log("Unlike");
     }
 
@@ -257,7 +252,7 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
         }).then((res) => res.json());
 
         let user = await userAuthService.getUserByEmail({ email: data.email });
-        // getUserByEmail은 해당 이메일의 가입 내역이 없을떄 만 errorMessage를 반환함
+        // getUserByEmail은 해당 이메일의 가입 내역이 없을 때만 errorMessage를 반환함
         if (user.errorMessage) {
             user = await userAuthService.addSocialUser({
                 name: data.name,
@@ -286,29 +281,31 @@ userAuthRouter.get("/afterlogin", login_required, (req, res) => {
     return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
-userAuthRouter.post("/login/google", async(req, res, next) => {
+userAuthRouter.post("/login/google", async (req, res, next) => {
     try {
         const { token } = req.body;
 
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
+            audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         });
 
-        const { name, email, picture } = ticket.getPayload();    
+        const { name, email, picture } = ticket.getPayload();
 
-        const user = await userAuthService.socialLogin({ 
-            email, name, image: picture
+        const user = await userAuthService.socialLogin({
+            email,
+            name,
+            image: picture,
         });
 
         console.log(user);
         return res.status(200).send(user);
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
-})
+});
 
 export { userAuthRouter };

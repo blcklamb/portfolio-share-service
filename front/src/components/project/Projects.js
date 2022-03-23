@@ -38,7 +38,7 @@ const Projects = ({ portfolioOwnerId, isEditable }) => {
                     <ProjectAddForm
                         portfolioOwnerId={portfolioOwnerId}
                         setProjects={setProjects}
-                        setIsAdding={setIsAdding}
+                        onClose={() => setIsAdding(false)}
                     />
                 )}
             </Card.Body>

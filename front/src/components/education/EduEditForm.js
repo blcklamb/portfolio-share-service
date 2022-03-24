@@ -18,7 +18,6 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
   const isSchoolValid = !!school;
   const isMajorValid = !!major;
   const isPositionValid = position != null
-  const isFormValid = isSchoolValid && isMajorValid && isPositionValid
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +50,7 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
           placeholder="학교 이름"
           value={school}
           onChange={(e) => setSchool(e.target.value)}
+          required
         />
         {!isSchoolValid && (
           <Form.Text className="text-success m-2">
@@ -65,6 +65,7 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
           placeholder="전공"
           value={major}
           onChange={(e) => setMajor(e.target.value)}
+          required
         />
         {!isMajorValid && (
           <Form.Text className="text-success m-2">
@@ -86,7 +87,7 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
 
       <Form.Group as={Row} className="mt-3 text-center mb-4">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3">
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>

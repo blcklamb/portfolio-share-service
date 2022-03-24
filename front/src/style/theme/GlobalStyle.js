@@ -53,4 +53,10 @@ export const GlobalStyle = createGlobalStyle`
     .react-confirm-alert-overlay {
         background: rgba(0,0,0,0.5);
     }
+    .user-card:hover{
+        cursor: pointer;
+        color: ${({ theme }) => theme.bgColor};
+        background: ${({ theme }) => theme.cardBgColor};
+        border: ${({ theme }) => theme.bgColor};
+    }
 `;

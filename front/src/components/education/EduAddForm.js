@@ -17,7 +17,6 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
   const isSchoolValid = !!school;
   const isMajorValid = !!major;
   const isPositionValid = position != null
-  const isFormValid = isSchoolValid && isMajorValid && isPositionValid
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +56,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
                 placeholder="학교 이름"
                 value={school}
                 onChange={(e) => setSchool(e.target.value)}
+                required
               />
             </FloatingLabel>
             {!isSchoolValid && (
@@ -79,6 +79,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
                 placeholder="전공"
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
+                required
               />
             </FloatingLabel>
             {!isMajorValid && (
@@ -104,7 +105,7 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3">
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>

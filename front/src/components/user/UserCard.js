@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import { MdModeEditOutline } from "react-icons/md";
+import UserLike from "./UserLike";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();

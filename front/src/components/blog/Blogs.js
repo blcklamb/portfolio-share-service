@@ -3,10 +3,9 @@
 // Blogs>Blog, BlogAddForm
 // Blog>BlogCard, BlogEditForm
 
-//실행 전 임시 데이터 필요 여부를 확인한 뒤 제거 혹은 유지해주세요.
-
 import React, { useEffect, useState } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
+import { MdLibraryAdd } from "react-icons/md";
 import * as Api from "../../api";
 import Blog from "./Blog";
 import BlogAddForm from "./BlogAddForm";
@@ -20,7 +19,7 @@ function Blogs({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "bloglist/유저id"로 GET 요청하고, response의 data로 blogs를 세팅함.
     Api.get("bloglist", portfolioOwnerId).then((res) => setBlogs(res.data));
-    
+
   }, [portfolioOwnerId]);
 
   return (
@@ -39,8 +38,14 @@ function Blogs({ portfolioOwnerId, isEditable }) {
         {/* 로그인 성공 시 isEditable은 true가 됩니다 */}
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
-            <Col sm={{ span: 20 }}>
-              <Button onClick={() => setIsAdding(true)}>+</Button>
+            <Col sm={{ span: 20 }} className="mt-3">
+              <MdLibraryAdd
+                className="btn-add-md"
+                type="button"
+                size="28"
+                onClick={() => setIsAdding(true)}
+                alt="추가 버튼"
+              />
             </Col>
           </Row>
         )}
@@ -49,7 +54,7 @@ function Blogs({ portfolioOwnerId, isEditable }) {
           <BlogAddForm
             portfolioOwnerId={portfolioOwnerId}
             setBlogs={setBlogs}
-            onClose={()=>setIsAdding(false)}
+            onClose={() => setIsAdding(false)}
           />
         )}
       </Card.Body>

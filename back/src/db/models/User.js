@@ -15,7 +15,7 @@ class User {
 
     static findAll({ perPage, page, id }) {
         return UserModel.find({ id: { $ne: id }, validated: { $ne: false } })
-            .sort({ created: -1 })
+            .sort({ createdAt: -1 })
             .skip(perPage * (page - 1))
             .limit(perPage);
     }

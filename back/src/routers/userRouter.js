@@ -82,8 +82,10 @@ userAuthRouter.get("/userlist", login_required, async function (req, res, next) 
     try {
         const id = req.currentUserId;
         /* Pagination */
-        const perPage = Number(req.query.perPage || 12);
-        const page = Number(req.query.page || 1);
+        const perPage = 10;
+        console.log(req.query);
+        const page = Number(req.query.page) || 1;
+        console.log(`userlist 요청 ${page}`);
 
         const [usersCount, users] = await Promise.all([
             // 전체 사용자 수를 얻음
@@ -92,7 +94,9 @@ userAuthRouter.get("/userlist", login_required, async function (req, res, next) 
             userAuthService.getUsers({ perPage, page, id }),
         ]);
 
-        return res.status(200).json({ users, page, perPage, usersCount });
+        const endPage = Math.ceil(usersCount / perPage);
+
+        return res.status(200).json({ users, page, endPage });
     } catch (error) {
         next(error);
     }

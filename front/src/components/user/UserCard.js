@@ -1,10 +1,11 @@
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }, ref) => {
   const navigate = useNavigate();
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
+    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }} ref={ref}>
       <Card.Body>
         <Row className="justify-content-md-center">
           <Card.Img
@@ -46,6 +47,6 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
       </Card.Body>
     </Card>
   );
-}
+});
 
 export default UserCard;

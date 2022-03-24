@@ -224,15 +224,17 @@ userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     // params의 id로 찾은 유저의 likes Array를 상수 likes에 정의.
     // 만약 likes가 user_id를 포함하고 있다면 삭제하고, 없다면 생성함.
     const likes = await UserModel.findOne({ id }).then((res) => res.likes);
+    let user;
+
     if (!likes.includes(user_id)) {
-        await UserModel.findOneAndUpdate({ id }, { $push: { likes: user_id } }, { new: true });
+        user = await UserModel.findOneAndUpdate({ id }, { $push: { likes: user_id } }, { new: true });
         console.log("Like");
     } else {
-        await UserModel.findOneAndUpdate({ id }, { $pull: { likes: user_id } }, { new: true });
+        user = await UserModel.findOneAndUpdate({ id }, { $pull: { likes: user_id } }, { new: true });
         console.log("Unlike");
     }
 
-    return res.sendStatus(200);
+    return res.json({ likes: user.likes });
 });
 
 userAuthRouter.get("/login/github", async (req, res) => {

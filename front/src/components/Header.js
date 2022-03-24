@@ -28,7 +28,7 @@ function Header() {
     navigate("/");
   };
 
-  const socialLogin = userState.user?.socialLogin;
+  const oauth = userState.user?.oauth;
 
   return (
     <Nav activeKey={location.pathname}>
@@ -43,7 +43,7 @@ function Header() {
       </Nav.Item>
       {isLogin && (
         <>
-          { !socialLogin && (
+          { !oauth && (
             <Nav.Item>
               <Nav.Link onClick={() => navigate("/change-password")}>
                 비밀번호 변경

@@ -51,7 +51,7 @@ function Edus({ portfolioOwnerId, isEditable }) {
           <EduAddForm
             portfolioOwnerId={portfolioOwnerId}
             setEdus={setEdus}
-            setIsAdding={setIsAdding}
+            onClose={()=>setIsAdding(false)}
           />
         )}
       </Card.Body>

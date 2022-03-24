@@ -11,10 +11,11 @@ import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 import UserChangePassword from "./components/user/UserChangePassword";
 import UserPasswordReset from "./components/user/UserPasswordReset";
+import StyledApp from "./style/StyledApp";
 
-// 실행 전 임시 데이터 필요 여부를 확인한 뒤 제거 혹은 유지해주세요
-// components>award>Awards
-// components>education>Edus
+import { ThemeProvider } from "./context/themeProvider";
+import { GlobalStyle } from "./style/theme/GlobalStyle";
+import { GlobalFonts } from "./style/fonts/fonts";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -59,23 +60,29 @@ function App() {
   }
 
   return (
-      <DispatchContext.Provider value={dispatch}>
-        <UserStateContext.Provider value={userState}>
+    <DispatchContext.Provider value={dispatch}>
+      <UserStateContext.Provider value={userState}>
+        <ThemeProvider>
+          <GlobalStyle />
+          <GlobalFonts />
           <Router>
             <Header />
+            <StyledApp>
             <Routes>
               <Route path="/" exact element={<Portfolio />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/users/:userId" element={<Portfolio />} />
-              <Route path="/change-password" element={<UserChangePassword/>}/>
-              <Route path="/reset-password" element={<UserPasswordReset/>}/>
+              <Route path="/change-password" element={<UserChangePassword />} />
+              <Route path="/reset-password" element={<UserPasswordReset />} />
               <Route path="/network" element={<Network />} />
               <Route path="*" element={<Portfolio />} />
             </Routes>
+            </StyledApp>
           </Router>
-        </UserStateContext.Provider>
-      </DispatchContext.Provider>
+        </ThemeProvider>
+      </UserStateContext.Provider>
+    </DispatchContext.Provider>
   );
 }
 

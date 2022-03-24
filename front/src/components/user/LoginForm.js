@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -14,6 +15,8 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   // useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
 
   // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -52,15 +55,26 @@ function LoginForm() {
         payload: user,
       });
 
+      alert.success('로그인 성공하였습니다.')
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
+
     } catch (err) {
-      console.log("로그인에 실패하였습니다.\n", err);
+      if (err.response.data==='"해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."') {
+        alert.error('해당 이메일은 가입 내역이 없습니다.');
+        alert.error('다시 한 번 확인해 주세요.');
+      } else if (err.response.data==='"비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."') {
+        alert.error('비밀번호가 일치하지 않습니다.')
+        alert.error('다시 한 번 확인해 주세요.')
+      } else {
+        alert.error('로그인 실패하였습니다.')
+        alert.error('다시 한 번 시도해 주세요.')
+      }
     }
   };
 
-  const handleFailure = async(result) => {
-    
+  const handleFailure = async (result) => {
+
   };
 
   const handleLogin = async (googleData) => {
@@ -68,7 +82,7 @@ function LoginForm() {
       const user = await Api.post("login/google", {
         token: googleData.tokenId,
       })
-      .then((res) => { return res.data; });
+        .then((res) => { return res.data; });
       // JWT 토큰은 유저 정보의 token임.
       const jwtToken = user.token;
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
@@ -91,35 +105,61 @@ function LoginForm() {
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="loginEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="on"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+            <h4>소셜 로그인</h4>
+            <hr></hr>
+            <Row className="mb-5 text-center">
+              <Col>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="구글로 로그인하기"
+                onSuccess={handleLogin}
+                onFailure={handleFailure}
+                cookiePolicy={"single_host_origin"}
               />
-              {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+              </Col>
+              <Col>
+              <Button
+                    variant="secondary"
+                    type="submit"
+                    disabled={!isFormValid}
+                  >
+                    깃허브로 로그인하기
+                  </Button>
+                  </Col>
+            </Row>
+            <h4>이메일 로그인</h4>
+            <hr></hr>
+            <Row>
+              <Form.Group controlId="loginEmail">
+                <Form.Label>이메일 주소</Form.Label>
+                <Form.Control
+                  type="email"
+                  autoComplete="on"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {!isEmailValid && (
+                  <Form.Text className="text-success">
+                    이메일 형식이 올바르지 않습니다.
+                  </Form.Text>
+                )}
+              </Form.Group>
 
-            <Form.Group controlId="loginPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="on"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상입니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+              <Form.Group controlId="loginPassword" className="mt-3">
+                <Form.Label>비밀번호</Form.Label>
+                <Form.Control
+                  type="password"
+                  autoComplete="on"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {!isPasswordValid && (
+                  <Form.Text className="text-success">
+                    비밀번호는 4글자 이상입니다.
+                  </Form.Text>
+                )}
+              </Form.Group>
+            </Row>
             <Row>
               <Col>
                 <Form.Group as={Row} className="m-3 text-center">
@@ -152,13 +192,7 @@ function LoginForm() {
               </Col>
             </Form.Group>
 
-            <GoogleLogin
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-              buttonText="구글로 로그인하기"
-              onSuccess={handleLogin}
-              onFailure={handleFailure}
-              cookiePolicy={"single_host_origin"}
-            />
+
           </Form>
         </Col>
       </Row>

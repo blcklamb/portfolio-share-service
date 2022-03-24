@@ -6,7 +6,7 @@ import { Form } from "react-bootstrap";
 function EduRadioForm({position, setPosition}) {
     return (
         <Form >
-            <div key={`inline-radio`} className="mb-3 mt-3">
+            <div className="mb-3 mt-3">
                 <Form.Check
                     inline
                     label="재학 중"

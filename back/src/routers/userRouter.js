@@ -215,25 +215,26 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
 });
 
 import { UserModel } from "../db/schemas/User";
-userAuthRouter.post("/user/likes/:id", login_required, async (req, res, next) => {
+userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     // 좋아요를 누르는 user
     const user_id = req.currentUserId;
     // 좋아요를 받는 user
-    const { id } = req.params;
-    console.log(user_id, id);
+    const { id } = req.body;
 
     // params의 id로 찾은 유저의 likes Array를 상수 likes에 정의.
     // 만약 likes가 user_id를 포함하고 있다면 삭제하고, 없다면 생성함.
     const likes = await UserModel.findOne({ id }).then((res) => res.likes);
+    let user;
+
     if (!likes.includes(user_id)) {
-        await UserModel.findOneAndUpdate({ id }, { $push: { likes: user_id } }, { new: true });
+        user = await UserModel.findOneAndUpdate({ id }, { $push: { likes: user_id } }, { new: true });
         console.log("Like");
     } else {
-        await UserModel.findOneAndUpdate({ id }, { $pull: { likes: user_id } }, { new: true });
+        user = await UserModel.findOneAndUpdate({ id }, { $pull: { likes: user_id } }, { new: true });
         console.log("Unlike");
     }
 
-    return res.sendStatus(200);
+    return res.json({ likes: user.likes });
 });
 
 userAuthRouter.get("/login/github", async (req, res) => {
@@ -243,7 +244,8 @@ userAuthRouter.get("/login/github", async (req, res) => {
         scope: "read:user",
     }).toString();
     const url = `${base}?${params}`;
-    return res.redirect(url);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.redirect(url);
 });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {

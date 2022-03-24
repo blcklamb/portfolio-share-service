@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
-function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
+function AwardAddForm({ portfolioOwnerId, setAwards, onClose }) {
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState("");
   // useState로 description 상태를 생성함.
   const [description, setDescription] = useState("");
 
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
-  const isTitleValid = title.length >= 1;
-  const isDescriptionValid = description.length >= 1;
+  const isTitleValid = !!title;
+  const isDescriptionValid = !!description;
   const isFormValid = isTitleValid && isDescriptionValid 
   
 
@@ -24,7 +24,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
 
     // "award/create" 엔드포인트로 post요청함.
     await Api.post("award/create", {
-      user_id: portfolioOwnerId,
+      user_id,
       title,
       description,
     });
@@ -34,7 +34,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
     // awards를 response의 data로 세팅함.
     setAwards(res.data);
     // award를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
-    setIsAdding(false);
+    onClose();
   };
 
   return (
@@ -72,7 +72,7 @@ function AwardAddForm({ portfolioOwnerId, setAwards, setIsAdding }) {
           <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsAdding(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             취소
           </Button>
         </Col>

@@ -2,10 +2,14 @@ import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
+import { useAlert } from "react-alert";
 
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
@@ -19,6 +23,7 @@ function Header() {
     sessionStorage.removeItem("userToken");
     // dispatch 함수를 이용해 로그아웃함.
     dispatch({ type: "LOGOUT" });
+    alert.info('로그아웃되었습니다.')
     // 기본 페이지로 돌아감.
     navigate("/");
   };

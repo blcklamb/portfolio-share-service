@@ -3,7 +3,7 @@ import * as Api from "../../api";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
-const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
+const ProjectAddForm = ({ portfolioOwnerId, setProjects, onClose }) => {
 
     /* 
     상태 생성
@@ -35,7 +35,7 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
         // (생성 후) 조회 ("projectlist/유저id" 엔드포인트로 get요청함.)
         const res = await Api.get("projectlist", user_id)
         setProjects(res.data)
-        setIsAdding(false)
+        onClose()
     }
 
     return (
@@ -76,7 +76,7 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, setIsAdding }) => {
                 <Form.Group as={Row} className="mt-3 text-center">
                     <Col sm={{ span: 20 }}>
                         <Button variant="primary" type="submit" className="me-3">확인</Button>
-                        <Button variant="secondary" onClick={() => setIsAdding(false)}>취소</Button>
+                        <Button variant="secondary" onClick={() => onClose()}>취소</Button>
                     </Col>
                 </Form.Group>
             </Form>

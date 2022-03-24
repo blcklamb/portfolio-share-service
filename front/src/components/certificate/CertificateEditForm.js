@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import * as Api from "../../api";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import DatePicker from "react-datepicker";
+import * as Api from "../../api";
 
 const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing }) => {
 
@@ -35,43 +36,47 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
   return (
     <Form onSubmit={handleSubmit}>
-    <Form.Group controlId="formBasicTitle">
-      <Form.Control
-        type="text"
-        placeholder="자격증 제목"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-    </Form.Group>
-    <Form.Group controlId="formBasicDescription" className="mt-3">
-      <Form.Control
-        type="text"
-        placeholder="상세 내역"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
-    </Form.Group>
-    <Form.Group controlId="formBasicWhenDate" className="mt-3">
+      <Form.Group controlId="formBasicTitle">
+        <Form.Control
+          type="text"
+          placeholder="자격증 제목"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group controlId="formBasicDescription" className="mt-3">
+        <Form.Control
+          type="text"
+          placeholder="상세 내역"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group controlId="formBasicWhenDate" className="mt-3">
         <span>취득일</span>
         <DatePicker
-            selected={when_date}
-            onChange={(date) => {setWhenDate(date)}}
+          className="custom-datePicker"
+          dateFormat="yyyy/MM/dd"
+          selected={when_date}
+          onChange={(date) => { setWhenDate(date) }}
         />
-    </Form.Group>
+      </Form.Group>
 
-    <Form.Group as={Row} className="mt-3 text-center mb-4">
-      <Col sm={{ span: 20 }}>
-        <Button variant="primary" type="submit" className="me-3">
-          확인
-        </Button>
-        <Button variant="secondary" onClick={() => setIsEditing(false)}>
-          취소
-        </Button>
-      </Col>
-    </Form.Group>
-  </Form>
+      <Form.Group as={Row} className="mt-3 text-center mb-4">
+        <Col sm={{ span: 20 }}>
+          <Button variant="primary" type="submit" className="me-3">
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
+            확인
+          </Button>
+          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
+            취소
+          </Button>
+        </Col>
+      </Form.Group>
+    </Form>
   );
 };
 

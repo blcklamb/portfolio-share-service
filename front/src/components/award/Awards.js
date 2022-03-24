@@ -3,10 +3,9 @@
 // Awards>Award, AwardAddForm
 // Award>AwardCard, AwardEditForm
 
-//실행 전 임시 데이터 필요 여부를 확인한 뒤 제거 혹은 유지해주세요.
-
 import React, { useEffect, useState } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
+import { MdLibraryAdd } from "react-icons/md";
 import * as Api from "../../api";
 import Award from "./Award";
 import AwardAddForm from "./AwardAddForm";
@@ -40,7 +39,13 @@ function Awards({ portfolioOwnerId, isEditable }) {
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
             <Col sm={{ span: 20 }}>
-              <Button onClick={() => setIsAdding(true)}>+</Button>
+            <MdLibraryAdd
+                className="btn-add-md"
+                type="button"
+                size="30"
+                onClick={() => setIsAdding(true)}
+                alt="추가 버튼"
+              />
             </Col>
           </Row>
         )}

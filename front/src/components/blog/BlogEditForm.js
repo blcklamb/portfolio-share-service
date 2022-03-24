@@ -40,9 +40,9 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicService">
-      <Form.Select
-        value={service}
-        onChange={(e) => setService(e.target.value)}>
+        <Form.Select
+          value={service}
+          onChange={(e) => setService(e.target.value)}>
           <option>사이트 선택</option>
           <option value="Github">Github</option>
           <option value="Gitlab">Gitlab</option>

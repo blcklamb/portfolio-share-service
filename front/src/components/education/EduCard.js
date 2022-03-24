@@ -1,22 +1,45 @@
 // Edu>EduCard
 import { Card, Button, Row, Col } from "react-bootstrap";
+import { MdModeEditOutline, MdDeleteOutline } from "react-icons/md";
+import { useAlert } from "react-alert";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as Api from "../../api";
 
 function EduCard({ edu, setEdus, isEditable, setIsEditing }) {
 
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
+
+  const handleDeleteAlert = (e) => {
+    confirmAlert({
+      title: '🚫 주의',
+      message: '해당 자격증을 삭제하시겠습니까?',
+      buttons: [
+        {
+          label: '삭제',
+          onClick: () => handleDelete(e)
+        },
+        {
+          label: '취소',
+        }
+      ]
+    })
+  }
+
   const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const delete_content = edu.id
+    const deleteContent = edu.id
 
-    alert("삭제 되었습니다.")
-    await Api.delete(`educations/${delete_content}`);
+    await Api.delete(`educations/${deleteContent}`);
 
     // "educatonlist/유저id" 엔드포인트로 get요청함.
     const res = await Api.get("educationlist", edu.user_id);
 
-    setEdus(res.data);
+    alert.info("삭제되었습니다.")
 
+    setEdus(res.data);
   };
 
   return (
@@ -37,22 +60,24 @@ function EduCard({ edu, setEdus, isEditable, setIsEditing }) {
                 size="sm"
                 onClick={() => setIsEditing((prev) => !prev)}
                 className="mr-3"
+                alt="편집 버튼"
               >
-                편집
+                <MdModeEditOutline size="24"/>
               </Button>
+              
             </Col>
             <Col md="auto">
               <Button
                 variant="outline-danger"
                 size="sm"
-                onClick={handleDelete}
+                onClick={(e) => handleDeleteAlert(e)}
                 className="mr-3"
+                alt="삭제 버튼"
               >
-                삭제
+                <MdDeleteOutline size="24"/>
               </Button>
             </Col>
           </>
-
         )}
       </Row>
     </Card.Text>

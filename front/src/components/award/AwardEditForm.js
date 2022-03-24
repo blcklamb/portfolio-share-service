@@ -1,6 +1,7 @@
 // Award>AwardEditForm
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
 
 function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
@@ -69,9 +70,11 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
       <Form.Group as={Row} className="mt-3 text-center mb-4">
         <Col sm={{ span: 20 }}>
           <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
           <Button variant="secondary" onClick={() => setIsEditing(false)}>
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>
         </Col>

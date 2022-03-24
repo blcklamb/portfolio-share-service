@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import { MdModeEditOutline } from "react-icons/md";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
+    <Card className="mb-2 ms-3 mr-5" >
       <Card.Body>
         <Row className="justify-content-md-center">
           <Card.Img
             style={{ width: "10rem", height: "8rem" }}
             className="mb-3"
-            src = {user?.image}
+            src={user?.image}
             alt="회원가입 시 업로드 (AWS 버킷 사용)"
           />
         </Row>
@@ -26,8 +27,9 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
                   variant="outline-info"
                   size="sm"
                   onClick={() => setIsEditing(true)}
+                  alt="편집 버튼"
                 >
-                  편집
+                  <MdModeEditOutline size="24" />
                 </Button>
               </Col>
             </Row>

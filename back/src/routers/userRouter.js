@@ -219,7 +219,7 @@ userAuthRouter.post("/user/likes/:id", login_required, async (req, res, next) =>
     // 좋아요를 누르는 user
     const user_id = req.currentUserId;
     // 좋아요를 받는 user
-    const { id } = req.params;
+    const { id } = req.body;
 
     // params의 id로 찾은 유저의 likes Array를 상수 likes에 정의.
     // 만약 likes가 user_id를 포함하고 있다면 삭제하고, 없다면 생성함.
@@ -242,7 +242,8 @@ userAuthRouter.get("/login/github", async (req, res) => {
         scope: "read:user",
     }).toString();
     const url = `${base}?${params}`;
-    return res.redirect(url);
+    res.header("Access-Control-Allow-Origin", "*");
+    return res.redirect(200, url);
 });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
-function login_required(req, res, next) {
+
+async function login_required(req, res, next) {
     // request 헤더로부터 authorization bearer 토큰을 받음.
     const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
@@ -18,6 +19,10 @@ function login_required(req, res, next) {
         req.currentUserId = user_id;
         next();
     } catch (error) {
+        // access token이 만료된 경우, '/refresh'로 보내 새로 access token 발급
+        if (error.message === "jwt expired") {
+            return res.redirect('/refresh');
+        }
         return res.status(400).send(`Token Error: ${error}`);
     }
 }

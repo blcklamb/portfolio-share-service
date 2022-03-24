@@ -52,12 +52,15 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
         const password = req.body.password;
 
         // 위 데이터를 이용하여 유저 db에서 유저 찾기
-        const user = await userAuthService.getUser({ email, password });
+        const [ user, refreshToken ] = await userAuthService.getUser({ email, password });
         if (user.errorMessage) {
             throw new Error(user.errorMessage);
         }
 
-        return res.status(200).send(user);
+        // refresh token은 cookie로 httpOnly, secure 옵션 적용해서 보안 강화하여 보내기
+        return res.status(200)
+            .cookie('refreshToken', refreshToken, {secure: true, httpOnly: true})
+            .send(user);
     } catch (error) {
         next(error);
     }
@@ -328,5 +331,24 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
         next(error);
     }
 });
+
+// refresh token을 이용해 access token 재발급
+userAuthRouter.get("/refresh", (req, res, next) => {
+    try {
+        // 전달받은 cookie에서 refresh token 가져와 검증하고 user_id 추출
+        const refreshToken = req.cookies.refreshToken;
+        const jwtDecoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
+        const user_id = jwtDecoded.user_id;
+
+        // 새로 access token 발급해서 전송
+        const newAccessToken = jwt.sign({ user_id: user_id }, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
+        return res.status(200).json({ 
+            token: newAccessToken
+        });
+    } catch(error) {
+        return res.status(400).send(`Token Error: ${error}`)
+    }
+})
+
 
 export { userAuthRouter };

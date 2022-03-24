@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import { MdModeEditOutline } from "react-icons/md";
+import UserLike from "./UserLike";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
@@ -15,7 +16,19 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
             alt="회원가입 시 업로드 (AWS 버킷 사용)"
           />
         </Row>
-        <Card.Title>{user?.name}</Card.Title>
+        <Card.Title>
+          <Row>
+            <Col md="9">
+              {user?.name}
+            </Col>
+            <Col md="3">
+              {user && <UserLike 
+                user={user}
+                isLikable={!isEditable}
+              />}
+            </Col>
+          </Row>
+        </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
         <Card.Text>{user?.description}</Card.Text>
 

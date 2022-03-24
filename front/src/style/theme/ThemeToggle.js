@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FcPortraitMode, FcNightPortrait } from "react-icons/fc";
 
 function ThemeToggle({ toggle, mode }) {
     return (
         <ToggleWrapper onClick={toggle} mode={mode}>
-            {mode === 'dark'?'다크모드':'라이트모드'}
+            {mode === 'dark'?<FcNightPortrait size="24"/>:<FcPortraitMode size="24"/>}
         </ToggleWrapper>
     );
 }

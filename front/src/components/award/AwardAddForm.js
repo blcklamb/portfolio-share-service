@@ -1,6 +1,7 @@
 // Awards>AwardAddForm
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
 
 function AwardAddForm({ portfolioOwnerId, setAwards, onClose }) {
@@ -12,8 +13,6 @@ function AwardAddForm({ portfolioOwnerId, setAwards, onClose }) {
   // 추가하려는 정보가 입력됐는지 여부를 확인함.
   const isTitleValid = !!title;
   const isDescriptionValid = !!description;
-  const isFormValid = isTitleValid && isDescriptionValid 
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,12 +44,13 @@ function AwardAddForm({ portfolioOwnerId, setAwards, onClose }) {
           placeholder="수상내역"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         {!isTitleValid && (
-                <Form.Text className="text-success m-2">
-                 수상내역 입력 필수
-                </Form.Text>
-              )}
+          <Form.Text className="text-success m-2">
+            수상내역 입력 필수
+          </Form.Text>
+        )}
       </Form.Group>
 
       <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -59,21 +59,24 @@ function AwardAddForm({ portfolioOwnerId, setAwards, onClose }) {
           placeholder="상세내역"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
         {!isDescriptionValid && (
-                <Form.Text className="text-success m-2">
-                  상세내역 입력 필수
-                </Form.Text>
-              )}
+          <Form.Text className="text-success m-2">
+            상세내역 입력 필수
+          </Form.Text>
+        )}
       </Form.Group>
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
-            확인
+          <Button variant="primary" type="submit" className="me-3" >
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />
+            &nbsp;확인
           </Button>
           <Button variant="secondary" onClick={() => onClose()}>
-            취소
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />
+            &nbsp;취소
           </Button>
         </Col>
       </Form.Group>

@@ -12,8 +12,6 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
   // 편집하려는 정보가 입력됐는지 여부를 확인함.
   const isServiceValid = !!service;
   const isUrlValid = !!url;
-  const isFormValid = isServiceValid && isUrlValid
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,9 +38,11 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicService">
-      <Form.Select
-        value={service}
-        onChange={(e) => setService(e.target.value)}>
+        <Form.Select
+          value={service}
+          onChange={(e) => setService(e.target.value)}
+          required
+          >
           <option>사이트 선택</option>
           <option value="Github">Github</option>
           <option value="Gitlab">Gitlab</option>
@@ -65,6 +65,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
           placeholder="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          required
         />
         {!isUrlValid && (
           <Form.Text className="text-success m-2">
@@ -75,7 +76,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
 
       <Form.Group as={Row} className="mt-3 text-center mb-4">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3">
             확인
           </Button>
           <Button variant="secondary" onClick={() => setIsEditing(false)}>

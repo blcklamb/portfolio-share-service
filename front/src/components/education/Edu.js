@@ -1,13 +1,15 @@
 // Edus>Edu>EduCard, EduEditForm
 import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import { FcGraduationCap } from "react-icons/fc";
 import EduCard from "./EduCard";
 import EduEditForm from "./EduEditForm";
 
-import { Row, Col } from "react-bootstrap";
-
 function Edu({ edu, setEdus, isEditable }) {
+  
   // useState로 isEditing 상태를 생성함.
   const [isEditing, setIsEditing] = useState(false);
+  
   return (
     <>
       {isEditing ? (
@@ -19,7 +21,7 @@ function Edu({ edu, setEdus, isEditable }) {
       ) : (
         <Row>
           <Col md={1} >
-            <h3>👨‍🎓</h3>
+            <FcGraduationCap size="24"/>
           </Col>
           <Col>
             <EduCard

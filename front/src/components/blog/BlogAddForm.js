@@ -14,7 +14,6 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
   const isUrlValid = !!url;
   const isUrlHasHttps = url.startsWith('https://') || url.startsWith('http://');
   const isUrlCompleted = isUrlValid && isUrlHasHttps;
-  const isFormValid = isServiceValid && isUrlValid;
 
   // const handleUrl = (e) => {
   //   let newUrl = e.target.value
@@ -62,7 +61,9 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formBasicService">
         <Form.Select
-          onChange={(e) => setService(e.target.value)}>
+          onChange={(e) => setService(e.target.value)}
+          required
+          >
           <option>사이트 선택</option>
           <option value="Github">Github</option>
           <option value="Gitlab">Gitlab</option>
@@ -84,6 +85,7 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
           placeholder="url"
           value={url}
           onChange={(e)=>setUrl(e.target.value)}
+          required
         />
         {!isUrlCompleted && (
           <Form.Text className="text-success m-2">
@@ -94,7 +96,7 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3" >
             확인
           </Button>
           <Button variant="secondary" onClick={() => onClose()}>

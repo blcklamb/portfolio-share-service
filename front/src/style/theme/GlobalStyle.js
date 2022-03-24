@@ -35,8 +35,28 @@ export const GlobalStyle = createGlobalStyle`
         color: ${({ theme }) => theme.infoBtnColor};
     }
     .btn-outline-info:hover{
-        background: ${({theme})=>theme.infoBtnColor};
+        background: ${({ theme }) => theme.infoBtnColor};
         border-color: ${({ theme }) => theme.infoBtnColor};
-        color: ${({theme})=>theme.bgColor};
+        color: ${({ theme }) => theme.bgColor};
     }
-    `;
+    .custom-datePicker{
+        height: 2rem;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        border: 1px solid #ced4da ;
+        border-radius: 6px;
+        color: #212529;
+    }
+    .react-confirm-alert {
+        font-weight: bold;
+    }
+    .react-confirm-alert-overlay {
+        background: rgba(0,0,0,0.5);
+    }
+    .user-card:hover{
+        cursor: pointer;
+        color: ${({ theme }) => theme.bgColor};
+        background: ${({ theme }) => theme.cardBgColor};
+        border: ${({ theme }) => theme.bgColor};
+    }
+`;

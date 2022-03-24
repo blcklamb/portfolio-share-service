@@ -1,6 +1,7 @@
 // Award>AwardEditForm
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
 
 function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
@@ -12,7 +13,6 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
   // 편집하려는 정보가 입력됐는지 여부를 확인함.
   const isTitleValid = !!title;
   const isDescriptionValid = !!description;
-  const isFormValid = isTitleValid && isDescriptionValid
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +44,7 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
           placeholder="수상내역"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
         {!isTitleValid && (
           <Form.Text className="text-success m-2">
@@ -58,6 +59,7 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
           placeholder="상세내역"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
         {!isDescriptionValid && (
           <Form.Text className="text-success m-2">
@@ -68,10 +70,12 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
 
       <Form.Group as={Row} className="mt-3 text-center mb-4">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3">
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
           <Button variant="secondary" onClick={() => setIsEditing(false)}>
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>
         </Col>

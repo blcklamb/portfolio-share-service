@@ -1,8 +1,8 @@
 // Edus>EduAddForm>EduRadioForm
 import React, { useState } from "react";
 import { Button, Col, Row, Form, FloatingLabel } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
-
 import EduRadioForm from "./EduRadioForm";
 
 function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
@@ -17,8 +17,6 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
   const isSchoolValid = !!school;
   const isMajorValid = !!major;
   const isPositionValid = position != null
-  const isFormValid = isSchoolValid && isMajorValid && isPositionValid
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,19 +49,21 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
               controlId="floatingInput"
               label="학교 이름"
               className="mb-3"
+              style={{ color: "#0D0900" }}
             >
               <Form.Control
                 type="text"
                 placeholder="학교 이름"
                 value={school}
                 onChange={(e) => setSchool(e.target.value)}
+                required
               />
             </FloatingLabel>
             {!isSchoolValid && (
-                <Form.Text className="text-success m-2">
-                  학교 이름 입력 필수
-                </Form.Text>
-              )}
+              <Form.Text className="text-success m-2">
+                학교 이름 입력 필수
+              </Form.Text>
+            )}
           </Form.Group>
         </Col>
         <Col md>
@@ -72,19 +72,21 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
               controlId="floatingInput"
               label="전공"
               className="mb-3"
+              style={{ color: "#0D0900" }}
             >
               <Form.Control
                 type="text"
                 placeholder="전공"
                 value={major}
                 onChange={(e) => setMajor(e.target.value)}
+                required
               />
             </FloatingLabel>
             {!isMajorValid && (
-                <Form.Text className="text-success m-2">
-                  전공 입력 필수
-                </Form.Text>
-              )}
+              <Form.Text className="text-success m-2">
+                전공 입력 필수
+              </Form.Text>
+            )}
           </Form.Group>
         </Col>
       </Row>
@@ -94,19 +96,21 @@ function EduAddForm({ portfolioOwnerId, setEdus, onClose }) {
           setPosition={setPosition}
         />
         {!isPositionValid && (
-                <Form.Text className="text-success m-2">
-                  학위 선택 필수
-                </Form.Text>
-              )}
+          <Form.Text className="text-success m-2">
+            학위 선택 필수
+          </Form.Text>
+        )}
       </Form.Group>
 
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3" disabled={!isFormValid}>
+          <Button variant="primary" type="submit" className="me-3">
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
           <Button variant="secondary" onClick={() => onClose()}>
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>
         </Col>

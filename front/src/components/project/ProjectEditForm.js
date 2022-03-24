@@ -1,7 +1,9 @@
+// ProjectEditForm>ProjectRadioForm
 import React, { useState } from "react";
-import * as Api from "../../api";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import DatePicker from "react-datepicker";
+import * as Api from "../../api";
 
 const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
 
@@ -31,52 +33,58 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
     setProjects(res.data);
     setIsEditing(false);
   };
-  
+
   return (
     <Form onSubmit={handleSubmit}>
-    <Form.Group controlId="formBasicTitle">
-      <Form.Control
-        type="text"
-        placeholder="프로젝트 제목"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
-    </Form.Group>
-    <Form.Group controlId="formBasicDescription" className="mt-3">
-      <Form.Control
-        type="text"
-        placeholder="상세 내역"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
-    </Form.Group>
-    <Form.Group controlId="formBasicFromDate" className="mt-3">
-      <span>시작일</span>
-      <DatePicker
+      <Form.Group controlId="formBasicTitle">
+        <Form.Control
+          type="text"
+          placeholder="프로젝트 제목"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group controlId="formBasicDescription" className="mt-3">
+        <Form.Control
+          type="text"
+          placeholder="상세 내역"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </Form.Group>
+      <Form.Group controlId="formBasicFromDate" className="mt-3">
+        <span>시작일</span>
+        <DatePicker
+          className="custom-datePicker"
+          dateFormat="yyyy/MM/dd"
           selected={from_date}
-          onChange={(date) => {setFromDate(date)}}
-      />
-    </Form.Group>
-    <Form.Group controlId="formBasicToDate" className="mt-3">
-      <span>종료일</span>
-      <DatePicker
+          onChange={(date) => { setFromDate(date) }}
+        />
+      </Form.Group>
+      <Form.Group controlId="formBasicToDate" className="mt-3">
+        <span>종료일</span>
+        <DatePicker
+          className="custom-datePicker"
+          dateFormat="yyyy/MM/dd"
           selected={to_date}
-          onChange={(date) => {setToDate(date)}}
-      />
-    </Form.Group>
-    <Form.Group as={Row} className="mt-3 text-center mb-4">
-      <Col sm={{ span: 20 }}>
-        <Button variant="primary" type="submit" className="me-3">
-          확인
-        </Button>
-        <Button variant="secondary" onClick={() => setIsEditing(false)}>
-          취소
-        </Button>
-      </Col>
-    </Form.Group>
-  </Form>
+          onChange={(date) => { setToDate(date) }}
+        />
+      </Form.Group>
+      <Form.Group as={Row} className="mt-3 text-center mb-4">
+        <Col sm={{ span: 20 }}>
+          <Button variant="primary" type="submit" className="me-3">
+            <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
+            확인
+          </Button>
+          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+            <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
+            취소
+          </Button>
+        </Col>
+      </Form.Group>
+    </Form>
   );
 };
 

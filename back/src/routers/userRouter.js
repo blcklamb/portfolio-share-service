@@ -72,7 +72,7 @@ userAuthRouter.get("/user/vaildation/:id", async (req, res) => {
             toUpdate: { validated: true },
         });
 
-        return res.redirect("http://localhost:3000/login");
+        return res.redirect("http://localhost:3000/login?validation=true");
     } catch (error) {
         next(error);
     }
@@ -326,7 +326,7 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
         const user = await userAuthService.socialLogin({
             email,
             name,
-            image: picture,
+            image: !picture ? undefined : picture,
         });
 
         console.log(user);

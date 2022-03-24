@@ -29,9 +29,9 @@ class User {
         return updatedUser;
     }
 
-    static async findOneAndUpdateByEmail(email, { name, image }) {
+    static async findOneAndUpdateByEmail(email, { name, image, validated, oauth }) {
         const filter = { email: email };
-        const update = { name: name, image: image };
+        const update = { name, image, validated, oauth };
         const option = { returnOriginal: false };
 
         const upsertedUser = await UserModel.findOneAndUpdate(filter, update, option);

@@ -41,6 +41,11 @@ const UserSchema = new Schema(
             required: true,
             default: false,
         },
+        oauth: { // 소셜로그인 가입 여부
+            type: Boolean,
+            required: true,
+            default: false
+        }
     },
     { timestamps: true },
 );

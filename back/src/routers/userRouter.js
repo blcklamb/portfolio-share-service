@@ -215,7 +215,7 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
 });
 
 import { UserModel } from "../db/schemas/User";
-userAuthRouter.post("/user/likes/:id", login_required, async (req, res, next) => {
+userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     // 좋아요를 누르는 user
     const user_id = req.currentUserId;
     // 좋아요를 받는 user
@@ -243,7 +243,7 @@ userAuthRouter.get("/login/github", async (req, res) => {
     }).toString();
     const url = `${base}?${params}`;
     res.header("Access-Control-Allow-Origin", "*");
-    return res.redirect(200, url);
+    res.redirect(url);
 });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {

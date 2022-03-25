@@ -21,12 +21,9 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "recoil": "^0.6.1",
-<<<<<<< HEAD
     "styled-components": "^5.3.3",
     "styled-reset": "^4.3.4",
-=======
     "universal-cookie": "^4.0.4",
->>>>>>> feature/refresh-token
     "web-vitals": "^2.1.0"
   },
   "scripts": {

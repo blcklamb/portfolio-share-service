@@ -46,9 +46,9 @@ class certificateService {
             return { errorMessage };
         }
 
-        const updateCertificate = await Certificate.delete({ id });
+        const deleteCertificate = await Certificate.delete({ id });
 
-        return updateCertificate;
+        return deleteCertificate;
     }
 }
 

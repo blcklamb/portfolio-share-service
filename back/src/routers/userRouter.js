@@ -144,6 +144,14 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
     }
 });
 
+userAuthRouter.delete("/user/current", login_required, async (req, res) => {
+    const user_id = req.currentUserId;
+
+    await userAuthService.deleteUser({ user_id });
+
+    return res.status(200).json({ result: "success" });
+});
+
 userAuthRouter.get("/users/:id", async function (req, res, next) {
     try {
         const { id } = req.params;

@@ -29,6 +29,10 @@ class User {
         return updatedUser;
     }
 
+    static delete({ user_id }) {
+        return UserModel.findOneAndDelete({ id: user_id });
+    }
+
     static async findOneAndUpdateByEmail(email, { name, image }) {
         const filter = { email: email };
         const update = { name: name, image: image };
@@ -45,7 +49,6 @@ class User {
     static countDocuments() {
         return UserModel.countDocuments({});
     }
-
 }
 
 export { User };

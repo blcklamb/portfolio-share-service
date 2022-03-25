@@ -45,9 +45,9 @@ class projectService {
             return { errorMessage };
         }
 
-        const updateProject = await Project.delete({ id });
+        const deleteProject = await Project.delete({ id });
 
-        return updateProject;
+        return deleteProject;
     }
 }
 

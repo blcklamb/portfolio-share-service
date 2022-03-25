@@ -71,13 +71,12 @@ class userAuthService {
         return loginUser;
     }
 
-    static async getUsers({ perPage, page, id }) {
-        return await User.findAll({ perPage, page, id });
+    static getUsers({ perPage, page, id }) {
+        return User.findAll({ perPage, page, id });
     }
 
-    static async getUsersCount() {
-        const usersCount = await User.countDocuments({});
-        return usersCount;
+    static getUsersCount() {
+        return User.countDocuments({});
     }
 
     static async setUser({ user_id, toUpdate }) {
@@ -127,6 +126,10 @@ class userAuthService {
         }
 
         return user;
+    }
+
+    static deleteUser({ user_id }) {
+        return User.delete({ user_id });
     }
 
     static async socialLogin({ email, name, image }) {

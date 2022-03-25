@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
 import { Badge } from "react-bootstrap";
+import styled from "styled-components";
 
 const UserLike = ({ user, isLikable, isNetwork }) => {
 
@@ -29,24 +30,40 @@ const UserLike = ({ user, isLikable, isNetwork }) => {
     return (
         <>
             {!isNetwork && (
-                <Badge pill bg="dark" style={{ fontSize : 20 }} className="float-right">
+                <StyledBadge pill bg="dark" style={{ fontSize : 20}} className="float-right">
+                <div style={{ padding: 'auto'}}>
                 {isLikable && isLike && (<span onClick={handleClick}>💗</span>)}
                 {isLikable && !isLike && (<span onClick={handleClick}>🤍</span>)}
                 {!isLikable && (<span>💗</span>)}
-                <span>{likeCnt}</span>    
-                </Badge> 
+                <span>{likeCnt}</span>  
+                </div>  
+                </StyledBadge> 
                 )
             }
             {isNetwork && (
-                <Badge pill bg="dark" className="big" style={{ fontSize : 18 }}>
+                <>
+                <StyledBadge pill bg="dark" className="big" style={{ fontSize : 18, maxHeight: "32px"}}>
+                <div style={{ padding: 'auto'}}>
                 {isLike && (<span>💗</span>)}
                 {!isLike && (<span>🤍</span>)}
-                <span>{likeCnt}</span>    
-                </Badge> 
+                <span>{likeCnt}</span>  
+                </div>    
+                </StyledBadge> 
+                </>
                 )
             }
         </>
     )
 }
+
+const StyledBadge = styled(Badge)`
+justify-content: center;
+margin-bottom: 10px;
+max-height: 38px;
+    background: #332604;
+    border-radius: 17px;
+  font-size: 1em;
+  border: ${({ theme }) => theme.badgeBorderColor};
+`;
 
 export default UserLike

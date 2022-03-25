@@ -108,5 +108,8 @@ export const GlobalStyle = createGlobalStyle`
         background: ${({ theme }) => theme.bgColor};
         border: ${({ theme }) => theme.borderColor};
     }
-    
+    .like-badge {
+        color: blue;
+        border: ${({ theme }) => theme.borderColor};
+    }
 `;

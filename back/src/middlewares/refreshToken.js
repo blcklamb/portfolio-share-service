@@ -11,7 +11,7 @@ export default (req, res) => {
 
         // 새로 access token 발급해서 전송, 401(Unauthorized) status는 인증 오류 상태 코드
         if (user_id === currentUserId) {
-            const newAccessToken = jwt.sign({ user_id: user_id }, process.env.JWT_SECRET_KEY, {expiresIn: '10s'});
+            const newAccessToken = jwt.sign({ user_id: user_id }, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
             return res.status(401)
                 .json({
                     'newAccessToken': newAccessToken,

@@ -146,12 +146,16 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
     }
 });
 
-userAuthRouter.delete("/user/current", login_required, async (req, res) => {
-    const user_id = req.currentUserId;
+userAuthRouter.delete("/user/current", login_required, async (req, res, next) => {
+    try {
+        const user_id = req.currentUserId;
 
-    await userAuthService.deleteUser({ user_id });
+        await userAuthService.deleteUser({ user_id });
 
-    return res.status(200).json({ result: "success" });
+        return res.status(200).json({ result: "success" });
+    } catch (error) {
+        next(error);
+    }
 });
 
 userAuthRouter.get("/users/:id", async function (req, res, next) {

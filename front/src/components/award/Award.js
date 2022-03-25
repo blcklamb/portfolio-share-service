@@ -15,7 +15,7 @@ function Award({ award, setAwards, isEditable }) {
         <AwardEditForm
           currentAward={award}
           setAwards={setAwards}
-          setIsEditing={setIsEditing}
+          onClose={()=>setIsEditing(false)}
         />
       ) : (
         <Row>

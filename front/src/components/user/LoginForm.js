@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useCallback, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useAlert } from "react-alert";
@@ -33,6 +33,20 @@ function LoginForm() {
   const isPasswordValid = password.length >= 4;
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
+  
+  // 이메일로 받은 링크로 접속 시 로그인 알림
+  const alertLoginValidated = useCallback(async () => {
+    let a = window.location.search.split('?');
+    if (a.length === 1 && a[0]==="") return {};
+    else if (a[1]==="validation=true") {
+      alert.info("이메일 인증이 완료되었습니다.")
+      alert.info("로그인 해주세요.")
+    }
+  }, [])
+
+  useEffect(()=>{
+    alertLoginValidated();
+  }, [alertLoginValidated])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

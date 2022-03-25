@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
-function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
+function BlogEditForm({ currentBlog, setBlogs, onClose }) {
   // useState로 service 상태를 생성함.
   const [service, setService] = useState(currentBlog.service);
   // useState로 url 상태를 생성함.
@@ -12,6 +12,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
   // 편집하려는 정보가 입력됐는지 여부를 확인함.
   const isServiceValid = !!service;
   const isUrlValid = !!url;
+  const isUrlHasHttps = url.startsWith('https://') || url.startsWith('http://');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
     await Api.put(`blogs/${currentBlog.id}`, {
       user_id,
       service,
-      url,
+      url: isUrlHasHttps ? url:'https://'+url,
     });
 
     // "bloglist/유저id" 엔드포인트로 GET 요청함.
@@ -32,7 +33,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
     // blogs를 response의 data로 세팅함.
     setBlogs(res.data);
     // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
-    setIsEditing(false);
+    onClose();
   };
 
   return (
@@ -79,7 +80,7 @@ function BlogEditForm({ currentBlog, setBlogs, setIsEditing }) {
           <Button variant="primary" type="submit" className="me-3">
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             취소
           </Button>
         </Col>

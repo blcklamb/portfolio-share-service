@@ -5,7 +5,7 @@ import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import * as Api from "../../api";
 
-const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
+const ProjectEditForm = ({ currentProject, setProjects, onClose }) => {
 
   const [title, setTitle] = useState(currentProject.title);
   const [description, setDescription] = useState(currentProject.description);
@@ -31,7 +31,7 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
     // "projects/유저id" 엔드포인트로 GET 요청함.
     const res = await Api.get("projectlist", user_id);
     setProjects(res.data);
-    setIsEditing(false);
+    onClose();
   };
 
   return (
@@ -78,7 +78,7 @@ const ProjectEditForm = ({ currentProject, setProjects, setIsEditing }) => {
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>

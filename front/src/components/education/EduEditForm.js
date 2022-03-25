@@ -5,7 +5,7 @@ import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
 import EduRadioForm from "./EduRadioForm";
 
-function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
+function EduEditForm({ currentEdu, setEdus, onClose }) {
   
   // useState로 school 상태를 생성함.
   const [school, setSchool] = useState(currentEdu.school);
@@ -39,7 +39,7 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
     // edus를 response의 data로 세팅함.
     setEdus(res.data);
     // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
-    setIsEditing(false);
+    onClose();
   };
 
   return (
@@ -91,7 +91,7 @@ function EduEditForm({ currentEdu, setEdus, setIsEditing }) {
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>

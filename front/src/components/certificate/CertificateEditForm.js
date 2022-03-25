@@ -4,7 +4,7 @@ import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import * as Api from "../../api";
 
-const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing }) => {
+const CertificateEditForm = ({ currentCertificate, setCertificates, onClose }) => {
 
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState(currentCertificate.title);
@@ -31,7 +31,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
     // "certificatelist/유저id" 엔드포인트로 GET 요청함.
     const res = await Api.get("certificatelist", user_id);
     setCertificates(res.data);
-    setIsEditing(false);
+    onClose();
   };
 
   return (
@@ -70,7 +70,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>

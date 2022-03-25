@@ -4,7 +4,7 @@ import { Button, Form, Col, Row } from "react-bootstrap";
 import { MdCheckCircle, MdOutlineCancel } from "react-icons/md";
 import * as Api from "../../api";
 
-function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
+function AwardEditForm({ currentAward, setAwards, onClose }) {
   // useState로 title 상태를 생성함.
   const [title, setTitle] = useState(currentAward.title);
   // useState로 description 상태를 생성함.
@@ -33,7 +33,7 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
     // awards를 response의 data로 세팅함.
     setAwards(res.data);
     // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
-    setIsEditing(false);
+    onClose();
   };
 
   return (
@@ -74,7 +74,7 @@ function AwardEditForm({ currentAward, setAwards, setIsEditing }) {
             <MdCheckCircle size="22" style={{ marginBottom: 3 }} />&nbsp;
             확인
           </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             <MdOutlineCancel size="22" style={{ marginBottom: 3 }} />&nbsp;
             취소
           </Button>

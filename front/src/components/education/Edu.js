@@ -16,7 +16,7 @@ function Edu({ edu, setEdus, isEditable }) {
         <EduEditForm
           currentEdu={edu}
           setEdus={setEdus}
-          setIsEditing={setIsEditing}
+          onClose={()=>setIsEditing(false)}
         />
       ) : (
         <Row>

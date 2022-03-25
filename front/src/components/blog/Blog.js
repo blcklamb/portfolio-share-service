@@ -14,7 +14,7 @@ function Blog({ blog, setBlogs, isEditable }) {
         <BlogEditForm
           currentBlog={blog}
           setBlogs={setBlogs}
-          setIsEditing={setIsEditing}
+          onClose={() => setIsEditing(false)}
         />
       ) : (
         <Row>

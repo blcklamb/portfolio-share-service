@@ -15,7 +15,7 @@ const Project = ({ project, setProjects, isEditable }) => {
         <ProjectEditForm
           currentProject={project}
           setProjects={setProjects}
-          setIsEditing={setIsEditing}
+          onClose={()=>setIsEditing(false)}
         />
       ) : (
         <Row>

@@ -15,7 +15,7 @@ const Certificate = ({ certificate, setCertificates, isEditable }) => {
         <CertificateEditForm
           currentCertificate={certificate}
           setCertificates={setCertificates}
-          setIsEditing={setIsEditing}
+          onClose={()=>setIsEditing(false)}
         />
       ) : (
         <Row>

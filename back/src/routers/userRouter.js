@@ -262,29 +262,30 @@ userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
 //         scope: "read:user",
 //     }).toString();
 //     const url = `${base}?${params}`;
-//     res.header("Access-Control-Allow-Origin", "*");
 //     return res.redirect(url);
 // });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {
     // GitHub access_token 요청
-    const base = "https://github.com/login/oauth/access_token";
-    const params = new URLSearchParams({
-        client_id: process.env.GITHUB_ID,
-        client_secret: process.env.GITHUB_SECRET,
-        code: req.query.code,
-    }).toString();
-    const url = `${base}?${params}`;
-    const token = await fetch(url, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-        },
-    }).then((res) => res.json());
+    // const base = "https://github.com/login/oauth/access_token";
+    // const params = new URLSearchParams({
+    //     client_id: process.env.GITHUB_ID,
+    //     client_secret: process.env.GITHUB_SECRET,
+    //     code: req.query.code,
+    // }).toString();
+    // const url = `${base}?${params}`;
+    // const token = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //         Accept: "application/json",
+    //     },
+    // }).then((res) => res.json());
 
     // 만약 access_token이 정상적으로 발급 되었다면, GitHub API 서버에서 data를 받아옴
     // Cannot access 'token' before initialization 에러 떄문에 불필요해도 따로 정의함
-    const { access_token } = token;
+
+    const access_token = req.body;
+
     if (access_token) {
         const api = "https://api.github.com";
         const data = await fetch(`${api}/user`, {
@@ -314,7 +315,7 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             image,
         });
     } else {
-        return res.redirect("/login");
+        return res.json({ result: "failed" });
     }
 });
 

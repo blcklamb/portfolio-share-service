@@ -47,7 +47,7 @@ function LoginForm() {
             alert.info("이메일 인증이 완료되었습니다.");
             alert.info("로그인 해주세요.");
         }
-    }, []);
+    }, [alert]);
 
     useEffect(() => {
         alertLoginValidated();
@@ -121,24 +121,14 @@ function LoginForm() {
         }
     };
 
-    const githubLogin = async () => {
-        const user = await axios
-            .get("https://github.com/login/oauth/authorize?client_id=b58caf0d1571a5e631b8&scope=read%:user") //
-            .then((res) => res.data);
-        console.log(user);
-
-        // JWT 토큰은 유저 정보의 token임.
-        const jwtToken = user.token;
-        // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
-        sessionStorage.setItem("userToken", jwtToken);
-        // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
-        dispatch({
-            type: "LOGIN_SUCCESS",
-            payload: user,
-        });
-
-        // 기본 페이지로 이동함.
-        navigate("/", { replace: true });
+    const githubLogin = () => {
+        const base = "https://github.com/login/oauth/authorize";
+        const params = new URLSearchParams({
+            client_id: process.env.REACT_APP_GITHUB_ID,
+            scope: "read:user",
+        }).toString();
+        const url = `${base}?${params}`;
+        return (window.location.href = url);
     };
 
     return (
@@ -156,8 +146,8 @@ function LoginForm() {
                                 <GoogleLogin clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} buttonText="구글로 로그인하기" onSuccess={handleLogin} onFailure={handleFailure} cookiePolicy={"single_host_origin"} />
                             </Col>
                             <Col>
-                                <Button variant="secondary" onClick={githubLogin}>
-                                    깃허브로 로그인하기
+                                <Button variant="secondary" style={{ fontSize: 14, height: 43, padding: 10 }} onClick={githubLogin}>
+                                    😺&nbsp;&nbsp;&nbsp;&nbsp;GitHub로 로그인하기
                                 </Button>
                             </Col>
                         </Row>

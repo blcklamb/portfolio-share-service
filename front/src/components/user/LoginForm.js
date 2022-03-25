@@ -74,21 +74,17 @@ function LoginForm() {
       navigate("/", { replace: true });
 
     } catch (err) {
-      if (err.response.data==='"해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."') {
-        alert.error('해당 이메일은 가입 내역이 없습니다.');
-        alert.error('다시 한 번 확인해 주세요.');
-      } else if (err.response.data==='"비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."') {
-        alert.error('비밀번호가 일치하지 않습니다.')
-        alert.error('다시 한 번 확인해 주세요.')
-      } else if (err.response.data==='"이메일 인증이 필요합니다. 이메일 보관함을 확인해주세요."') {
-        alert.error('이메일 인증이 필요합니다.')
-        alert.error('이메일 보관함을 확인해주세요.')
-      }
+      const errorMsg = err.response.data
+      let errorArr = errorMsg.substring(1, errorMsg.length - 1).split('. ');
+      errorArr.forEach((err, index) => {
+        const isLast = index === errorArr.length - 1;
+        return isLast ? alert.error(err) : alert.error(err + ".");
+      });
     }
   };
 
   const handleFailure = async (result) => {
-
+    console.log(result);
   };
 
   const handleLogin = async (googleData) => {

@@ -30,7 +30,7 @@ axios.interceptors.response.use(
       // 기존 요청을 다시 보내서 하려던 작업이 제대로 수행되게 함
       return axios(originalRequest);
     }
-    return error;
+    return Promise.reject(error);
   }
 )
 

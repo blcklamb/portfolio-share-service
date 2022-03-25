@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
+import { useAlert } from "react-alert";
+import { confirmAlert } from 'react-confirm-alert';
+import { DispatchContext } from "../../App";
 import * as Api from "../../api";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
+  const navigate = useNavigate();
+
+  const dispatch = useContext(DispatchContext);
+
   // useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   // useState로 email 상태를 생성함.
@@ -17,6 +25,9 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   // useState로 이미지 편집 상태를 생성함.
   const [isImageEdit, setIsImageEdit] = useState(false)
 
+  // useAlert로 alert 함수 이용함.
+  const alert = useAlert()
+  
   // 이미지 업로드를 위한 함수
   const handleImageUpload = (e) => {
     e.preventDefault();
@@ -59,6 +70,35 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     // isEditing을 false로 세팅함.
     setIsEditing(false);
   };
+
+  const withdrawal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    confirmAlert({
+      title: '🚫 주의',
+      message: '정말 떠나시게요?',
+      buttons: [
+        {
+          label: '탈퇴',
+          onClick: () => {
+            Api.delete("user/current")
+            .then((res) => {
+              alert.info('회원탈퇴 되었습니다.');
+              // sessionStorage 에 저장했던 JWT 토큰을 삭제함.
+              sessionStorage.removeItem("userToken");
+              // dispatch 함수를 이용해 로그아웃함.
+              dispatch({ type: "LOGOUT" });
+              // 기본 페이지로 돌아감.
+              navigate("/");
+            });
+          }
+        },
+        {
+          label: '메세지 나가기',
+        }
+      ]
+    });
+  }
 
   return (
     <Card className="mb-2">
@@ -137,6 +177,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               </Button>
             </Col>
           </Form.Group>
+          <hr />
+          <p onClick={withdrawal} onMouseEnter={() => {}}>회원탈퇴</p>
         </Form>
       </Card.Body>
     </Card>

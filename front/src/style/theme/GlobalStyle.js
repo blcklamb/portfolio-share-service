@@ -12,10 +12,8 @@ export const GlobalStyle = createGlobalStyle`
         height: 100%;
         line-height: 1.5;
         margin: 0 auto;
-        /* font-family: 
-        "Helvetica Neue",
-        "Noto Sans CJK KR",
-        sans-serif; */
+        font-family: 
+        "Noto Sans KR";
         word-break: keep-all;
         word-wrap: break-word;
         text-rendering: optimizeLegibility;
@@ -84,4 +82,31 @@ export const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         //width: 70px;
     }
+    h1 {
+        font-size: 50px;
+        font-weight: 800;
+    }
+    h2 {
+        font-size: 25px;
+        font-weight: 500;
+    }
+    .h2-span-highlight:hover {
+        background: #0DCAF0 ;
+        color: ${({ theme }) => theme.bgColor};
+    }
+    .offcanvas-title {
+        font-size: 27px;
+        font-weight: 700;
+        margin-left: 10px;
+    }
+    .offcanvas-body {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 25;
+    }
+    .offcanvas-end-show {
+        background: ${({ theme }) => theme.bgColor};
+        border: ${({ theme }) => theme.borderColor};
+    }
+    
 `;

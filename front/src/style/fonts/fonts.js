@@ -1,12 +1,14 @@
 import { createGlobalStyle } from "styled-components";
-import Gothica1Medium from "./gothica1-medium-webfont.woff"
+import gothica1 from "./gothica1-medium-webfont.woff"
+import gothica2 from "./gothica1-medium-webfont.woff2"
 
 export const GlobalFonts = createGlobalStyle`
     @font-face {
-        font-family: "Gothica1 Medium";
-        src: local("Gothica1 Medium"),
-        url(${Gothica1Medium}) format('woff');
-        font-weight: 300;
-        font-style: normal;
-    }    
+    font-family: 'gothic_a1medium';
+    src: url(${gothica2}) format('woff2'),
+         url(${gothica1}) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}   
 `;

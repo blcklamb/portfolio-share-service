@@ -44,7 +44,7 @@ function BlogCard({ blog, setBlogs, isEditable, setIsEditing }) {
   };
 
   return (
-    <Card.Text>
+    <Card.Text as="div">
       <Row className="align-items-center">
         <Col md={1}>
           <FcShare />

@@ -43,7 +43,7 @@ function EduCard({ edu, setEdus, isEditable, setIsEditing }) {
   };
 
   return (
-    <Card.Text>
+    <Card.Text as="div">
       <Row className="align-items-center">
         <Col>
           <span>{edu.school}</span>

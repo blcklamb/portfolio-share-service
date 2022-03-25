@@ -44,7 +44,7 @@ function AwardCard({ award, setAwards, isEditable, setIsEditing }) {
   };
 
   return (
-    <Card.Text>
+    <Card.Text as="div">
       <Row className="align-items-center">
         <Col>
           <span>{award.title}</span>

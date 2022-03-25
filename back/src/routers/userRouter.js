@@ -58,12 +58,10 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
         }
 
         // JWT Refresh Token 생성
-        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, {expiresIn: '14d'});
+        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: "14d" });
 
         // refresh token은 cookie로 httpOnly, secure 옵션 적용해서 보안 강화하여 보내기
-        return res.status(200)
-            .cookie('refreshToken', refreshToken, {secure: true, httpOnly: true})
-            .send(user);
+        return res.status(200).cookie("refreshToken", refreshToken, { secure: true, httpOnly: true }).send(user);
     } catch (error) {
         next(error);
     }
@@ -152,10 +150,20 @@ userAuthRouter.put("/user/current", login_required, uploadImage.single("image"),
     }
 });
 
+import { AwardModel } from "../db/schemas/award";
+import { BlogModel } from "../db/schemas/blog";
+import { CertificateModel } from "../db/schemas/certificate";
+import { EducationModel } from "../db/schemas/education";
+import { ProjectModel } from "../db/schemas/project";
 userAuthRouter.delete("/user/current", login_required, async (req, res, next) => {
     try {
         const user_id = req.currentUserId;
 
+        await AwardModel.deleteMany({ user_id });
+        await BlogModel.deleteMany({ user_id });
+        await CertificateModel.deleteMany({ user_id });
+        await EducationModel.deleteMany({ user_id });
+        await ProjectModel.deleteMany({ user_id });
         await userAuthService.deleteUser({ user_id });
 
         return res.status(200).json({ result: "success" });

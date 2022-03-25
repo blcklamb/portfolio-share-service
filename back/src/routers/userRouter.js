@@ -224,7 +224,7 @@ userAuthRouter.post("/change-password", login_required, async (req, res, next) =
     }
 });
 
-import { UserModel } from "../db/schemas/User";
+import { UserModel } from "../db/schemas/user";
 userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     // 좋아요를 누르는 user
     const user_id = req.currentUserId;

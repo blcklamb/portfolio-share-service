@@ -11,8 +11,8 @@ const DB_URL = process.env.MONGODB_URL || "MongoDB 서버 주소가 설정되지
 mongoose.connect(DB_URL);
 const db = mongoose.connection;
 
-import { AlertModel } from "./schemas/Alert";
-import { ProjectModel } from "./schemas/Project";
+import { AlertModel } from "./schemas/alert";
+import { ProjectModel } from "./schemas/project";
 
 // db.once("open", function () {
 //     const projects = db.collection("projects");

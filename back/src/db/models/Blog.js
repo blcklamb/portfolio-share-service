@@ -1,4 +1,4 @@
-import { BlogModel } from "../schemas/Blog";
+import { BlogModel } from "../schemas/blog";
 
 class Blog {
   static createOne(newBlog) {

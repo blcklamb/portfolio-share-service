@@ -1,4 +1,4 @@
-import { UserModel } from "../schemas/User";
+import { UserModel } from "../schemas/user";
 
 class User {
     static create({ newUser }) {

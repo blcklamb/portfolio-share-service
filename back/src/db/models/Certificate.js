@@ -1,4 +1,4 @@
-import { CertificateModel } from "../schemas/Certificate";
+import { CertificateModel } from "../schemas/certificate";
 
 class Certificate {
     static create({ newCertificate }) {

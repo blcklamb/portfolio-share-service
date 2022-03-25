@@ -14,20 +14,22 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
             <Row className="justify-content-md-center">
               <Card.Img
                 style={{ width: "10rem", height: "8.5rem" }}
-                className="mb-3 user-card-img"
+                className="mb-3 user-card-img rounded-circle"
                 src={user?.image}
                 alt="회원가입 시 업로드 (AWS 버킷 사용)"
               />
+              <hr />
             </Row>
             <Card.Title>
               <Row>
-                <Col md="9">
+                <Col>
                   {user?.name}
                 </Col>
-                <Col md="3">
+                <Col className="d-flex flex-row-reverse">
                   {user && <UserLike
                     user={user}
                     isLikable={!isEditable}
+                    isNetwork={isNetwork}
                   />}
                 </Col>
               </Row>
@@ -41,21 +43,23 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
           <Card.Body>
             <Row className="justify-content-md-center">
               <Card.Img
-                style={{ width: "10rem", height: "8.5rem" }}
-                className="mb-3 user-card-img"
+                style={{ width: "12rem", height: "10rem" }}
+                className="mb-3 user-card-img rounded-circle"
                 src={user?.image}
                 alt="회원가입 시 업로드 (AWS 버킷 사용)"
               />
+              <hr />
             </Row>
             <Card.Title>
               <Row>
-                <Col md="9">
+                <Col>
                   {user?.name}
                 </Col>
-                <Col md="3">
+                <Col className="d-flex flex-row-reverse">
                   {user && <UserLike
                     user={user}
                     isLikable={!isEditable}
+                    isNetwork={isNetwork}
                   />}
                 </Col>
               </Row>

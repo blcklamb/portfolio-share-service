@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from "react"
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import { Badge } from "react-bootstrap";
 
-const UserLike = ({ user, isLikable }) => {
+const UserLike = ({ user, isLikable, isNetwork }) => {
 
     const userState = useContext(UserStateContext);
     const loginUserId = userState.user?.id
@@ -27,10 +28,23 @@ const UserLike = ({ user, isLikable }) => {
 
     return (
         <>
-            {isLikable && isLike && (<span onClick={handleClick}>💗</span>)}
-            {isLikable && !isLike && (<span onClick={handleClick}>🖤</span>)}
-            {!isLikable && (<span>💗</span>)}
-            <span>{likeCnt}</span>    
+            {!isNetwork && (
+                <Badge pill bg="dark" style={{ fontSize : 20 }} className="float-right">
+                {isLikable && isLike && (<span onClick={handleClick}>💗</span>)}
+                {isLikable && !isLike && (<span onClick={handleClick}>🤍</span>)}
+                {!isLikable && (<span>💗</span>)}
+                <span>{likeCnt}</span>    
+                </Badge> 
+                )
+            }
+            {isNetwork && (
+                <Badge pill bg="dark" className="big" style={{ fontSize : 18 }}>
+                {isLike && (<span>💗</span>)}
+                {!isLike && (<span>🤍</span>)}
+                <span>{likeCnt}</span>    
+                </Badge> 
+                )
+            }
         </>
     )
 }

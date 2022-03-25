@@ -7,8 +7,17 @@ import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 import CreditForm from "./CreditForm"
 import { GoogleLogin } from "react-google-login";
+import Cookies from 'universal-cookie';
+import axios from "axios";
+
 
 function LoginForm() {
+  // 로그아웃을 했을 때 로그인 화면으로 navaigate되기 때문에
+  // 로그인 페이지 렌더링 시에 백엔드 서버로 보내 refresh token이 쿠키에 있을 경우 삭제하도록 함
+  useEffect(() => {
+    axios.get('http://' + window.location.hostname + ':' + process.env.REACT_APP_SERVER_PORT)
+  },[])
+
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
@@ -64,6 +73,12 @@ function LoginForm() {
       const jwtToken = user.token;
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
       sessionStorage.setItem("userToken", jwtToken);
+
+      // cookie로 보내진 refresh token을 가져와서 다시 쿠키에 저장
+      const cookies = new Cookies();
+      const refreshToken = cookies.get("refreshToken");
+      cookies.set('refreshToken', refreshToken, {secure: true, httpOnly: true});
+
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
         type: "LOGIN_SUCCESS",
@@ -75,21 +90,17 @@ function LoginForm() {
       navigate("/", { replace: true });
 
     } catch (err) {
-      if (err.response.data==='"해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."') {
-        alert.error('해당 이메일은 가입 내역이 없습니다.');
-        alert.error('다시 한 번 확인해 주세요.');
-      } else if (err.response.data==='"비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."') {
-        alert.error('비밀번호가 일치하지 않습니다.')
-        alert.error('다시 한 번 확인해 주세요.')
-      } else if (err.response.data==='"이메일 인증이 필요합니다. 이메일 보관함을 확인해주세요."') {
-        alert.error('이메일 인증이 필요합니다.')
-        alert.error('이메일 보관함을 확인해주세요.')
-      }
+      const errorMsg = err.response.data
+      let errorArr = errorMsg.substring(1, errorMsg.length - 1).split('. ');
+      errorArr.forEach((err, index) => {
+        const isLast = index === errorArr.length - 1;
+        return isLast ? alert.error(err) : alert.error(err + ".");
+      });
     }
   };
 
   const handleFailure = async (result) => {
-
+    console.log(result);
   };
 
   const handleLogin = async (googleData) => {

@@ -1,3 +1,9 @@
 # dependencies
 /node_modules
+<<<<<<< HEAD
 yarn.lock
+=======
+package.json
+yarn.lock
+.env
+>>>>>>> feature/refresh-token

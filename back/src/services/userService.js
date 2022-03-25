@@ -40,6 +40,11 @@ class userAuthService {
             const errorMessage = "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
             return { errorMessage };
         }
+        // 소셜로그인 사용자인 경우
+        if(user.oauth) {
+            const errorMessage = "소셜로그인으로 가입한 회원입니다. 소셜로그인을 이용해주세요.";
+            return { errorMessage };
+        }
 
         // 비밀번호 일치 여부 확인
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -53,7 +58,7 @@ class userAuthService {
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
-        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
 
         // 반환할 loginuser 객체를 위한 변수 설정
         const { id, name, description, image } = user;

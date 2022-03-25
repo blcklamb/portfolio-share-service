@@ -1,8 +1,7 @@
 import { useEffect, useState, useContext } from "react"
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
-import { Badge } from "react-bootstrap";
-import styled from "styled-components";
+import { Button } from "react-bootstrap";
 
 const UserLike = ({ user, isLikable, isNetwork }) => {
 
@@ -10,9 +9,9 @@ const UserLike = ({ user, isLikable, isNetwork }) => {
     const loginUserId = userState.user?.id
 
     //포트폴리오 주인 User에 '좋아요(하트)' 누른 user.id 배열
-    const [likeArr, setLikeArr] = useState(user.likes) 
+    const [likeArr, setLikeArr] = useState(user.likes)
     //likeArr의 길이 ('좋아요(하트)'의 개수)
-    const [likeCnt, setLikeCnt] = useState(likeArr.length) 
+    const [likeCnt, setLikeCnt] = useState(likeArr.length)
     //loginUser가 '좋아요(하트)' 눌렀는지
     const [isLike, setIsLike] = useState(likeArr.includes(loginUserId))
 
@@ -21,49 +20,50 @@ const UserLike = ({ user, isLikable, isNetwork }) => {
         setIsLike(likeArr.includes(loginUserId))
     }, [likeArr, loginUserId])
 
-    const handleClick = async () => {      
+    const handleClick = async () => {
         setIsLike(!isLike)
-        const res = await Api.post("user/likes", {id: user.id}) // 좋아요를 받는 user.id
+        const res = await Api.post("user/likes", { id: user.id }) // 좋아요를 받는 user.id
         setLikeArr(res.data.likes)
     }
 
     return (
         <>
             {!isNetwork && (
-                <StyledBadge pill bg="dark" style={{ fontSize : 20}} className="float-right">
-                <div style={{ padding: 'auto'}}>
-                {isLikable && isLike && (<span onClick={handleClick}>💗</span>)}
-                {isLikable && !isLike && (<span onClick={handleClick}>🤍</span>)}
-                {!isLikable && (<span>💗</span>)}
-                <span>{likeCnt}</span>  
-                </div>  
-                </StyledBadge> 
+                isLikable ? (
+                    <Button pill className="big common-like-btn non-network-like-btn" style={{ fontSize: 20 }} >
+
+                        <div style={{ padding: 'auto' }}>
+                            {isLike && (<span onClick={handleClick}>💗</span>)}
+                            {!isLike && (<span onClick={handleClick}>🤍</span>)}
+                            <span>{likeCnt}</span>
+                        </div>
+                    </Button>
+                ) : (
+                    <Button pill className="big common-like-btn network-like-btn" style={{ fontSize: 20 }} >
+
+                        <div style={{ padding: 'auto' }}>
+                            {!isLikable && (<span>💗</span>)}
+                            <span>{likeCnt}</span>
+                        </div>
+                    </Button>
                 )
+            )
             }
             {isNetwork && (
                 <>
-                <StyledBadge pill bg="dark" className="big" style={{ fontSize : 18, maxHeight: "32px"}}>
-                <div style={{ padding: 'auto'}}>
-                {isLike && (<span>💗</span>)}
-                {!isLike && (<span>🤍</span>)}
-                <span>{likeCnt}</span>  
-                </div>    
-                </StyledBadge> 
+                    <Button pill className="big common-like-btn network-like-btn" style={{ fontSize: 18 }}>
+                        <div style={{ padding: 'auto' }}>
+                            {isLike && (<span>💗</span>)}
+                            {!isLike && (<span>🤍</span>)}
+                            <span>{likeCnt}</span>
+                        </div>
+                    </Button>
                 </>
-                )
+            )
             }
         </>
     )
 }
 
-const StyledBadge = styled(Badge)`
-justify-content: center;
-margin-bottom: 10px;
-max-height: 38px;
-    background: #332604;
-    border-radius: 17px;
-  font-size: 1em;
-  border: ${({ theme }) => theme.badgeBorderColor};
-`;
 
 export default UserLike

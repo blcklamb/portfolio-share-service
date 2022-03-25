@@ -25,7 +25,7 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
                 <Col>
                   {user?.name}
                 </Col>
-                <Col className="d-flex flex-row-reverse">
+                <Col className="d-flex flex-row-reverse mb-2" >
                   {user && <UserLike
                     user={user}
                     isLikable={!isEditable}

@@ -10,10 +10,10 @@ axios.defaults.withCredentials = true;
 // 기존 토큰이 만료되어 서버에서 새로 access token을 보냈을 경우 새 access token을 sessionStorage에 저장
 // axios interceptor를 이용해 모든 요청에 적용할 수 있게 함
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response;
   },
-  function(error) {
+  function (error) {
     // error에서 상태 코드와 요청 내용을 가져옴
     const { config, response: { status } } = error;
 

@@ -39,6 +39,7 @@ function LoginForm() {
       alert.success("임시 비밀번호가 발급되었습니다.")
       alert.success("이메일로 전송된 비밀번호로 재로그인한 뒤 비밀번호를 변경해주세요.")
       // 기본 페이지로 이동함.
+      navigate("/", { replace: true });
       
     } catch (err) {
       alert.error('일치하는 사용자 정보가 없습니다.')

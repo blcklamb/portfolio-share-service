@@ -6,22 +6,22 @@ import EduCard from "./EduCard";
 import EduEditForm from "./EduEditForm";
 
 function Edu({ edu, setEdus, isEditable }) {
-  
+
   // useState로 isEditing 상태를 생성함.
   const [isEditing, setIsEditing] = useState(false);
-  
+
   return (
     <>
       {isEditing ? (
         <EduEditForm
           currentEdu={edu}
           setEdus={setEdus}
-          onClose={()=>setIsEditing(false)}
+          onClose={() => setIsEditing(false)}
         />
       ) : (
         <Row>
           <Col md={1} >
-            <FcGraduationCap size="24"/>
+            <FcGraduationCap size="24" />
           </Col>
           <Col>
             <EduCard

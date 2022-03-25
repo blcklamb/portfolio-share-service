@@ -7,7 +7,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as Api from "../../api";
 
 function AwardCard({ award, setAwards, isEditable, setIsEditing }) {
-  
+
   // useAlert로 alert 함수 이용함.
   const alert = useAlert()
 

@@ -15,12 +15,12 @@ const Project = ({ project, setProjects, isEditable }) => {
         <ProjectEditForm
           currentProject={project}
           setProjects={setProjects}
-          onClose={()=>setIsEditing(false)}
+          onClose={() => setIsEditing(false)}
         />
       ) : (
         <Row>
           <Col md={1} >
-            <FcSportsMode size="24"/>
+            <FcSportsMode size="24" />
           </Col>
           <Col>
             <ProjectCard

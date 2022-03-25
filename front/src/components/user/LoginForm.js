@@ -16,7 +16,7 @@ function LoginForm() {
   // 로그인 페이지 렌더링 시에 백엔드 서버로 보내 refresh token이 쿠키에 있을 경우 삭제하도록 함
   useEffect(() => {
     axios.get('http://' + window.location.hostname + ':' + process.env.REACT_APP_SERVER_PORT)
-  },[])
+  }, [])
 
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
@@ -43,18 +43,18 @@ function LoginForm() {
   const isPasswordValid = password.length >= 4;
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
-  
+
   // 이메일로 받은 링크로 접속 시 로그인 알림
   const alertLoginValidated = useCallback(async () => {
     let a = window.location.search.split('?');
-    if (a.length === 1 && a[0]==="") return {};
-    else if (a[1]==="validation=true") {
+    if (a.length === 1 && a[0] === "") return {};
+    else if (a[1] === "validation=true") {
       alert.info("이메일 인증이 완료되었습니다.")
       alert.info("로그인 해주세요.")
     }
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     alertLoginValidated();
   }, [alertLoginValidated])
 
@@ -77,7 +77,7 @@ function LoginForm() {
       // cookie로 보내진 refresh token을 가져와서 다시 쿠키에 저장
       const cookies = new Cookies();
       const refreshToken = cookies.get("refreshToken");
-      cookies.set('refreshToken', refreshToken, {secure: true, httpOnly: true});
+      cookies.set('refreshToken', refreshToken, { secure: true, httpOnly: true });
 
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
@@ -131,30 +131,30 @@ function LoginForm() {
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
           <Row>
-          <CreditForm/>
+            <CreditForm />
           </Row>
           <Form onSubmit={handleSubmit} className="login-form">
             <h4>소셜 로그인</h4>
             <hr></hr>
             <Row className="mb-5 text-center">
               <Col>
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="구글로 로그인하기"
-                onSuccess={handleLogin}
-                onFailure={handleFailure}
-                cookiePolicy={"single_host_origin"}
-              />
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                  buttonText="구글로 로그인하기"
+                  onSuccess={handleLogin}
+                  onFailure={handleFailure}
+                  cookiePolicy={"single_host_origin"}
+                />
               </Col>
               <Col>
-              <Button
-                    variant="secondary"
-                    type="submit"
-                    disabled={!isFormValid}
-                  >
-                    깃허브로 로그인하기
-                  </Button>
-                  </Col>
+                <Button
+                  variant="secondary"
+                  type="submit"
+                  disabled={!isFormValid}
+                >
+                  깃허브로 로그인하기
+                </Button>
+              </Col>
             </Row>
             <h4>이메일 로그인</h4>
             <hr></hr>

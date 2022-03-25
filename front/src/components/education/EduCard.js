@@ -62,9 +62,9 @@ function EduCard({ edu, setEdus, isEditable, setIsEditing }) {
                 className="mr-3"
                 alt="편집 버튼"
               >
-                <MdModeEditOutline size="24"/>
+                <MdModeEditOutline size="24" />
               </Button>
-              
+
             </Col>
             <Col md="auto">
               <Button
@@ -74,7 +74,7 @@ function EduCard({ edu, setEdus, isEditable, setIsEditing }) {
                 className="mr-3"
                 alt="삭제 버튼"
               >
-                <MdDeleteOutline size="24"/>
+                <MdDeleteOutline size="24" />
               </Button>
             </Col>
           </>

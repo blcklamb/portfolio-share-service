@@ -1,11 +1,13 @@
+// 라이트 및 다크모드 시 기본적으로 변경되는 css 값들입니다.
+
 export const lightTheme = {
     bgColor: '#F0F0F0',
     textColor: '#332604',
     borderColor: '1px solid #8B826B',
     infoBtnColor: '#368FFB',
     cardBgColor: '#8B826B',
-    badgeBorderColor: '3px solid #8B826B',
-    
+    badgeBorderColor: '2px solid #8B826B',
+    badgeColor: '#8B826B',
 };
 
 export const darkTheme = {
@@ -14,7 +16,8 @@ export const darkTheme = {
     borderColor: '1px solid #313639',
     infoBtnColor: '#0DCAF0',
     cardBgColor: '#71869B',
-    badgeBorderColor: '3px solid #313639'
+    badgeBorderColor: '2px solid #313639',
+    badgeColor: '#F0F0F0'
 };
 
 export const theme = {

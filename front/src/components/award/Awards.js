@@ -19,7 +19,7 @@ function Awards({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "awardlist/유저id"로 GET 요청하고, response의 data로 awards를 세팅함.
     Api.get("awardlist", portfolioOwnerId).then((res) => setAwards(res.data));
-    
+
   }, [portfolioOwnerId]);
 
   return (
@@ -39,7 +39,7 @@ function Awards({ portfolioOwnerId, isEditable }) {
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
             <Col sm={{ span: 20 }}>
-            <MdLibraryAdd
+              <MdLibraryAdd
                 className="btn-add-md"
                 type="button"
                 size="30"
@@ -54,7 +54,7 @@ function Awards({ portfolioOwnerId, isEditable }) {
           <AwardAddForm
             portfolioOwnerId={portfolioOwnerId}
             setAwards={setAwards}
-            onClose={()=>setIsAdding(false)}
+            onClose={() => setIsAdding(false)}
           />
         )}
       </Card.Body>

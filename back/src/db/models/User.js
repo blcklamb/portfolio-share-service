@@ -14,8 +14,8 @@ class User {
     }
 
     static findAll({ perPage, page, id }) {
-        return UserModel.find({ id: { $ne: id } })
-            .sort({ created: -1 })
+        return UserModel.find({ id: { $ne: id }, validated: { $ne: false } })
+            .sort({ createdAt: -1 })
             .skip(perPage * (page - 1))
             .limit(perPage);
     }
@@ -33,13 +33,12 @@ class User {
         return UserModel.findOneAndDelete({ id: user_id });
     }
 
-    static async findOneAndUpdateByEmail(email, { name, image }) {
+    static async findOneAndUpdateByEmail(email, { name, image, validated, oauth }) {
         const filter = { email: email };
-        const update = { name: name, image: image };
+        const update = { name, image, validated, oauth };
         const option = { returnOriginal: false };
 
-        const upsertedUser = await UserModel.findOneAndUpdate(filter, update, option);
-        return upsertedUser;
+        return await UserModel.findOneAndUpdate(filter, update, option);
     }
 
     static findOneAndUpdate({ user_id }, { password }) {

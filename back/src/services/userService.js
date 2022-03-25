@@ -137,34 +137,25 @@ class userAuthService {
         const preData = await this.getUserByEmail({ email });
 
         // 새로운 사용자인 경우
+        let user;
         if (preData.errorMessage) {
-            const newUser = { id: uuidv4(), name, email, image, validated: true };
-            const createdUser = await User.create({ newUser });
-            const token = jwt.sign({ user_id: createdUser.id }, process.env.JWT_SECRET_KEY);
-            const loginUser = {
-                token,
-                id: createdUser.id,
-                email: createdUser.email,
-                name: createdUser.name,
-                description: createdUser.description,
-                image: createdUser.image,
-                validated: createdUser.validated,
-                errorMessage: null,
-            };
-            return loginUser;
+            const newUser = { id: uuidv4(), name, email, image, validated: true, oauth: true };
+            user = await User.create({ newUser });
+        } else {
+            // 기존에 저장된 사용자인 경우
+            user = await User.findOneAndUpdateByEmail(email, { name, image, validated: true, oauth: true });
         }
 
-        // 기존에 저장된 사용자인 경우
-        const updatedUser = await User.findOneAndUpdateByEmail(email, { name, image, validated: true });
-        const token = jwt.sign({ user_id: updatedUser.id }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY);
         const loginUser = {
             token,
-            id: updatedUser.id,
-            email: updatedUser.email,
-            name: updatedUser.name,
-            description: updatedUser.description,
-            image: updatedUser.image,
-            validated: updatedUser.validated,
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            description: user.description,
+            image: user.image,
+            validated: user.validated,
+            oauth: user.oauth,
             errorMessage: null,
         };
 

@@ -1,14 +1,15 @@
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import { MdModeEditOutline } from "react-icons/md";
 import UserLike from "./UserLike";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }, ref) => {
   const navigate = useNavigate();
   return (
     <>
       {isNetwork ? (
-        <Card className="mb-2 ms-3 mr-5 user-card" onClick={() => navigate(`/users/${user.id}`)}>
+        <Card className="mb-2 ms-3 mr-5 user-card" ref={ref} onClick={() => navigate(`/users/${user.id}`)}>
           <Card.Body>
             <Row className="justify-content-md-center">
               <Card.Img
@@ -83,6 +84,6 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
       )}
     </>
   );
-}
+});
 
 export default UserCard;

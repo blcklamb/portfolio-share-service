@@ -53,10 +53,7 @@ class userAuthService {
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
-        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
-
-        // JWT Refresh Token 생성
-        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, {expiresIn: '14d'});
+        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY, {expiresIn: '2s'});
 
         // 반환할 loginuser 객체를 위한 변수 설정
         const { id, name, description, image } = user;
@@ -71,7 +68,7 @@ class userAuthService {
             errorMessage: null,
         };
 
-        return [ loginUser, refreshToken ];
+        return loginUser;
     }
 
     static async getUsers({ perPage, page }) {

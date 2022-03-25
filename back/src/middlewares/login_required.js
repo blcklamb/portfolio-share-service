@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import refreshToken from "./refreshToken";
 
 
 async function login_required(req, res, next) {
@@ -21,7 +22,8 @@ async function login_required(req, res, next) {
     } catch (error) {
         // access token이 만료된 경우, '/refresh'로 보내 새로 access token 발급
         if (error.message === "jwt expired") {
-            return res.redirect('/refresh');
+            refreshToken(req, res);
+            return
         }
         return res.status(400).send(`Token Error: ${error}`);
     }

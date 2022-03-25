@@ -76,10 +76,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     e.stopPropagation();
     confirmAlert({
       title: '🚫 주의',
-      message: '정말 떠나시게요?',
+      message: '정말 떠나시게요?😥',
       buttons: [
         {
-          label: '탈퇴',
+          label: '네! 탈퇴할게요.',
           onClick: () => {
             Api.delete("user/current")
             .then((res) => {
@@ -94,21 +94,21 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           }
         },
         {
-          label: '메세지 나가기',
+          label: '아니요, 탈퇴 안할게요!',
         }
       ]
     });
   }
 
   return (
-    <Card className="mb-2">
+    <Card className="mb-2 ms-3 mr-5">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="EditImage" className="mt-3">
             {!isImageEdit ? (
               <Card.Img
-                style={{ width: "10rem", height: "8rem" }}
-                className="mb-3"
+                style={{ width: "10rem", height: "8.5rem" }}
+                className="mb-3 user-card-img"
                 src={user?.image}
                 alt="회원가입 시 업로드 (AWS 버킷 사용)"
               />
@@ -178,7 +178,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             </Col>
           </Form.Group>
           <hr />
-          <p onClick={withdrawal} onMouseEnter={() => {}}>회원탈퇴</p>
+          <div onClick={withdrawal} onMouseEnter={() => {}} >
+            <p className="user-withdrawal-text">
+            회원탈퇴
+          </p>
+          </div>
+          
         </Form>
       </Card.Body>
     </Card>

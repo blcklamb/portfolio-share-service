@@ -13,8 +13,8 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
           <Card.Body>
             <Row className="justify-content-md-center">
               <Card.Img
-                style={{ width: "10rem", height: "8rem" }}
-                className="mb-3"
+                style={{ width: "10rem", height: "8.5rem" }}
+                className="mb-3 user-card-img"
                 src={user?.image}
                 alt="회원가입 시 업로드 (AWS 버킷 사용)"
               />
@@ -41,8 +41,8 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
           <Card.Body>
             <Row className="justify-content-md-center">
               <Card.Img
-                style={{ width: "10rem", height: "8rem" }}
-                className="mb-3"
+                style={{ width: "10rem", height: "8.5rem" }}
+                className="mb-3 user-card-img"
                 src={user?.image}
                 alt="회원가입 시 업로드 (AWS 버킷 사용)"
               />

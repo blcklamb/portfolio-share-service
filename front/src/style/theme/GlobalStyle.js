@@ -67,4 +67,21 @@ export const GlobalStyle = createGlobalStyle`
     .network-user-card {
         padding: auto
     }
+    .user-card-img {
+        object-fit: cover;
+    }
+    .user-withdrawal-text {
+        color: #DF535F;
+        text-align: center;
+        font-weight: 800;
+    }
+    .user-withdrawal-text:hover {
+        cursor: pointer;
+        color: ${({ theme }) => theme.bgColor};
+        background: #DF535F;
+        text-align: center;
+        font-weight: 800;
+        border-radius: 3px;
+        //width: 70px;
+    }
 `;

@@ -69,14 +69,17 @@ function Network() {
 
   return (
     <Container fluid>
-      <Row xs="auto" className="jusify-content-center">
-        {users.map((user, index) => {
-          const isLast = index === users.length -1;
-          return isLast ? 
-          (<UserCard user={user} ref={target} isNetwork />)
-          : (<UserCard user={user} isNetwork />)
-        })}
-      </Row>
+
+      <div className="network-user-card">
+        <Row xs="auto" className="justify-content-center">
+          {users.map((user, index) => {
+            const isLast = index === users.length - 1;
+            return isLast ?
+              (<UserCard user={user} ref={target} isNetwork />)
+              : (<UserCard user={user} isNetwork />)
+          })}
+        </Row>
+      </div>
     </Container>
   );
 }

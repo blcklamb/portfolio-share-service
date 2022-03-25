@@ -346,4 +346,46 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
     }
 });
 
+userAuthRouter.post("/mock/users/register", async function (req, res, next) {
+    try {
+        const { num } = req.query;
+        console.log(num);
+        const users = await generateMockUser(num)
+        const newUser = await userAuthService.addUsers(users);
+        if (newUser.errorMessage) {
+            throw new Error(newUser.errorMessage);
+        }
+
+        return res.status(201).json(newUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+async function generateMockUser(num) {
+    let mockUsers = [];
+
+    for(let i = 0; i <= num; i++) {
+        const name = i;
+        const email = await generateRandomString(4) + '@gmali.com';
+        let user = {
+            name,
+            email,
+            password: 'aaaa', 
+            image: undefined
+        }
+        mockUsers.push(user);
+        console.log(i);
+    }
+
+    return mockUsers;
+}
+
+const generateRandomString = async (num) => {
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result1= Math.random().toString(36).substring(0,num);       
+    return result1;
+}
+
 export { userAuthRouter };

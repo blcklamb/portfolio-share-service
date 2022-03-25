@@ -12,10 +12,10 @@ export const GlobalStyle = createGlobalStyle`
         height: 100%;
         line-height: 1.5;
         margin: 0 auto;
-        font-family: 
+        /* font-family: 
         "Helvetica Neue",
         "Noto Sans CJK KR",
-        sans-serif;
+        sans-serif; */
         word-break: keep-all;
         word-wrap: break-word;
         text-rendering: optimizeLegibility;
@@ -58,5 +58,13 @@ export const GlobalStyle = createGlobalStyle`
         color: ${({ theme }) => theme.bgColor};
         background: ${({ theme }) => theme.cardBgColor};
         border: ${({ theme }) => theme.bgColor};
+    }
+    .user-card {
+        margin: 20px;
+        width: 280px;
+        display: flex;
+    }
+    .network-user-card {
+        padding: auto
     }
 `;

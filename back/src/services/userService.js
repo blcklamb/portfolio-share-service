@@ -205,6 +205,20 @@ class userAuthService {
 
         return createdNewUser;
     }
+
+    static async addUsers(users) {
+        let createdNewUser = [];
+
+        for(let i = 0; i < users.length; i++) {
+            const hashedPassword = await bcrypt.hash(users[i].password, 10);
+            const newUser = { ...users[i], id: uuidv4(), password: hashedPassword, validated: true, oauth: false }
+            console.log(newUser);
+            const user = await User.create(newUser);
+            createdNewUser.push(user);
+        }
+       
+        return createdNewUser;
+    }
 }
 
 export { userAuthService };

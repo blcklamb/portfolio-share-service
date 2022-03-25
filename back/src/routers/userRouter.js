@@ -58,12 +58,10 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
         }
 
         // JWT Refresh Token 생성
-        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, {expiresIn: '14d'});
+        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: "14d" });
 
         // refresh token은 cookie로 httpOnly, secure 옵션 적용해서 보안 강화하여 보내기
-        return res.status(200)
-            .cookie('refreshToken', refreshToken, {secure: true, httpOnly: true})
-            .send(user);
+        return res.status(200).cookie("refreshToken", refreshToken, { secure: true, httpOnly: true }).send(user);
     } catch (error) {
         next(error);
     }
@@ -257,16 +255,16 @@ userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     return res.json({ likes: user.likes });
 });
 
-userAuthRouter.get("/login/github", async (req, res) => {
-    const base = "https://github.com/login/oauth/authorize";
-    const params = new URLSearchParams({
-        client_id: process.env.GITHUB_ID,
-        scope: "read:user",
-    }).toString();
-    const url = `${base}?${params}`;
-    res.header("Access-Control-Allow-Origin", "*");
-    res.redirect(url);
-});
+// userAuthRouter.get("/login/github", async (req, res) => {
+//     const base = "https://github.com/login/oauth/authorize";
+//     const params = new URLSearchParams({
+//         client_id: process.env.GITHUB_ID,
+//         scope: "read:user",
+//     }).toString();
+//     const url = `${base}?${params}`;
+//     res.header("Access-Control-Allow-Origin", "*");
+//     return res.redirect(url);
+// });
 
 userAuthRouter.get("/login/github/callback", async (req, res) => {
     // GitHub access_token 요청

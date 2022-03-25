@@ -1,7 +1,7 @@
 import { UserModel } from "../schemas/user";
 
 class User {
-    static create( newUser ) {
+    static create({ newUser }) {
         return UserModel.create(newUser);
     }
 

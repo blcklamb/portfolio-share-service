@@ -57,7 +57,13 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
             throw new Error(user.errorMessage);
         }
 
-        return res.status(200).send(user);
+        // JWT Refresh Token 생성
+        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, {expiresIn: '14d'});
+
+        // refresh token은 cookie로 httpOnly, secure 옵션 적용해서 보안 강화하여 보내기
+        return res.status(200)
+            .cookie('refreshToken', refreshToken, {secure: true, httpOnly: true})
+            .send(user);
     } catch (error) {
         next(error);
     }
@@ -387,5 +393,6 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
 //     let result1= Math.random().toString(36).substring(0,num);       
 //     return result1;
 // }
+
 
 export { userAuthRouter };

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useContext } from "react";
+import React, { useEffect, useCallback, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useAlert } from "react-alert";
@@ -6,8 +6,17 @@ import { useAlert } from "react-alert";
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 import { GoogleLogin } from "react-google-login";
+import Cookies from 'universal-cookie';
+import axios from "axios";
+
 
 function LoginForm() {
+  // 로그아웃을 했을 때 로그인 화면으로 navaigate되기 때문에
+  // 로그인 페이지 렌더링 시에 백엔드 서버로 보내 refresh token이 쿠키에 있을 경우 삭제하도록 함
+  useEffect(() => {
+    axios.get('http://' + window.location.hostname + ':' + process.env.REACT_APP_SERVER_PORT)
+  },[])
+
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
@@ -63,6 +72,12 @@ function LoginForm() {
       const jwtToken = user.token;
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
       sessionStorage.setItem("userToken", jwtToken);
+
+      // cookie로 보내진 refresh token을 가져와서 다시 쿠키에 저장
+      const cookies = new Cookies();
+      const refreshToken = cookies.get("refreshToken");
+      cookies.set('refreshToken', refreshToken, {secure: true, httpOnly: true});
+
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
         type: "LOGIN_SUCCESS",

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const backendPortNumber = process.env.SERVER_PORT || "5001";
+const backendPortNumber = process.env.REACT_APP_SERVER_PORT || "5001";
 const serverUrl =
   "http://" + window.location.hostname + ":" + backendPortNumber + "/";
 

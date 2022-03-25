@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import refreshToken from "./refreshToken";
 
 
-async function login_required(req, res, next) {
+function login_required(req, res, next) {
     // request 헤더로부터 authorization bearer 토큰을 받음.
     const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
@@ -20,7 +20,7 @@ async function login_required(req, res, next) {
         req.currentUserId = user_id;
         next();
     } catch (error) {
-        // access token이 만료된 경우, '/refresh'로 보내 새로 access token 발급
+        // access token이 만료된 경우, refreshToken으로 보내 새로 access token 발급
         if (error.message === "jwt expired") {
             refreshToken(req, res);
             return

@@ -43,7 +43,7 @@ const ProjectCard = ({ project, setProjects, isEditable, setIsEditing }) => {
   }
 
     return (
-      <Card.Text>
+      <Card.Text as="div">
         <Row className="align-items-center">
           <Col>
             <span>{project.title}</span>

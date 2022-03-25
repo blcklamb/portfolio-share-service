@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
 import { useAlert } from "react-alert";
+import CreditForm from "./user/CreditForm"
 
 function Header() {
   const navigate = useNavigate();
@@ -33,7 +34,10 @@ function Header() {
   return (
     <Nav activeKey={location.pathname}>
       <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
+        {isLogin && (<Nav.Link disabled>
+          <p >안녕하세요, 🐰포트폴리오 공유 서비스입니다.</p>
+          </Nav.Link>)}
+        
       </Nav.Item>
       <Nav.Item>
         <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>

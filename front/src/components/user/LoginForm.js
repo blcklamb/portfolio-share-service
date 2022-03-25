@@ -5,6 +5,7 @@ import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
+import CreditForm from "./CreditForm"
 import { GoogleLogin } from "react-google-login";
 
 function LoginForm() {
@@ -118,7 +119,10 @@ function LoginForm() {
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
+          <Row>
+          <CreditForm/>
+          </Row>
+          <Form onSubmit={handleSubmit} className="login-form">
             <h4>소셜 로그인</h4>
             <hr></hr>
             <Row className="mb-5 text-center">

@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 
 function EduRadioForm({ position, setPosition }) {
   return (
-    <Form required>
+    <Form required as="div">
       <div className="mb-3 mt-3">
         <Form.Check
           inline

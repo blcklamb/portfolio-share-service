@@ -73,7 +73,7 @@ function LoginForm() {
             // cookie로 보내진 refresh token을 가져와서 다시 쿠키에 저장
             const cookies = new Cookies();
             const refreshToken = cookies.get("refreshToken");
-            cookies.set("refreshToken", refreshToken, { secure: true, httpOnly: true });
+            cookies.set("refreshToken", refreshToken, { httpOnly: true });
 
             // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
             dispatch({

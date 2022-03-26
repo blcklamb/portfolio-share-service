@@ -60,8 +60,8 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
         // JWT Refresh Token 생성
         const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: "14d" });
 
-        // refresh token은 cookie로 httpOnly, secure 옵션 적용해서 보안 강화하여 보내기
-        return res.status(200).cookie("refreshToken", refreshToken, { secure: true, httpOnly: true }).send(user);
+        // refresh token은 cookie로 httpOnly 옵션 적용해서 보안 강화하여 보내기
+        return res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true }).send(user);
     } catch (error) {
         next(error);
     }

@@ -61,6 +61,9 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, onClose }) =
           dateFormat="yyyy/MM/dd"
           selected={when_date}
           onChange={(date) => { setWhenDate(date) }}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
         />
       </Form.Group>
 

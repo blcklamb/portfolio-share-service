@@ -14,7 +14,7 @@ function GithubLogin() {
             try {
                 const code = new URLSearchParams(location.search);
                 const user = await axios //
-                    .get(`http://localhost:5001/login/github/callback?${code}`)
+                    .get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/login/github/callback?${code}`)
                     .then((res) => res.data);
                 // JWT 토큰은 유저 정보의 token임.
                 const jwtToken = user.token;

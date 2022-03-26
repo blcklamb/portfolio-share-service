@@ -36,7 +36,7 @@ userAuthRouter.post("/user/register", uploadImage.single("image"), async functio
         await sendMail(
             email, // sendMail(to, subject, text)
             "[Portfolio Share Service] 회원가입 이메일 인증",
-            `링크를 클릭해주세요.\nhttp://localhost:5001/user/vaildation/${newUser.id}`,
+            `링크를 클릭해주세요.\n${process.env.SERVER_URL}:${process.env.SERVER_PORT}/user/vaildation/${newUser.id}`,
         );
 
         return res.status(201).json(newUser);
@@ -76,7 +76,7 @@ userAuthRouter.get("/user/vaildation/:id", async (req, res) => {
             toUpdate: { validated: true },
         });
 
-        return res.redirect("http://localhost:3000/login?validation=true");
+        return res.redirect(`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/login?validation=true`);
     } catch (error) {
         next(error);
     }

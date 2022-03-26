@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const backendPortNumber = process.env.REACT_APP_SERVER_PORT || "5001";
-const serverUrl =
-  "http://" + window.location.hostname + ":" + backendPortNumber + "/";
+const serverUrl = process.env.REACT_APP_SERVER_URL + ":" + backendPortNumber + "/";
 
 // credential 인증 추가
 axios.defaults.withCredentials = true;

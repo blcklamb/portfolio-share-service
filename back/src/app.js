@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser');
 
 // CORS 에러 방지, credential 인증 추가
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.SERVER_URL}`,
     credentials: true
 }));
 

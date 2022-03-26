@@ -308,7 +308,7 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             });
         }
 
-        const { id, email, name, description, image } = user;
+        const { id, email, name, description, image, oauth } = user;
         return res.status(200).json({
             token: jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY),
             id,
@@ -316,6 +316,7 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             name,
             description,
             image,
+            oauth,
         });
     } catch (error) {
         return res.json({ result: "failed", error: error._message });

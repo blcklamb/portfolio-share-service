@@ -61,6 +61,9 @@ const ProjectEditForm = ({ currentProject, setProjects, onClose }) => {
           dateFormat="yyyy/MM/dd"
           selected={from_date}
           onChange={(date) => { setFromDate(date) }}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
         />
       </Form.Group>
       <Form.Group controlId="formBasicToDate" className="mt-3">
@@ -70,6 +73,9 @@ const ProjectEditForm = ({ currentProject, setProjects, onClose }) => {
           dateFormat="yyyy/MM/dd"
           selected={to_date}
           onChange={(date) => { setToDate(date) }}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
         />
       </Form.Group>
       <Form.Group as={Row} className="mt-3 text-center mb-4">

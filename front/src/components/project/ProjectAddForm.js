@@ -73,6 +73,9 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, onClose }) => {
             onChange={(date) => {
               setFromDate(date);
             }}
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
           />
         </Form.Group>
         <Form.Group controlId="formBasicToDate" className="mt-3">
@@ -84,6 +87,9 @@ const ProjectAddForm = ({ portfolioOwnerId, setProjects, onClose }) => {
             onChange={(date) => {
               setToDate(date);
             }}
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
           />
         </Form.Group>
         <Form.Group as={Row} className="mt-3 text-center">

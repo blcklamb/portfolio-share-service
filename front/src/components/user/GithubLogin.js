@@ -36,7 +36,7 @@ function GithubLogin() {
         login();
     }, [location, navigate, dispatch]);
 
-    return <div></div>;
+    return <div>Loading...</div>;
 }
 
 export default GithubLogin;

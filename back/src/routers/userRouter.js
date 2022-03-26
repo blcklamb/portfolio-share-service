@@ -290,7 +290,14 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             },
         }).then((res) => res.json());
 
-        let user = await userAuthService.getUserByEmail({ email: data.email });
+        const emailData = await fetch(`${api}/user/emails`, {
+            headers: {
+                Authorization: `token ${access_token}`,
+            },
+        }).then((res) => res.json());
+        const verifiedEmail = emailData.find((email) => email.primary === true && email.verified === true).email;
+
+        let user = await userAuthService.getUserByEmail({ email: verifiedEmail });
         // getUserByEmail은 해당 이메일의 가입 내역이 없을 때만 errorMessage를 반환함
         if (user.errorMessage) {
             user = await userAuthService.addSocialUser({

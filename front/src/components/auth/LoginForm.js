@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
-import CreditForm from "../common/CreditForm"
+import CreditForm from "../common/CreditForm";
 import { GoogleLogin } from "react-google-login";
 import Cookies from "universal-cookie";
 import axios from "axios";
@@ -125,7 +125,7 @@ function LoginForm() {
         const base = "https://github.com/login/oauth/authorize";
         const params = new URLSearchParams({
             client_id: process.env.REACT_APP_GITHUB_ID,
-            scope: "read:user",
+            scope: "read:user user:email",
         }).toString();
         const url = `${base}?${params}`;
         return (window.location.href = url);

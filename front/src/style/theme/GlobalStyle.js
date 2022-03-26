@@ -26,9 +26,9 @@ export const GlobalStyle = createGlobalStyle`
         border: ${({ theme }) => theme.borderColor};
     }
     .btn-primary{
-        background: #B1D6FC;
+        background: ${({ theme }) => theme.prmBgColor};
         border: #B1D6FC;
-        color: ${({ theme }) => theme.bgColor};
+        color: #F0F0F0;
     }
     .btn-outline-info{
         border-color: ${({ theme }) => theme.infoBtnColor};
@@ -152,5 +152,7 @@ export const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         font-weight: 800;
     }
-    
+    .react-datepicker__triangle {
+        /* 여기에 transform 적용하세요! */
+    }
 `;

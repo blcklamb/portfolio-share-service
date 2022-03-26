@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
-import CreditForm from "./CreditForm"
+import CreditForm from "../common/CreditForm"
 import { GoogleLogin } from "react-google-login";
 import Cookies from 'universal-cookie';
 import axios from "axios";
@@ -52,7 +52,7 @@ function LoginForm() {
       alert.info("이메일 인증이 완료되었습니다.")
       alert.info("로그인 해주세요.")
     }
-  }, [])
+  }, [alert])
 
   useEffect(() => {
     alertLoginValidated();

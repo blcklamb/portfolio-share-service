@@ -30,16 +30,16 @@ const UserLike = ({ user, isLikable, isNetwork }) => {
         <>
             {!isNetwork && (
                 isLikable ? (
-                    <Button pill className="big common-like-btn non-network-like-btn" style={{ fontSize: 20 }} >
+                    <Button onClick={handleClick} pill="true" className="big common-like-btn non-network-like-btn" style={{ fontSize: 20 }} >
 
                         <div style={{ padding: 'auto' }}>
-                            {isLike && (<span onClick={handleClick}>💗</span>)}
-                            {!isLike && (<span onClick={handleClick}>🤍</span>)}
+                            {isLike && (<span >💗</span>)}
+                            {!isLike && (<span >🤍</span>)}
                             <span>{likeCnt}</span>
                         </div>
                     </Button>
                 ) : (
-                    <Button pill className="big common-like-btn network-like-btn" style={{ fontSize: 20 }} >
+                    <Button pill="true" className="big common-like-btn network-like-btn" style={{ fontSize: 20 }} >
 
                         <div style={{ padding: 'auto' }}>
                             {!isLikable && (<span>💗</span>)}

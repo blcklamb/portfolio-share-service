@@ -26,6 +26,7 @@ const OffCanvasForm = ({ show, handleClose }) => {
           <Badge pill bg="danger">#토큰마스터</Badge>
           <p className="offcanvas-body">🍰 엄혜진</p>
           <Badge pill bg="warning" text="dark">#백엔드</Badge>
+          <Badge pill bg="success">#배포도사</Badge>
         </Offcanvas.Body>
       </Offcanvas>
     </>

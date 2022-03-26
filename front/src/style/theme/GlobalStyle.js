@@ -120,6 +120,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     .common-like-btn {
         border-radius: 30px;
+        height: 43px;
     }
     .non-network-like-btn {
         display:flex;

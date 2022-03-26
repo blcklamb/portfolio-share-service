@@ -37,6 +37,8 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, onClose }) => {
   };
 
   return (
+    <>
+
     <div>
       <Form onSubmit={handsubmit}>
         <Form.Group controlId="formBasicTitle">
@@ -70,6 +72,9 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, onClose }) => {
             onChange={(date) => {
               setWhenDate(date);
             }}
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
           />
         </Form.Group>
         <Form.Group as={Row} className="mt-3 text-center">
@@ -86,6 +91,8 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, onClose }) => {
         </Form.Group>
       </Form>
     </div>
+
+    </>  
   );
 };
 

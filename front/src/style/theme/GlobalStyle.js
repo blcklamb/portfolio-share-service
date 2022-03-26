@@ -47,6 +47,9 @@ export const GlobalStyle = createGlobalStyle`
         border-radius: 6px;
         color: #212529;
     }
+    .react-datepicker__triangle{
+        left: -200px !important;
+    }
     .react-confirm-alert {
         font-weight: bold;
     }
@@ -151,8 +154,5 @@ export const GlobalStyle = createGlobalStyle`
     .nav-text {
         text-decoration: none;
         font-weight: 800;
-    }
-    .react-datepicker__triangle {
-        /* 여기에 transform 적용하세요! */
     }
 `;

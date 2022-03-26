@@ -7,7 +7,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as Api from "../../api";
 
 const CertificateCard = ({ certificate, setCertificates, isEditable, setIsEditing }) => {
-  
+
   // useAlert로 alert 함수 이용함.
   const alert = useAlert()
 
@@ -36,7 +36,7 @@ const CertificateCard = ({ certificate, setCertificates, isEditable, setIsEditin
 
     // "certificatelist/유저id" 엔드포인트로 get요청함.
     const res = await Api.get("certificatelist", certificate.user_id);
-    
+
     alert.info("삭제되었습니다.")
 
     setCertificates(res.data);
@@ -44,42 +44,42 @@ const CertificateCard = ({ certificate, setCertificates, isEditable, setIsEditin
 
   return (
     <Card.Text as="div">
-    <Row className="align-items-center">
-      <Col>
-        <span>{certificate.title}</span>
-        <br />
-        <span className="text-muted">{certificate.description}</span>
-        <br />
-        <span className="text-muted">{certificate.when_date.slice(0, 10)}</span>
-      </Col>
-      {isEditable && (
-        <>
-          <Col md="auto">
-            <Button
-              variant="outline-info"
-              size="sm"
-              onClick={() => setIsEditing((prev) => !prev)}
-              className="mr-3"
-              alt="편집 버튼"
-            >
-              <MdModeEditOutline size="24"/>
-            </Button>
-          </Col>
-          <Col md="auto">
-            <Button
-              variant="outline-danger"
-              size="sm"
-              onClick={(e) => handleDeleteAlert(e)}
-              className="mr-3"
-              alt="삭제 버튼"
+      <Row className="align-items-center">
+        <Col>
+          <span>{certificate.title}</span>
+          <br />
+          <span className="text-muted">{certificate.description}</span>
+          <br />
+          <span className="text-muted">{certificate.when_date.slice(0, 10)}</span>
+        </Col>
+        {isEditable && (
+          <>
+            <Col md="auto">
+              <Button
+                variant="outline-info"
+                size="sm"
+                onClick={() => setIsEditing((prev) => !prev)}
+                className="mr-3"
+                alt="편집 버튼"
               >
-                <MdDeleteOutline size="24"/>
-            </Button>
-          </Col>
-      </>  
-      )}
-    </Row>
-  </Card.Text>
+                <MdModeEditOutline size="24" />
+              </Button>
+            </Col>
+            <Col md="auto">
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={(e) => handleDeleteAlert(e)}
+                className="mr-3"
+                alt="삭제 버튼"
+              >
+                <MdDeleteOutline size="24" />
+              </Button>
+            </Col>
+          </>
+        )}
+      </Row>
+    </Card.Text>
   )
 }
 

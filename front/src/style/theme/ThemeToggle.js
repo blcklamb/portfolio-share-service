@@ -1,3 +1,5 @@
+// 라이트 및 다크모드를 변경하는 버튼
+
 import React from 'react';
 import styled from 'styled-components';
 import { FcPortraitMode, FcNightPortrait } from "react-icons/fc";

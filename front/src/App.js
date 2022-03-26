@@ -15,7 +15,6 @@ import StyledApp from "./style/StyledApp";
 
 import { ThemeProvider } from "./context/themeProvider";
 import { GlobalStyle } from "./style/theme/GlobalStyle";
-import { GlobalFonts } from "./style/fonts/fonts";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -64,20 +63,19 @@ function App() {
       <UserStateContext.Provider value={userState}>
         <ThemeProvider>
           <GlobalStyle />
-          <GlobalFonts />
           <Router>
             <Header />
             <StyledApp>
-            <Routes>
-              <Route path="/" exact element={<Portfolio />} />
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/register" element={<RegisterForm />} />
-              <Route path="/users/:userId" element={<Portfolio />} />
-              <Route path="/change-password" element={<UserChangePassword />} />
-              <Route path="/reset-password" element={<UserPasswordReset />} />
-              <Route path="/network" element={<Network />} />
-              <Route path="*" element={<Portfolio />} />
-            </Routes>
+              <Routes>
+                <Route path="/" exact element={<Portfolio />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="/users/:userId" element={<Portfolio />} />
+                <Route path="/change-password" element={<UserChangePassword />} />
+                <Route path="/reset-password" element={<UserPasswordReset />} />
+                <Route path="/network" element={<Network />} />
+                <Route path="*" element={<Portfolio />} />
+              </Routes>
             </StyledApp>
           </Router>
         </ThemeProvider>

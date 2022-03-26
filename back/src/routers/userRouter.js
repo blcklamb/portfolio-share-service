@@ -303,7 +303,7 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             user = await userAuthService.addSocialUser({
                 name: data.name || data.login,
                 email: verifiedEmail,
-                description: data.bio || "Hello World",
+                description: data.bio || "Hello World!",
                 image: data.avatar_url,
             });
         }

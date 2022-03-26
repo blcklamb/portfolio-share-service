@@ -25,7 +25,7 @@ function BlogEditForm({ currentBlog, setBlogs, onClose }) {
     await Api.put(`blogs/${currentBlog.id}`, {
       user_id,
       service,
-      url: isUrlHasHttps ? url:'https://'+url,
+      url: isUrlHasHttps ? url : 'https://' + url,
     });
 
     // "bloglist/유저id" 엔드포인트로 GET 요청함.
@@ -43,7 +43,7 @@ function BlogEditForm({ currentBlog, setBlogs, onClose }) {
           value={service}
           onChange={(e) => setService(e.target.value)}
           required
-          >
+        >
           <option>사이트 선택</option>
           <option value="Github">Github</option>
           <option value="Gitlab">Gitlab</option>

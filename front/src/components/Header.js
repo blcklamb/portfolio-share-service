@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
 import { useAlert } from "react-alert";
-import CreditForm from "./user/CreditForm"
+import OffCanvasForm from "./user/OffCanvasForm"
 
 function Header() {
   const navigate = useNavigate();
@@ -14,6 +14,10 @@ function Header() {
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
+
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
   const isLogin = !!userState.user;
@@ -34,10 +38,10 @@ function Header() {
   return (
     <Nav activeKey={location.pathname}>
       <Nav.Item className="me-auto mb-5">
-        {isLogin && (<Nav.Link disabled>
-          <p >안녕하세요, 🐰포트폴리오 공유 서비스입니다.</p>
+        {isLogin && (<Nav.Link onClick={handleShow}>
+          안녕하세요, 🐰포트폴리오 공유 서비스입니다.
           </Nav.Link>)}
-        
+          <OffCanvasForm show={show} handleClose={handleClose} />
       </Nav.Item>
       <Nav.Item>
         <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>

@@ -16,7 +16,6 @@ import StyledApp from "./style/StyledApp";
 
 import { ThemeProvider } from "./context/themeProvider";
 import { GlobalStyle } from "./style/theme/GlobalStyle";
-import { GlobalFonts } from "./style/fonts/fonts";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -65,7 +64,6 @@ function App() {
             <UserStateContext.Provider value={userState}>
                 <ThemeProvider>
                     <GlobalStyle />
-                    <GlobalFonts />
                     <Router>
                         <Header />
                         <StyledApp>

@@ -11,7 +11,7 @@ import Edu from "./Edu";
 import EduAddForm from "./EduAddForm";
 
 function Edus({ portfolioOwnerId, isEditable }) {
-  
+
   // useState로 edus 상태를 생성함.
   const [edus, setEdus] = useState([]);
   // useState로 isAdding 상태를 생성함.

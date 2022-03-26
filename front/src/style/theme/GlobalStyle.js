@@ -12,12 +12,14 @@ export const GlobalStyle = createGlobalStyle`
         height: 100%;
         line-height: 1.5;
         margin: 0 auto;
-        font-family: 
-        "Noto Sans KR";
+        font-family: "Helvetica", "Arial", sans-serif;
         word-break: keep-all;
         word-wrap: break-word;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+    }
+    #__react-alert__ div div div {
+    width: auto !important;
     }
     .card{
         background: ${({ theme }) => theme.bgColor};
@@ -91,7 +93,7 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: 500;
     }
     .h2-span-highlight:hover {
-        background: #0DCAF0 ;
+        background: ${({ theme }) => theme.textColor} ;
         color: ${({ theme }) => theme.bgColor};
     }
     .offcanvas-title {
@@ -108,8 +110,38 @@ export const GlobalStyle = createGlobalStyle`
         background: ${({ theme }) => theme.bgColor};
         border: ${({ theme }) => theme.borderColor};
     }
-    .like-badge {
-        color: blue;
-        border: ${({ theme }) => theme.borderColor};
+    .common-like-btn {
+        border-radius: 30px;
     }
+    .non-network-like-btn {
+        display:flex;
+        align-items:center;
+        background: ${({ theme }) => theme.bgColor};
+        color: ${({ theme }) => theme.badgeColor};
+        
+        border: ${({ theme }) => theme.badgeBorderColor};
+    }
+    .non-network-like-btn:hover {
+        display:flex;
+        align-items:center;
+        color: ${({ theme }) => theme.bgColor};
+        background: ${({ theme }) => theme.cardBgColor};
+        border: ${({ theme }) => theme.bgColor};
+    }
+    .network-like-btn {
+        display:flex;
+        align-items:center;
+        background: ${({ theme }) => theme.bgColor};
+        color: ${({ theme }) => theme.badgeColor};
+        
+        border: ${({ theme }) => theme.badgeBorderColor};
+    }
+    .network-like-btn:hover {
+        cursor: default;
+        background: ${({ theme }) => theme.bgColor};
+        color: ${({ theme }) => theme.badgeColor};
+        
+        border: ${({ theme }) => theme.badgeBorderColor};
+    }
+    
 `;

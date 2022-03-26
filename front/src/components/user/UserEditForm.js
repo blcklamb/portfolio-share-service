@@ -27,7 +27,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
   // useAlert로 alert 함수 이용함.
   const alert = useAlert()
-  
+
   // 이미지 업로드를 위한 함수
   const handleImageUpload = (e) => {
     e.preventDefault();
@@ -54,7 +54,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     e.preventDefault();
 
     const userFormData = new FormData();
-    if (!image) {userFormData.append("image", "")} 
+    if (!image) { userFormData.append("image", "") }
     else { Object.values(image).forEach((file) => userFormData.append("image", file)); }
 
     userFormData.append("name", name);
@@ -82,15 +82,15 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           label: '네! 탈퇴할게요.',
           onClick: () => {
             Api.delete("user/current")
-            .then((res) => {
-              alert.info('회원탈퇴 되었습니다.');
-              // sessionStorage 에 저장했던 JWT 토큰을 삭제함.
-              sessionStorage.removeItem("userToken");
-              // dispatch 함수를 이용해 로그아웃함.
-              dispatch({ type: "LOGOUT" });
-              // 기본 페이지로 돌아감.
-              navigate("/");
-            });
+              .then((res) => {
+                alert.info('회원탈퇴 되었습니다.');
+                // sessionStorage 에 저장했던 JWT 토큰을 삭제함.
+                sessionStorage.removeItem("userToken");
+                // dispatch 함수를 이용해 로그아웃함.
+                dispatch({ type: "LOGOUT" });
+                // 기본 페이지로 돌아감.
+                navigate("/");
+              });
           }
         },
         {
@@ -114,19 +114,19 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               />
             ) : (
               <>
-              {
-                imageBase64.map((item) => {
-                  return (
-                    <img
-                      className="my-3"
-                      src={item}
-                      value={image}
-                      alt="First Slide"
-                      style={{ width: "10rem", height: "8rem" }}
-                    />
-                  )
-                })
-              }
+                {
+                  imageBase64.map((item) => {
+                    return (
+                      <img
+                        className="my-3"
+                        src={item}
+                        value={image}
+                        alt="First Slide"
+                        style={{ width: "10rem", height: "8rem" }}
+                      />
+                    )
+                  })
+                }
               </>
             )}
 
@@ -178,12 +178,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             </Col>
           </Form.Group>
           <hr />
-          <div onClick={withdrawal} onMouseEnter={() => {}} >
+          <div onClick={withdrawal}>
             <p className="user-withdrawal-text">
-            회원탈퇴
-          </p>
+              회원탈퇴
+            </p>
           </div>
-          
+
         </Form>
       </Card.Body>
     </Card>

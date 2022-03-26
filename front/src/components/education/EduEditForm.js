@@ -6,7 +6,7 @@ import * as Api from "../../api";
 import EduRadioForm from "./EduRadioForm";
 
 function EduEditForm({ currentEdu, setEdus, onClose }) {
-  
+
   // useState로 school 상태를 생성함.
   const [school, setSchool] = useState(currentEdu.school);
   // useState로 major 상태를 생성함.

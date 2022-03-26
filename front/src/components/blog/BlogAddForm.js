@@ -20,12 +20,12 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
 
     // portfolioOwnerId를 user_id 변수에 할당함.
     const user_id = portfolioOwnerId;
-    
+
     // "blog/create" 엔드포인트로 post요청함.
     await Api.post("blog/create", {
       user_id: portfolioOwnerId,
       service,
-      url: isUrlHasHttps ? url:'https://'+url,
+      url: isUrlHasHttps ? url : 'https://' + url,
     });
 
     // "bloglist/유저id" 엔드포인트로 get요청함.
@@ -42,7 +42,7 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
         <Form.Select
           onChange={(e) => setService(e.target.value)}
           required
-          >
+        >
           <option>사이트 선택</option>
           <option value="Github">Github</option>
           <option value="Gitlab">Gitlab</option>
@@ -63,7 +63,7 @@ function BlogAddForm({ portfolioOwnerId, setBlogs, onClose }) {
           type="text"
           placeholder="url"
           value={url}
-          onChange={(e)=>setUrl(e.target.value)}
+          onChange={(e) => setUrl(e.target.value)}
           required
         />
         {!isUrlValid && (

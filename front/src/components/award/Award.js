@@ -15,12 +15,12 @@ function Award({ award, setAwards, isEditable }) {
         <AwardEditForm
           currentAward={award}
           setAwards={setAwards}
-          onClose={()=>setIsEditing(false)}
+          onClose={() => setIsEditing(false)}
         />
       ) : (
         <Row>
           <Col md={1} >
-            <FcReadingEbook size="24"/>
+            <FcReadingEbook size="24" />
           </Col>
           <Col>
             <AwardCard

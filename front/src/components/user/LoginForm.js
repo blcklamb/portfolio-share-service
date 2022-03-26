@@ -165,31 +165,23 @@ function LoginForm() {
                                 <Form.Control type="password" autoComplete="on" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 {!isPasswordValid && <Form.Text className="text-success">비밀번호는 4글자 이상입니다.</Form.Text>}
                             </Form.Group>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group as={Row} className="m-3 text-center">
+
+                            <Form.Group as={Row} className="mt-3 text-center">
+                                <Col sm={{ span: 20 }}>
                                     <Button variant="primary" type="submit" disabled={!isFormValid}>
                                         로그인
                                     </Button>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group as={Row} className="m-3 text-center">
+                                </Col>
+                            </Form.Group>
+
+                            <Form.Group as={Row} className="mt-3 text-center">
+                                <Col sm={{ span: 20 }}>
                                     <Button variant="light" onClick={() => navigate("/register")}>
                                         회원가입하기
                                     </Button>
-                                </Form.Group>
-                            </Col>
+                                </Col>
+                            </Form.Group>
                         </Row>
-
-                        <Form.Group as={Row} className="mt-3 text-center">
-                            <Col sm={{ span: 20 }}>
-                                <Button variant="secondary" onClick={() => navigate("/reset-password")}>
-                                    비밀번호 변경하기
-                                </Button>
-                            </Col>
-                        </Form.Group>
                     </Form>
                 </Col>
             </Row>

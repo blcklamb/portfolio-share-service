@@ -76,7 +76,7 @@ userAuthRouter.get("/user/vaildation/:id", async (req, res) => {
             toUpdate: { validated: true },
         });
 
-        return res.redirect(`${process.env.SERVER_URL}:${process.env.SERVER_PORT}/login?validation=true`);
+        return res.redirect(`${process.env.SERVER_URL}/login?validation=true`);
     } catch (error) {
         next(error);
     }

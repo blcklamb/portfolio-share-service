@@ -55,13 +55,15 @@ class awardAuthService {
     static async setAward({ awardId, user_id, title, description }) {
         // 수상 이력 중복 확인하기
         const duplicateAward = await Award.findDuplicates({ user_id, title, description });
-        const duplicateAwardId = duplicateAward[0].id;
 
         // db에 저장된 수상 이력과 중복될 경우 에러메세지 반환
         // awardId가 같지 않을 때만 에러 처리해서 편집을 눌렀다가 변경된 내용 없이 확인 눌렀을 경우 에러가 뜨지않게 수정
-        if (duplicateAward.length > 0 && awardId !== duplicateAwardId) {
-            const errorMessage = "이미 입력된 수상 이력입니다.";
-            return { errorMessage };
+        if (duplicateAward.length > 0 ) {
+            const duplicateAwardId = duplicateAward[0].id;
+            if (awardId !== duplicateAwardId) {
+                const errorMessage = "이미 입력된 수상 이력입니다.";
+                return { errorMessage };
+            }
         }
 
         // db에 수정된 내용 저장하기

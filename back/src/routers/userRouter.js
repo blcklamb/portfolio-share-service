@@ -307,17 +307,20 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
                 image: data.avatar_url,
             });
         }
+        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: "14d" });
 
         const { id, email, name, description, image, oauth } = user;
-        return res.status(200).json({
-            token: jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY),
-            id,
-            email,
-            name,
-            description,
-            image,
-            oauth,
-        });
+        return res.status(200)
+            .cookie("refreshToken", refreshToken, { httpOnly: true })
+            .json({
+                token: jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY),
+                id,
+                email,
+                name,
+                description,
+                image,
+                oauth,
+            });
     } catch (error) {
         return res.json({ result: "failed", error: error._message });
     }
@@ -342,9 +345,9 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
             name,
             image: !picture ? undefined : picture,
         });
+        const refreshToken = jwt.sign({ user_id: user.id }, process.env.REFRESH_SECRET_KEY, { expiresIn: "14d" });
 
-        console.log(user);
-        return res.status(200).send(user);
+        return res.status(200).cookie("refreshToken", refreshToken, { httpOnly: true }).send(user);
     } catch (error) {
         next(error);
     }

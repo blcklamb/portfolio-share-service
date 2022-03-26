@@ -41,7 +41,7 @@ class userAuthService {
             return { errorMessage };
         }
         // 소셜로그인 사용자인 경우
-        if(user.oauth) {
+        if (user.oauth) {
             const errorMessage = "소셜로그인으로 가입한 회원입니다. 소셜로그인을 이용해주세요.";
             return { errorMessage };
         }
@@ -58,7 +58,7 @@ class userAuthService {
         }
 
         // 로그인 성공 -> JWT 웹 토큰 생성
-        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY, {expiresIn: '2h'});
+        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: "2h" });
 
         // 반환할 loginuser 객체를 위한 변수 설정
         const { id, name, description, image } = user;
@@ -203,6 +203,7 @@ class userAuthService {
             description,
             image,
             validated: true,
+            oauth: true,
         };
 
         // db에 저장
@@ -221,7 +222,7 @@ class userAuthService {
     //         const user = await User.create(newUser);
     //         createdNewUser.push(user);
     //     }
-       
+
     //     return createdNewUser;
     // }
 }

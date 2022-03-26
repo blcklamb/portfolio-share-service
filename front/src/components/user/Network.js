@@ -29,7 +29,7 @@ function Network() {
             setUsers((pre) => [...pre, ...res.data.users]);
             setIsLoading(false);
         });
-    }, [userState, navigate]);
+    }, [userState, navigate, curPage]);
 
     const target = useRef();
 

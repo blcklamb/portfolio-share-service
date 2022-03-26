@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useAlert } from "react-alert";
+import { BsGithub } from "react-icons/bs";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -147,7 +148,8 @@ function LoginForm() {
                             </Col>
                             <Col>
                                 <Button variant="secondary" style={{ fontSize: 14, height: 43, padding: 10 }} onClick={githubLogin}>
-                                    😺&nbsp;&nbsp;&nbsp;&nbsp;GitHub로 로그인하기
+                                    <BsGithub size="22"/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;GitHub로 로그인하기
                                 </Button>
                             </Col>
                         </Row>

@@ -301,9 +301,9 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
         // getUserByEmail은 해당 이메일의 가입 내역이 없을 때만 errorMessage를 반환함
         if (user.errorMessage) {
             user = await userAuthService.addSocialUser({
-                name: data.name,
+                name: data.name || data.login,
                 email: verifiedEmail,
-                description: data.bio,
+                description: data.bio || "Hello World",
                 image: data.avatar_url,
             });
         }

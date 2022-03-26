@@ -68,7 +68,7 @@ function BlogCard({ blog, setBlogs, isEditable, setIsEditing }) {
                 className="me-3"
                 alt="편집 버튼"
               >
-                <MdModeEditOutline size="18" />
+                <MdModeEditOutline size="24" />
               </Button>
               <Button
                 variant="outline-danger"
@@ -76,7 +76,7 @@ function BlogCard({ blog, setBlogs, isEditable, setIsEditing }) {
                 onClick={(e) => handleDeleteAlert(e)}
                 alt="삭제 버튼"
               >
-                <MdDeleteOutline size="18" />
+                <MdDeleteOutline size="24" />
               </Button>
             </Col>
           </>

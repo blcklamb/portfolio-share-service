@@ -21,11 +21,11 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
               <hr />
             </Row>
             <Card.Title>
-              <Row>
-                <Col>
+              <Row className="mb-4">
+                <Col className="user-card-name">
                   {user?.name}
                 </Col>
-                <Col className="d-flex flex-row-reverse mb-2" >
+                <Col className="d-flex flex-row-reverse" >
                   {user && <UserLike
                     user={user}
                     isLikable={!isEditable}
@@ -51,8 +51,8 @@ const UserCard = React.forwardRef(({ user, setIsEditing, isEditable, isNetwork }
               <hr />
             </Row>
             <Card.Title>
-              <Row>
-                <Col>
+              <Row className="mb-4">
+                <Col className="user-card-name">
                   {user?.name}
                 </Col>
                 <Col className="d-flex flex-row-reverse">

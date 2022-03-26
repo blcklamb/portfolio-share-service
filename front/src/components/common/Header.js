@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
-import { UserStateContext, DispatchContext } from "../App";
+import { UserStateContext, DispatchContext } from "../../App";
 import { useAlert } from "react-alert";
-import OffCanvasForm from "./user/OffCanvasForm"
+import OffCanvasForm from "./OffCanvasForm"
 
 function Header() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function Header() {
   const oauth = userState.user?.oauth;
 
   return (
-    <Nav activeKey={location.pathname}>
+    <Nav activeKey={location.pathname} className="nav-text">
       <Nav.Item className="me-auto mb-5">
         {isLogin && (<Nav.Link onClick={handleShow}>
           안녕하세요, 🐰포트폴리오 공유 서비스입니다.

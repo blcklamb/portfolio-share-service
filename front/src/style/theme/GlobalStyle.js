@@ -57,28 +57,33 @@ export const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         color: ${({ theme }) => theme.bgColor};
         background: ${({ theme }) => theme.cardBgColor};
-        border: ${({ theme }) => theme.bgColor};
+        border: ${({ theme }) => theme.bgColor} solid 1px;
     }
     .user-card {
         margin: 20px;
         width: 280px;
         display: flex;
+        border: ${({ theme }) => theme.borderColor};
+    }
+    .user-card-name {
+        margin: auto;
+        font-size: 25px;;
     }
     .network-user-card {
-        padding: auto
+        padding: auto;
     }
     .user-card-img {
         object-fit: cover;
     }
     .user-withdrawal-text {
-        color: #DF535F;
+        color: #71869B;
         text-align: center;
         font-weight: 800;
     }
     .user-withdrawal-text:hover {
         cursor: pointer;
         color: ${({ theme }) => theme.bgColor};
-        background: #DF535F;
+        background: #71869B;
         text-align: center;
         font-weight: 800;
         border-radius: 3px;
@@ -126,7 +131,7 @@ export const GlobalStyle = createGlobalStyle`
         align-items:center;
         color: ${({ theme }) => theme.bgColor};
         background: ${({ theme }) => theme.cardBgColor};
-        border: ${({ theme }) => theme.bgColor};
+        border: ${({ theme }) => theme.cardBgColor} 2px solid;
     }
     .network-like-btn {
         display:flex;
@@ -142,6 +147,10 @@ export const GlobalStyle = createGlobalStyle`
         color: ${({ theme }) => theme.badgeColor};
         
         border: ${({ theme }) => theme.badgeBorderColor};
+    }
+    .nav-text {
+        text-decoration: none;
+        font-weight: 800;
     }
     
 `;

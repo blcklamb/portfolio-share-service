@@ -4,14 +4,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
-import Header from "./components/Header";
-import LoginForm from "./components/user/LoginForm";
+
 import GithubLogin from "./components/user/GithubLogin";
+import Header from "./components/common/Header";
+import LoginForm from "./components/auth/LoginForm";
 import Network from "./components/user/Network";
-import RegisterForm from "./components/user/RegisterForm";
+import RegisterForm from "./components/auth/RegisterForm";
 import Portfolio from "./components/Portfolio";
-import UserChangePassword from "./components/user/UserChangePassword";
-import UserPasswordReset from "./components/user/UserPasswordReset";
+import UserChangePassword from "./components/auth/UserChangePassword";
+import UserPasswordReset from "./components/auth/UserPasswordReset";
 import StyledApp from "./style/StyledApp";
 
 import { ThemeProvider } from "./context/themeProvider";

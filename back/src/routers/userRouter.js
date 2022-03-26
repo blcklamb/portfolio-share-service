@@ -265,37 +265,24 @@ userAuthRouter.post("/user/likes", login_required, async (req, res, next) => {
     return res.json({ likes: user.likes });
 });
 
-userAuthRouter.get("/login/github", async (req, res) => {
-    const base = "https://github.com/login/oauth/authorize";
-    const params = new URLSearchParams({
-        client_id: process.env.GITHUB_ID,
-        scope: "read:user",
-    }).toString();
-    const url = `${base}?${params}`;
-    res.header("Access-Control-Allow-Origin", "*");
-    res.redirect(url);
-});
-
 userAuthRouter.get("/login/github/callback", async (req, res) => {
-    // GitHub access_token 요청
-    const base = "https://github.com/login/oauth/access_token";
-    const params = new URLSearchParams({
-        client_id: process.env.GITHUB_ID,
-        client_secret: process.env.GITHUB_SECRET,
-        code: req.query.code,
-    }).toString();
-    const url = `${base}?${params}`;
-    const token = await fetch(url, {
-        method: "POST",
-        headers: {
-            Accept: "application/json",
-        },
-    }).then((res) => res.json());
+    try {
+        const { code } = req.query;
 
-    // 만약 access_token이 정상적으로 발급 되었다면, GitHub API 서버에서 data를 받아옴
-    // Cannot access 'token' before initialization 에러 떄문에 불필요해도 따로 정의함
-    const { access_token } = token;
-    if (access_token) {
+        const base = "https://github.com/login/oauth/access_token";
+        const params = new URLSearchParams({
+            client_id: process.env.GITHUB_ID,
+            client_secret: process.env.GITHUB_SECRET,
+            code,
+        }).toString();
+        const url = `${base}?${params}`;
+
+        const token = await fetch(url, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+        }).then((res) => res.json());
+
+        const { access_token } = token;
         const api = "https://api.github.com";
         const data = await fetch(`${api}/user`, {
             headers: {
@@ -323,14 +310,9 @@ userAuthRouter.get("/login/github/callback", async (req, res) => {
             description,
             image,
         });
-    } else {
-        return res.redirect("/login");
+    } catch (error) {
+        return res.json({ result: "failed", error: error._message });
     }
-});
-
-// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", login_required, (req, res) => {
-    return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 
 import { OAuth2Client } from "google-auth-library";
@@ -358,6 +340,11 @@ userAuthRouter.post("/login/google", async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+
+// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
+userAuthRouter.get("/afterlogin", login_required, (req, res) => {
+    return res.status(200).send(`안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`);
 });
 
 export { userAuthRouter };

@@ -14,21 +14,23 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    // error에서 상태 코드와 요청 내용을 가져옴
-    const { config, response: { status } } = error;
+    // error.response가 있는 경우, error에서 상태 코드와 요청 내용을 가져옴
+    if (error.response) {
+      const { config, response: { status } } = error;
 
-    // 상태 코드가 401인 경우만 access token 재발급
-    if (status === 401) {
-      // 기존 요청 가져오기
-      const originalRequest = config;
-      // 서버에서 보내준 새 access token 가져와서 session storage에 새로 저장
-      const newAccessToken = error.response.data.newAccessToken;
-      sessionStorage.setItem("userToken", newAccessToken);
+      // 상태 코드가 401인 경우만 access token 재발급
+      if (status === 401) {
+        // 기존 요청 가져오기
+        const originalRequest = config;
+        // 서버에서 보내준 새 access token 가져와서 session storage에 새로 저장
+        const newAccessToken = error.response.data.newAccessToken;
+        sessionStorage.setItem("userToken", newAccessToken);
 
-      // 기존 요청의 헤더에도 새 access token 적용
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-      // 기존 요청을 다시 보내서 하려던 작업이 제대로 수행되게 함
-      return axios(originalRequest);
+        // 기존 요청의 헤더에도 새 access token 적용
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        // 기존 요청을 다시 보내서 하려던 작업이 제대로 수행되게 함
+        return axios(originalRequest);
+      }
     }
     return Promise.reject(error);
   }

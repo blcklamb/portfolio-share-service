@@ -3,7 +3,7 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import { MdModeEditOutline, MdDeleteOutline } from "react-icons/md";
 import { useAlert } from "react-alert";
 import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+// import 'react-confirm-alert/src/react-confirm-alert.css';
 import * as Api from "../../api";
 
 function AwardCard({ award, setAwards, isEditable, setIsEditing }) {

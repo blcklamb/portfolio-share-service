@@ -17,6 +17,7 @@ import StyledApp from "./style/StyledApp";
 
 import { ThemeProvider } from "./context/themeProvider";
 import { GlobalStyle } from "./style/theme/GlobalStyle";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);

@@ -4,20 +4,13 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
+import * as validateEmail from "../common/utils";
 
 function LoginForm() {
   const navigate = useNavigate();
 
   // useAlert로 alert 함수 이용함.
   const alert = useAlert()
-  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
-  const validateEmail = (email) => {
-    return email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
 
   // useState로 currentEmail 상태를 생성함.
   const [name, setName] = useState("");

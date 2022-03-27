@@ -4,7 +4,7 @@ import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import { useAlert } from "react-alert";
 
 import * as Api from "../../api";
-import * as validateEmail from "../common/utils";
+import * as Util from "../common/utils";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
 
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
-  const isEmailValid = validateEmail(email);
+  const isEmailValid = Util.validateEmail(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

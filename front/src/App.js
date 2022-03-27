@@ -3,9 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
-
-
-import GithubLogin from "./components/user/GithubLogin";
+import GithubLogin from "./components/auth/GithubLogin";
 import Header from "./components/common/Header";
 import LoginForm from "./components/auth/LoginForm";
 import Network from "./components/user/Network";
